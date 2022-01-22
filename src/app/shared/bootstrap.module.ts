@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 @NgModule({
   imports: [
-    NgbNavModule
+    NgbNavModule,
+    NgbCollapseModule
   ],
   exports: [
-    NgbNavModule
+    NgbNavModule,
+    NgbCollapseModule
   ]
 })
 export class BootstrapModule { }

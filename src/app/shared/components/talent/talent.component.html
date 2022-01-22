@@ -1,0 +1,44 @@
+<div (mouseleave)="isCollapsed = true">
+  <div class="bg-light shadow-sm rounded p-2 d-flex align-items-center justify-content-between clickable" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
+    <div class="d-flex align-items-center">
+      <bi name="person-circle" class="avatar text-secondary"></bi>
+      <div class="ml-3">
+        <div class="text-locations">Available in: {{locations}}</div>
+        <div>
+          <span class="badge badge-secondary">{{talent.skills[0]}}</span>
+          <span>{{talent.skills.length > 1 ? " and more..." : ""}}</span>
+        </div>
+      </div>
+    </div>
+    <bi name="chevron-compact-down" class="arrow-down text-primary"></bi>
+  </div>
+  <div class="shadow-sm border border-light p-2" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    Skills
+    <div class="mb-3">
+      <div *ngFor="let skill of talent.skills">
+        <small>&middot; {{skill}}</small>
+      </div>
+    </div>
+    <hr>
+    Positions
+    <div class="mb-3">
+      <div *ngFor="let position of talent.positions">
+        <small>&middot; {{position}}</small>
+      </div>
+    </div>
+    <hr>
+    Avaliable locations
+    <div>
+      <div *ngFor="let location of talent.availableLocations">
+        <small>&middot; {{location.city}}</small>
+      </div>
+    </div>
+    <hr>
+    <div class="d-flex align-items-center">
+      <button class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center small">
+        <span class="small">Join now</span>
+      </button>
+      <small class="ml-1">to see more details.</small>
+    </div>
+  </div>
+</div>

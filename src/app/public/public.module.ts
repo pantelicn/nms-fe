@@ -6,19 +6,23 @@ import { PublicRoutingModule } from './public-routing.module';
 import { BootstrapModule } from '../shared/bootstrap.module';
 import { PublicComponent } from './public.component';
 import { IconsModule } from '../shared/icons.module';
+import { FeedComponent } from './feed/feed.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
     LandingComponent,
     NavComponent,
-    PublicComponent
+    PublicComponent,
+    FeedComponent
   ],
   imports: [
     CommonModule,
     PublicRoutingModule,
     BootstrapModule,
-    IconsModule
+    IconsModule,
+    SharedModule
   ]
 })
 export class PublicModule { }

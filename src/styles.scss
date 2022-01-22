@@ -10,3 +10,31 @@ $theme-colors: (
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto-Regular.ttf) format("opentype");
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto-Italic.ttf) format("opentype");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto-Bold.ttf) format("opentype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(assets/fonts/Roboto-BoldItalic.ttf) format("opentype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif !important; 
+}
