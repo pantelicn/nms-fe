@@ -1,9 +1,10 @@
+import { User } from "./user.model";
+
 export interface Company {
 
   id: number;
   name: string;
   description: string;
-  address1: string;
-  address2: string;
+  user: User;
   
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from '../../model/post.model';
 
 @Component({
@@ -10,7 +11,12 @@ export class PostComponent {
 
   @Input() post!: Post;
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  get isLoggedIn(): boolean {
+    // TODO: Check if the user is logged in
+    return false;
+  }
 
   get createdOn(): string {
     return new Date(this.post.createdOn).toDateString();
@@ -22,6 +28,12 @@ export class PostComponent {
 
   get likes(): number {
     return 1000;
+  }
+
+  onLike(): void {
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/register/talent']);
+    }
   }
 
 }

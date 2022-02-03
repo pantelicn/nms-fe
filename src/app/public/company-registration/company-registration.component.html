@@ -1,0 +1,97 @@
+<div class="bg-light border border-light p-4 rounded form-width shadow-sm">
+  <form [ngClass]="step === 'SECOND' ? 'd-none' : ''" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-group">
+      <label class="text-secondary" for="username"><small>Email address</small></label>
+      <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
+        [class]="(username?.invalid && (username?.dirty || username?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+      <div *ngIf="username?.errors?.['required']" class="invalid-feedback">
+        Please enter an email.
+      </div>
+      <div *ngIf="username?.errors?.['email']" class="invalid-feedback">
+        Please enter a valid email.
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-secondary" for="password"><small>Password</small></label>
+      <input class="form-control form-control-sm" id="password" type="password" formControlName="password" 
+        [class]="(password?.invalid && (password?.dirty || password?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+      <div *ngIf="password?.errors?.['required']" class="invalid-feedback">
+        Please choose a password.
+      </div>
+      <div *ngIf="password?.errors?.['pattern']" class="invalid-feedback">
+        Password must meet the requirements:
+        <ul>
+          <li>At least 8 characters long.</li>
+          <li>Contains at least one number.</li>
+          <li>Contains at least one special character.</li>
+          <li>Contains at least one uppercase letter.</li>
+          <li>Contains at least one lowercase letter.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-secondary" for="passwordConfirmed"><small>Password Confirmation</small></label>
+      <input class="form-control form-control-sm" id="passwordConfirmed" type="password" formControlName="passwordConfirmed"
+        [class]="(registrationForm.errors?.['passwordNotMatching'] && (passwordConfirmed?.dirty || passwordConfirmed?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+      <div class="invalid-feedback">
+        Passwords do not match.
+      </div>
+    </div>
+    <button class="btn btn-outline-primary rounded-pill w-100 mt-3" type="button" (click)="onNextStep()">Join now</button>
+    <hr>
+    <div class="d-flex flex-column align-items-center">
+      <span class="mt-2 mr-2">Already registered?</span>
+      <button class="btn btn-primary rounded-pill my-2 w-100" type="submit">Sign in</button>
+    </div>
+  </form>
+
+  <form [ngClass]="step === 'FIRST' ? 'd-none' : ''" [formGroup]="companyDetailsForm" (ngSubmit)="onSubmit()">
+    Fill in additional company details.
+    <hr>
+    <div class="form-group">
+      <label class="text-secondary" for="name"><small>Company name</small></label>
+      <input class="form-control form-control-sm" id="name" type="text" formControlName="name"
+        [class]="(name?.invalid && (name?.dirty || name?.touched || submitted)) ? 'is-invalid' : ''">
+      <div class="invalid-feedback">
+        Please enter your company name.
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-secondary" for="description"><small>Description</small></label>
+      <input class="form-control form-control-sm" id="description" type="text" formControlName="description"
+        [class]="(description?.invalid && (description?.dirty || description?.touched || submitted)) ? 'is-invalid' : ''">
+      <div class="invalid-feedback">
+        Please add a description.
+      </div>
+    </div>
+    <div formGroupName="location">
+      <div class="form-group">
+        <label class="text-secondary" for="country"><small>Country</small></label>
+        <select class="form-control form-control-sm" id="country" type="text" formControlName="countryCode"
+          [class]="(countryCode?.invalid && (countryCode?.dirty || countryCode?.touched || submitted)) ? 'is-invalid' : ''">
+          <option *ngFor="let country of countries" [value]="country.code">{{country.name}}</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select a country.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="city"><small>City</small></label>
+        <input class="form-control form-control-sm" id="city" type="text" formControlName="city"
+          [class]="(city?.invalid && (city?.dirty || city?.touched || submitted)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please enter a city.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="address"><small>Address</small></label>
+        <input class="form-control form-control-sm" id="address" type="text" formControlName="address"
+          [class]="(address?.invalid && (address?.dirty || address?.touched || submitted)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please enter an address.
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Finish setup</button>
+  </form>
+</div>

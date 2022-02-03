@@ -5,7 +5,7 @@ import { Post } from 'src/app/shared/model/post.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class FeedService {
 
