@@ -6,3 +6,4 @@ export * from './registration/registration.component';
 export * from './company-registration/company-registration.component';
 export * from './talent-registration/talent-registration.component';
 export * from './registration/registration.service';
+export * from './login/login.component';

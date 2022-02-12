@@ -6,6 +6,10 @@ export const environment = {
   production: false,
   api: {
     backend: 'http://localhost:8080/api/v1/'
+  },
+  cognito: {
+    userPoolId: 'eu-central-1_46Qqd7W2Z',
+    appClientId: '6fm6au9jsuir131f526c7v7c12'
   }
 };
 

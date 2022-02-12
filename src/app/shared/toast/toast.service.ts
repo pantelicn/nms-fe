@@ -11,7 +11,11 @@ export class ToastService {
   constructor() { }
 
   show(header: string, body: string): void {
-    this.toasts.push({header, body});
+    this.toasts.push({header, body, color: 'primary'});
+  }
+
+  error(header: string, body: string): void {
+    this.toasts.push({header, body, color: 'error'});
   }
 
   remove(toast: Toast): void {

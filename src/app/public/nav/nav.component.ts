@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'nms-nav',
@@ -7,6 +8,14 @@ import { Component } from '@angular/core';
 })
 export class NavComponent {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
+
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated;
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+  }
 
 }

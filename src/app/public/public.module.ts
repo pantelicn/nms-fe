@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CompanyRegistrationComponent } from './company-registration/company-registration.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { TalentRegistrationComponent } from './talent-registration/talent-registration.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { TalentRegistrationComponent } from './talent-registration/talent-regist
     FeedComponent,
     CompanyRegistrationComponent,
     RegistrationComponent,
-    TalentRegistrationComponent
+    TalentRegistrationComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

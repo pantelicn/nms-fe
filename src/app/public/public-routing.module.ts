@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PublicComponent, LandingComponent, RegistrationComponent, CompanyRegistrationComponent, TalentRegistrationComponent } from './';
+import { 
+  PublicComponent,
+  LandingComponent,
+  RegistrationComponent,
+  CompanyRegistrationComponent,
+  TalentRegistrationComponent,
+  LoginComponent
+} from './';
 
 const routes: Routes = [
   { 
@@ -16,6 +23,10 @@ const routes: Routes = [
           { path: 'talent', component: TalentRegistrationComponent },
           { path: 'company', component: CompanyRegistrationComponent }
         ]
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       }
     ] 
   }
