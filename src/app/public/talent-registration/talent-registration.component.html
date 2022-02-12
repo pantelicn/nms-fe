@@ -1,1 +1,62 @@
-<p>talent-registration works!</p>
+<form [formGroup]="talentDetailsForm" (ngSubmit)="onSubmit()">
+  Fill in your additional details.
+  <hr>
+  <div class="form-group">
+    <label class="text-secondary" for="name"><small>First name</small></label>
+    <input class="form-control form-control-sm" id="first-name" type="text" formControlName="firstName"
+      [class]="(firstName?.invalid && (firstName?.dirty || firstName?.touched || submitted)) ? 'is-invalid' : ''">
+    <div class="invalid-feedback">
+      Please enter your first name.
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="text-secondary" for="last-name"><small>Last name</small></label>
+    <input class="form-control form-control-sm" id="last-name" type="text" formControlName="lastName"
+      [class]="(lastName?.invalid && (lastName?.dirty || lastName?.touched || submitted)) ? 'is-invalid' : ''">
+    <div class="invalid-feedback">
+      Please enter your last name.
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="text-secondary" for="date-of-birth"><small>Date of birth</small></label>
+    <div class="input-group" id="date-of-birth" [class]="(dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched || submitted)) ? 'is-invalid' : ''">
+      <input class="form-control form-control-sm" [class]="(dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched || submitted)) ? 'is-invalid' : ''" placeholder="yyyy-mm-dd"
+             name="dp" formControlName="dateOfBirth" ngbDatepicker [minDate]="minDate" #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d.toggle(); dateOfBirth?.markAsTouched();" type="button"><bi name="calendar3" class="icon"></bi></button>
+      </div>
+    </div>
+    <div class="invalid-feedback">
+      Please enter your date of birth.
+    </div>
+  </div>
+  <div formGroupName="location">
+    <div class="form-group">
+      <label class="text-secondary" for="country"><small>Country</small></label>
+      <select class="form-control form-control-sm" id="talent-country" type="text" formControlName="countryCode"
+        [class]="(countryCode?.invalid && (countryCode?.dirty || countryCode?.touched || submitted)) ? 'is-invalid' : ''">
+        <option *ngFor="let country of countries" [value]="country.code">{{country.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a country.
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-secondary" for="city"><small>City</small></label>
+      <input class="form-control form-control-sm" id="talent-city" type="text" formControlName="city"
+        [class]="(city?.invalid && (city?.dirty || city?.touched || submitted)) ? 'is-invalid' : ''">
+      <div class="invalid-feedback">
+        Please enter a city.
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="text-secondary" for="address"><small>Address</small></label>
+      <input class="form-control form-control-sm" id="talent-address" type="text" formControlName="address"
+        [class]="(address?.invalid && (address?.dirty || address?.touched || submitted)) ? 'is-invalid' : ''">
+      <div class="invalid-feedback">
+        Please enter an address.
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Finish setup</button>
+</form>

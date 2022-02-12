@@ -32,7 +32,7 @@ export class PostComponent {
 
   onLike(): void {
     if (!this.isLoggedIn) {
-      this.router.navigate(['/register/talent']);
+      this.router.navigate(['/register']);
     }
   }
 

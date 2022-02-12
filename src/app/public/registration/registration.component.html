@@ -1,4 +1,55 @@
 <div class="d-flex flex-column align-items-center">
   <h1 class="my-5">Welcome to anonymous</h1>
-  <router-outlet></router-outlet>
+  <div class="bg-light border border-light p-4 rounded shadow-sm form-width">
+    <form [ngClass]="step !== 'FIRST' ? 'd-none' : ''" [formGroup]="registrationForm" novalidate>
+      <div class="form-group">
+        <label class="text-secondary" for="username"><small>Email address</small></label>
+        <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
+          [class]="(username?.invalid && (username?.dirty || username?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+        <div *ngIf="username?.errors?.['required']" class="invalid-feedback">
+          Please enter an email.
+        </div>
+        <div *ngIf="username?.errors?.['email']" class="invalid-feedback">
+          Please enter a valid email.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="password"><small>Password</small></label>
+        <input class="form-control form-control-sm" id="password" type="password" formControlName="password" 
+          [class]="(password?.invalid && (password?.dirty || password?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+        <div *ngIf="password?.errors?.['required']" class="invalid-feedback">
+          Please choose a password.
+        </div>
+        <div *ngIf="password?.errors?.['pattern']" class="invalid-feedback">
+          Password must meet the requirements:
+          <ul>
+            <li>At least 8 characters long.</li>
+            <li>Contains at least one number.</li>
+            <li>Contains at least one special character.</li>
+            <li>Contains at least one uppercase letter.</li>
+            <li>Contains at least one lowercase letter.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="passwordConfirmed"><small>Password Confirmation</small></label>
+        <input class="form-control form-control-sm" id="passwordConfirmed" type="password" formControlName="passwordConfirmed"
+          [class]="(registrationForm.errors?.['passwordNotMatching'] && (passwordConfirmed?.dirty || passwordConfirmed?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Passwords do not match.
+        </div>
+      </div>
+      <button class="btn btn-outline-primary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('TALENT')">Join as Talent</button>
+      <button class="btn btn-outline-secondary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('COMPANY')">Join as Company</button>
+      <hr>
+      <div class="d-flex flex-column align-items-center">
+        <span class="mt-2 mr-2">Already registered?</span>
+        <button class="btn btn-primary rounded-pill my-2 w-100" type="button" routerLink="/login">Sign in</button>
+      </div>
+    </form>
+    <nms-company-registration [class]="step === 'COMPANY' ? 'd-block' : 'd-none'"
+      (registered)="onCompanyRegistered($event)"></nms-company-registration>
+    <nms-talent-registration [class]="step === 'TALENT' ? 'd-block' : 'd-none'"
+      (registered)="onTalentRegistered($event)"></nms-talent-registration>
+  </div>
 </div>

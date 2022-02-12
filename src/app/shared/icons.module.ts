@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BootstrapIconsModule } from 'ng-bootstrap-icons';
-import { Search, HandThumbsUp, PersonCircle, ChevronCompactDown } from 'ng-bootstrap-icons/icons'
+import { Search, HandThumbsUp, PersonCircle, ChevronCompactDown, Calendar3 } from 'ng-bootstrap-icons/icons'
 
 
 const icons = {
   Search,
   HandThumbsUp,
   PersonCircle,
-  ChevronCompactDown
+  ChevronCompactDown,
+  Calendar3
 }
 
 @NgModule({

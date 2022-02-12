@@ -4,8 +4,6 @@ import {
   PublicComponent,
   LandingComponent,
   RegistrationComponent,
-  CompanyRegistrationComponent,
-  TalentRegistrationComponent,
   LoginComponent
 } from './';
 
@@ -15,19 +13,8 @@ const routes: Routes = [
     component: PublicComponent,
     children: [
       { path: '', component: LandingComponent },
-      { 
-        path: 'register',
-        component: RegistrationComponent,
-        children: [
-          { path: '', redirectTo: 'talent' },
-          { path: 'talent', component: TalentRegistrationComponent },
-          { path: 'company', component: CompanyRegistrationComponent }
-        ]
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      }
+      { path: 'register', component: RegistrationComponent },
+      { path: 'login', component: LoginComponent }
     ] 
   }
 ];
