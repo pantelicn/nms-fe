@@ -1,0 +1,43 @@
+<nav ngbNav #nav="ngbNav" class="navbar navbar-light bg-light d-flex justify-content-center">
+  <a class="navbar-brand" href="#">anonymous</a>
+  <form class="mr-2 col-lg-5 col-md-6 col-sm-8">
+      <div class="input-group">
+          <div class="d-none d-sm-block input-group-prepend">
+              <div class="input-group-text">Companies</div>
+          </div>
+          <input type="text" class="form-control" placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
+        </div>
+      </div>
+  </form>
+  <div class="d-none d-md-flex align-items-center">
+    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+      <bi name="house-door-fill" class="icon lead"></bi>
+      <small>Home</small>
+    </a>
+    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+      <bi name="envelope-fill" class="icon lead"></bi>
+      <small>Messages</small>
+    </a>
+    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+      <bi name="person-bounding-box" class="icon lead"></bi>
+      <small>Requests</small>
+    </a>
+    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+      <bi name="bell-fill" class="icon lead"></bi>
+      <small>Notifications</small>
+    </a>
+    <div ngbDropdown>
+      <a class="d-flex align-items-center text-secondary" role="button" tabindex="0" ngbDropdownToggle>
+        <div class="d-flex flex-column align-items-center">
+          <bi name="person-circle" class="icon lead"></bi>
+          <small>Me</small>
+        </div>
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+        <button class="btn btn-secondary" ngbDropdownItem (click)="onLogout()">Log out</button>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
-import { NgbNavModule, NgbCollapseModule, NgbToastModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbNavModule,
+  NgbCollapseModule,
+  NgbToastModule,
+  NgbDatepickerModule,
+  NgbDropdownModule
+} from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -8,13 +14,15 @@ import { NgbNavModule, NgbCollapseModule, NgbToastModule, NgbDatepickerModule } 
     NgbNavModule,
     NgbCollapseModule,
     NgbToastModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbDropdownModule
   ],
   exports: [
     NgbNavModule,
     NgbCollapseModule,
     NgbToastModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbDropdownModule
   ]
 })
 export class BootstrapModule { }
