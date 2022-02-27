@@ -7,13 +7,16 @@ import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { CompanyRoutingModule } from './company-routing.module';
 import { CompanyComponent } from './company.component';
+import { FeedComponent } from './feed/feed.component';
 
 
 
 @NgModule({
   declarations: [
     CompanyComponent, 
-    NavComponent],
+    NavComponent,
+    FeedComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,

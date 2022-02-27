@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/shared/model/post.model';
 import { Talent } from 'src/app/shared/model/talent.model';
-import { FeedService } from './feed.service';
+import { FeedService } from '../../shared/services/feed.service';
 
 @Component({
   selector: 'nms-feed',
