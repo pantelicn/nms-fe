@@ -1,0 +1,43 @@
+<div class="d-flex flex-column-reverse flex-sm-row justify-content-center">
+  <div class="col-lg-5 col-md-6 col-sm-8">
+    <button class="btn btn-lg btn-outline-primary btn-block text-left rounded-pill shadow-none" (click)="open(addPost)">Start a post</button>
+  </div>
+</div>
+
+<ng-template #addPost let-modal>
+  <form [formGroup]="addPostForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create a post</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+          <input type="text" 
+                class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                formControlName="title" 
+                id="title" 
+                placeholder="Title" 
+                [class]="(title?.invalid && (title?.dirty || title?.touched)) ? 'is-invalid' : ''">
+          <div *ngIf="title?.errors?.['required']" class="invalid-feedback">
+            Please enter post title.
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea class="form-control shadow-none" 
+                  id="postContent" 
+                  formControlName="content" 
+                  placeholder="Content" 
+                  rows="3"
+                  [class]="(content?.invalid && (content?.dirty || content?.touched)) ? 'is-invalid' : ''"></textarea>
+          <div *ngIf="content?.errors?.['required']" class="invalid-feedback">
+            Please enter post content.
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Post</button>
+    </div>
+  </form>
+</ng-template>

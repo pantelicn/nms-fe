@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { CompanyRoutingModule } from './company-routing.module';
 import { CompanyComponent } from './company.component';
+import { AddPostComponent } from './add-post/add-post.component';
 import { FeedComponent } from './feed/feed.component';
 
 
@@ -15,6 +16,7 @@ import { FeedComponent } from './feed/feed.component';
   declarations: [
     CompanyComponent, 
     NavComponent,
+    AddPostComponent,
     FeedComponent
   ],
   imports: [
