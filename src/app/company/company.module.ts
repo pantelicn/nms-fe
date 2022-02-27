@@ -7,8 +7,9 @@ import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { CompanyRoutingModule } from './company-routing.module';
 import { CompanyComponent } from './company.component';
-import { AddPostComponent } from './add-post/add-post.component';
-import { FeedComponent } from './feed/feed.component';
+import { HomeComponent } from './home/home.component';
+import { AddPostComponent } from './home/add-post/add-post.component';
+import { FeedComponent } from './home/feed/feed.component';
 
 
 
@@ -17,7 +18,8 @@ import { FeedComponent } from './feed/feed.component';
     CompanyComponent, 
     NavComponent,
     AddPostComponent,
-    FeedComponent
+    FeedComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

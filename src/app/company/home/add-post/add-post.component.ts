@@ -5,14 +5,14 @@ import { ToastService } from "src/app/shared/toast/toast.service";
 import { AddPostService } from "./add-post.service";
 
 @Component({
-  selector: 'add-post',
+  selector: 'nms-add-post',
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.scss']
 })
 export class AddPostComponent {
 
   closeResult: string = '';
-  modalOptions:NgbModalOptions;
+  modalOptions: NgbModalOptions;
   addPostForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
@@ -28,17 +28,17 @@ export class AddPostComponent {
   }
 
   open(content: any) {
-    this.modalService.open(content, this.modalOptions).result.then((result) => {}, 
-      () => {
-        this.addPostForm.reset();
-    });
+    this.modalService.open(content, this.modalOptions).result.then(
+      () => { },
+      () => this.addPostForm.reset()
+    );
   }
 
   onSubmit(): void {
     if (this.addPostForm.valid) {
-      this.addPostService.addPost(this.addPostForm.value).subscribe(post => {
-        this.onAddPostSuccess();
-      });
+      this.addPostService.addPost(this.addPostForm.value).subscribe(() =>
+        this.onAddPostSuccess()
+      );
     }
   }
 

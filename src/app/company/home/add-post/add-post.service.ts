@@ -15,13 +15,13 @@ interface AddPost {
 })
 export class AddPostService {
 
-  constructor(private authService: AuthService, 
-              private httpClient: HttpClient) {}
+  constructor(
+    private authService: AuthService,
+    private httpClient: HttpClient
+  ) { }
 
   addPost(addPost: AddPost): Observable<Post> {
     const currentUser = this.authService.currentUser;
-    console.log(currentUser);
-    console.log(environment.api.backend + 'companies/' + currentUser?.username + '/posts');
     return this.httpClient.post<Post>(environment.api.backend + 'companies/' + currentUser?.username + '/posts', addPost);
   }
 

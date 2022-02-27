@@ -3,7 +3,7 @@ import { Post } from 'src/app/shared/model';
 import { FeedService } from 'src/app/shared/services/feed.service';
 
 @Component({
-  selector: 'app-feed',
+  selector: 'nms-company-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss']
 })
@@ -14,7 +14,9 @@ export class FeedComponent implements OnInit {
   constructor(private service: FeedService) { }
 
   ngOnInit(): void {
-    this.service.getLatest10ByCountry('Serbia').subscribe(posts => this.posts = posts);
+    this.service.getLatest10ByCountry('Serbia').subscribe(
+      posts => this.posts = posts
+    );
   }
 
 }
