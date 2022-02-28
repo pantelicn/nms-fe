@@ -1,17 +1,14 @@
 <nav ngbNav #nav="ngbNav" class="navbar navbar-light bg-light d-flex justify-content-center">
-  <a class="navbar-brand" href="#">anonymous</a>
+  <a class="navbar-brand d-none d-md-block" href="#">anonymous</a>
   <form class="mr-2 col-lg-5 col-md-6 col-sm-8">
       <div class="input-group">
-          <div class="d-none d-sm-block input-group-prepend">
-              <div class="input-group-text">Companies</div>
-          </div>
           <input type="text" class="form-control" placeholder="Search">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
         </div>
       </div>
   </form>
-  <div class="d-none d-md-flex">
+  <div class="d-none d-lg-flex">
     <a routerLink="/company" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="house-door-fill" class="icon lead"></bi>
       <small>Home</small>
@@ -38,7 +35,7 @@
     </a>
   </div>
 </nav>
-<div class="d-md-none fixed-bottom bg-light d-flex justify-content-center">
+<div class="d-lg-none fixed-bottom bg-light d-flex justify-content-center py-1">
   <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="house-door-fill" class="icon lead"></bi>
     <small>Home</small>

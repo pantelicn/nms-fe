@@ -1,4 +1,4 @@
-import { User } from "./user.model";
+import { Location, User } from ".";
 
 export interface Company {
 
@@ -6,5 +6,6 @@ export interface Company {
   name: string;
   description: string;
   user: User;
+  location: Location;
   
 }

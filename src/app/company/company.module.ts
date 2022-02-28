@@ -10,6 +10,7 @@ import { CompanyComponent } from './company.component';
 import { HomeComponent } from './home/home.component';
 import { AddPostComponent } from './home/add-post/add-post.component';
 import { FeedComponent } from './home/feed/feed.component';
+import { HomeProfileComponent } from './home/home-profile/home-profile.component';
 
 
 
@@ -19,7 +20,8 @@ import { FeedComponent } from './home/feed/feed.component';
     NavComponent,
     AddPostComponent,
     FeedComponent,
-    HomeComponent
+    HomeComponent,
+    HomeProfileComponent
   ],
   imports: [
     CommonModule,
