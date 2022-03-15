@@ -1,26 +1,33 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Post } from '../../model/post.model';
 import { ReactionService } from '../../services/reaction.service';
 import { ToastService } from '../../toast/toast.service';
+import { LinkPreviewService } from '../link-preview/link-preview.service';
 
 @Component({
   selector: 'nms-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent {
+export class PostComponent implements OnInit {
 
   @Input() post!: Post;
+  contentUrls!: string[];
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private reactionService: ReactionService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private linkPreviewService: LinkPreviewService
   ) { }
+
+  ngOnInit(): void {
+    this.contentUrls = this.linkPreviewService.parseUrls(this.post.content);
+  }
 
   get isLoggedIn(): boolean {
     return this.authService.isAuthenticated;

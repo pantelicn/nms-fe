@@ -6,20 +6,23 @@ import { IconsModule } from './icons.module';
 import { TalentComponent } from './components/talent/talent.component';
 import { BootstrapModule } from './bootstrap.module';
 import { ToastComponent } from './toast/toast.component';
-
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
+import { LinkPreviewComponent } from './components/link-preview/link-preview.component';
 
 
 @NgModule({
   declarations: [
     PostComponent,
     TalentComponent,
-    ToastComponent
+    ToastComponent,
+    LinkPreviewComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     IconsModule,
-    BootstrapModule
+    BootstrapModule,
+    NgxLinkifyjsModule
   ],
   exports: [
     PostComponent,

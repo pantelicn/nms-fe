@@ -1,0 +1,11 @@
+<div *ngIf="linkPreview" class="d-flex flex-column">
+  <div class="align-self-center">
+    <a [href]="linkPreview.url"><img [src]="linkPreview.image" class="mw-100"></a>
+  </div>
+  <a [href]="linkPreview.url" *ngIf="linkPreview.title || linkPreview.description" class="bg-white p-2 text-primary">
+    <a class="text-primary" [href]="linkPreview.url">{{linkPreview.title}}</a>
+    <div class="font-weight-light">
+      <small>{{linkPreview.description}}</small>
+    </div>
+  </a>
+</div>
