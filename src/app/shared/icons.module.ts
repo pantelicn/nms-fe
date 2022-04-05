@@ -12,7 +12,9 @@ import {
   PersonBoundingBox, 
   BellFill, 
   Calendar3, 
-  GeoAlt 
+  GeoAlt,
+  PlusCircle,
+  XCircle
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -28,7 +30,9 @@ const icons = {
   PersonBoundingBox,
   BellFill,
   Calendar3,
-  GeoAlt
+  GeoAlt,
+  PlusCircle,
+  XCircle
 };
 
 @NgModule({

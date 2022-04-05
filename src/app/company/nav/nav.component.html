@@ -9,7 +9,7 @@
       </div>
   </form>
   <div class="d-none d-lg-flex">
-    <a routerLink="/company" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a routerLink="/company" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="house-door-fill" class="icon lead"></bi>
       <small>Home</small>
     </a>
@@ -17,7 +17,7 @@
       <bi name="people-fill" class="icon lead"></bi>
       <small>Talents</small>
     </a>
-    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a [routerLink]="['templates']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="card-list" class="icon lead"></bi>
       <small>Templates</small>
     </a>
@@ -36,15 +36,15 @@
   </div>
 </nav>
 <div class="d-lg-none fixed-bottom bg-light d-flex justify-content-center py-1">
-  <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+  <a routerLink="/company" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="house-door-fill" class="icon lead"></bi>
     <small>Home</small>
   </a>
-  <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+  <a class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="people-fill" class="icon lead"></bi>
     <small>Talents</small>
   </a>
-  <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+  <a [routerLink]="['templates']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="card-list" class="icon lead"></bi>
     <small>Templates</small>
   </a>

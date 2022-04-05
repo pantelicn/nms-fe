@@ -1,3 +1,14 @@
 .icon {
   width: 1em;
 }
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.nms-active {
+  color: $cyan !important;
+}
+
+.nms-active:focus {
+  color: $cyan !important;
+}

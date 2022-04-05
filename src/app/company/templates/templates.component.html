@@ -1,0 +1,102 @@
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-lg-3 col-md-5 d-md-block d-none">
+      <div class="card">
+        <div class="card-header">
+          Existing templates
+        </div>
+        <div class="card-body card-body-templates">
+          <ul class="list-group templates-list">
+            <a [routerLink]="" [class.selected-template]="i === selectedTemplateIndex" *ngFor="let template of templates;let i = index" (click)="selectTemplate(template, i)" class="list-group-item list-group-item-action nms-cursor">{{template.name}}</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-7 border-left border-grey">
+      <div class="vr"></div>
+      <div class="bg-light shadow-sm border rounded p-3">
+        <h3>Template</h3>
+        <form [formGroup]="addTemplateForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <input type="text" 
+                  class="form-control shadow-none rounded-0" 
+                  formControlName="name" 
+                  id="name" 
+                  placeholder="Template name" 
+                  [class]="(name?.invalid && (name?.dirty || name?.touched || submitted)) ? 'is-invalid' : ''">
+            <div *ngIf="name?.errors?.['required']" class="invalid-feedback">
+              Please enter template name.
+            </div>
+          </div>
+          <div formArrayName="facets">
+              <h4>Terms</h4>
+              <div *ngIf="facets.length == 0" class="invalid-number-of-facets">
+                Please add facets.
+              </div>
+              <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
+                <div class="col">
+                  <select formControlName="type" 
+                          class="form-control" 
+                          (change)="setCodes(facets.controls[i].get('type'), i)" 
+                          aria-label="Select term type" 
+                          [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched || submitted)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select type</option>
+                    <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
+                    Please select type.
+                  </div>
+                </div>
+                <div class="col">
+                  <select formControlName="code" 
+                          class="form-control" 
+                          aria-label="Select skill"
+                          [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched || submitted)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select skill</option>
+                    <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
+                    Please select skill.
+                  </div>
+                </div>
+                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                  <input formControlName="value" 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Value" 
+                  [class]="(facets.controls[i].get('value')?.invalid && (facets.controls[i].get('value')?.dirty || facets.controls[i].get('value')?.touched || submitted)) ? 'is-invalid' : ''">
+                  <div *ngIf="facets.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+                    Please enter value.
+                  </div>
+                </div>
+                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                  <select formControlName="operatorType" 
+                          class="form-control" 
+                          aria-label="Select operator"
+                          [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched || submitted)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select operator</option>
+                    <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">
+                    Please select operator type.
+                  </div>
+                </div>
+                <div class="pr-3">
+                  <a (click)="removeFacet(i)" class="text-secondary text-decoration-none nms-cursor">
+                    <bi name="x-circle" class="icon lead fa-lg nms-x-circle"></bi>
+                  </a>
+                </div>
+              </div>
+          </div>
+          <div class="d-flex justify-content-center text-end">
+            <a (click)="addFacet()" class="text-secondary text-decoration-none nms-cursor">
+              <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
+            </a>
+          </div>
+          <button class="btn btn-primary rounded-pill my-2 w-100" type="submit">Save</button>
+          <button *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

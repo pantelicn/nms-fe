@@ -10,6 +10,7 @@ import { CompanyComponent } from './company.component';
 import { HomeComponent } from './home/home.component';
 import { AddPostComponent } from './home/add-post/add-post.component';
 import { FeedComponent } from './home/feed/feed.component';
+import { TemplatesComponent } from './templates/templates.component';
 import { HomeProfileComponent } from './home/home-profile/home-profile.component';
 
 
@@ -21,6 +22,7 @@ import { HomeProfileComponent } from './home/home-profile/home-profile.component
     AddPostComponent,
     FeedComponent,
     HomeComponent,
+    TemplatesComponent,
     HomeProfileComponent
   ],
   imports: [
