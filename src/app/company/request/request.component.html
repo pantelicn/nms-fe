@@ -1,0 +1,76 @@
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-lg-3 col-md-5 d-md-block d-none">
+      <div class="card">
+        <div class="card-header">
+          Active requests
+        </div>
+        <div class="card-body card-body-requests">
+          <ul class="list-group requests-list">
+            <a [routerLink]="" *ngFor="let activeRequest of activeRequests"
+              (click)="setSelectedRequest(activeRequest)" 
+              [ngClass]="{ 'selected-request' : selectedRequest?.id === activeRequest.id}"
+              class="list-group-item list-group-item-action nms-cursor d-flex justify-content-between align-items-center mb-4">
+                <span [ngClass]="{ 'font-weight-bold' : activeRequest.seenByCompany === false }">{{activeRequest.note}}</span> 
+                <span *ngIf="!activeRequest.seenByCompany" class="badge badge-danger">o</span>
+            </a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-7 border-left border-grey">
+      <div class="vr"></div>
+      <div class="bg-light shadow-sm border rounded p-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3>Request info</h3>
+          <a *ngIf="showRefreshBtn && selectedRequest" class="text-secondary text-decoration-none nms-cursor">
+            <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
+          </a>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5>Note: {{selectedRequest?.note}}</h5>
+          <a *ngIf="selectedRequest" class="text-secondary text-decoration-none nms-cursor">
+            <bi name="pencil-square" class="icon lead nms-pencil-square" (click)="openEditNoteDialog(editNoteDialog)"></bi>
+          </a>
+        </div>
+        <h5>Talent terms</h5>
+        <div class="nms-row" *ngFor="let talentTermRequest of selectedRequest?.talentTermRequests; let i=index">
+          <talent-term-request [talentTermRequest]="talentTermRequest" 
+                                [requestId]="selectedRequest?.id" 
+                                [requestModifiedOn]="selectedRequest?.modifiedOn"
+                                (selectedRequestChange)="selectedRequest=$event" 
+                                (showRefreshBtnChange)="showRefreshBtn=true">
+          </talent-term-request>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #editNoteDialog let-modal>
+  <form [formGroup]="editNoteForm" (ngSubmit)="editNote()" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit note</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="newNote">Note:</label>
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="newNote" 
+                  id="newNote" 
+                  placeholder="Note" 
+                  [class]="(newNote?.invalid && (newNote?.dirty || newNote?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="newNote?.errors?.['required']" class="invalid-feedback">
+          Please enter note.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Save</button>
+    </div>
+  </form>
+</ng-template>

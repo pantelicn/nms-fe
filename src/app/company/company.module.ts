@@ -12,6 +12,8 @@ import { AddPostComponent } from './home/add-post/add-post.component';
 import { FeedComponent } from './home/feed/feed.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { HomeProfileComponent } from './home/home-profile/home-profile.component';
+import { RequestComponent } from './request/request.component';
+import { TalentTermRequestComponent } from './request/talent-term-request/talent-term-request.component';
 
 
 
@@ -22,8 +24,11 @@ import { HomeProfileComponent } from './home/home-profile/home-profile.component
     AddPostComponent,
     FeedComponent,
     HomeComponent,
+    HomeProfileComponent,
+    RequestComponent,
     TemplatesComponent,
-    HomeProfileComponent
+    HomeProfileComponent,
+    TalentTermRequestComponent
   ],
   imports: [
     CommonModule,

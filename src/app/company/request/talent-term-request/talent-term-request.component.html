@@ -1,0 +1,67 @@
+<div class="d-flex align-items-center justify-content-between">
+  <div class="d-flex align-items-center">
+    <bi *ngIf="talentTermRequest?.status === 'ACCEPTED' && !talentTermRequest?.counterOffer" name="check-all" class="icon lead nms-talent-term-icon text-primary"></bi>
+    <bi *ngIf="talentTermRequest?.status === 'ACCEPTED' && talentTermRequest?.counterOffer" name="check" class="icon lead nms-talent-term-icon text-primary"></bi>
+    <bi *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_COMPANY'" name="arrow-left-short" class="icon lead nms-talent-term-icon text-primary"></bi>
+    <bi *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_TALENT'" name="arrow-right-short" class="icon lead nms-talent-term-icon text-primary"></bi>
+    {{talentTermRequest?.name}} {{talentTermRequest?.status === 'ACCEPTED' && talentTermRequest?.counterOffer === undefined ? talentTermRequest?.value : talentTermRequest?.counterOffer}} {{talentTermRequest?.unitOfMeasure}}
+  </div> 
+  <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_COMPANY'" (click)="openEditCounterOfferDialog(editCounterOfferDialog, talentTermRequest)" class="btn btn-primary align-self-end">Edit sent counter offer</a>
+  <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_TALENT'" (click)="openEditCounterOfferDialog(sendCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Send counter offer</a>
+</div>
+
+<ng-template #editCounterOfferDialog let-modal>
+  <form [formGroup]="counterOfferForm" (ngSubmit)="editCounterOffer()" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit sent counter offer</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="newValue">Set new counter offer for {{selectedTalentTermRequest?.name}}</label>
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="newValue" 
+                  id="newValue" 
+                  placeholder="Counter offer" 
+                  [class]="(newValue?.invalid && (newValue?.dirty || newValue?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="newValue?.errors?.['required']" class="invalid-feedback">
+          Please enter counter offer value.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Save</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #sendCounterOfferDialog let-modal>
+  <form [formGroup]="counterOfferForm" (ngSubmit)="sendCounterOffer()" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Send counter offer</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="newValue">Send counter offer for {{selectedTalentTermRequest?.name}}</label>
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="newValue" 
+                  id="newValue" 
+                  placeholder="Counter offer" 
+                  [class]="(newValue?.invalid && (newValue?.dirty || newValue?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="newValue?.errors?.['required']" class="invalid-feedback">
+          Please enter counter offer value.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Send</button>
+    </div>
+  </form>
+</ng-template>

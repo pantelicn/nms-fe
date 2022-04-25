@@ -13,8 +13,14 @@ import {
   BellFill, 
   Calendar3, 
   GeoAlt,
+  PencilSquare,
   PlusCircle,
-  XCircle
+  XCircle,
+  Check,
+  ArrowLeftShort,
+  ArrowRightShort,
+  ArrowClockwise,
+  CheckAll
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -31,8 +37,14 @@ const icons = {
   BellFill,
   Calendar3,
   GeoAlt,
+  PencilSquare,
   PlusCircle,
-  XCircle
+  XCircle,
+  Check,
+  ArrowRightShort,
+  ArrowLeftShort,
+  ArrowClockwise,
+  CheckAll
 };
 
 @NgModule({

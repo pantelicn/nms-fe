@@ -25,7 +25,7 @@
       <bi name="envelope-fill" class="icon lead"></bi>
       <small>Messages</small>
     </a>
-    <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="person-bounding-box" class="icon lead"></bi>
       <small>Requests</small>
     </a>
@@ -52,7 +52,7 @@
     <bi name="envelope-fill" class="icon lead"></bi>
     <small>Messages</small>
   </a>
-  <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+  <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="person-bounding-box" class="icon lead"></bi>
     <small>Requests</small>
   </a>

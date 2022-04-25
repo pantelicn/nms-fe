@@ -1,4 +1,8 @@
-<ngb-toast *ngFor="let toast of toasts" [class]="toast.color === 'error' ? 'bg-danger text-light' : 'bg-primary text-light'"
+<ngb-toast *ngFor="let toast of toasts" 
+  [ngClass]="{'bg-danger' :toast.color === 'error', 
+            'bg-primary' : toast.color === 'primary', 
+            'bg-warning' : toast.color === 'warning',
+            'text-light' : toast.color}"
   [header]="toast.header" [autohide]="true" [delay]="5000" (hide)="removeToast(toast)">
   {{toast.body}}
 </ngb-toast>
