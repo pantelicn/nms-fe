@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Code } from "ng-bootstrap-icons/icons";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "./position/position.service";
@@ -73,12 +74,20 @@ export class TemplatesComponent implements OnInit {
 
   selectedTemplateIndex: number = -1;
 
+  private modalRef?: NgbModalRef;
+
+  modalOptions: NgbModalOptions = {
+    backdrop: true,
+    backdropClass: 'customBackdrop'
+  };
+
   constructor(private fb:FormBuilder, 
               private skillService: SkillService,
               private positionService: PositionService,
               private templateService: TemplateService,
               private toastService: ToastService,
-              private termService: TermService) {
+              private termService: TermService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -234,6 +243,19 @@ export class TemplatesComponent implements OnInit {
     }
 
     this.codes.set(index, codes);
+  }
+
+  openRemoveTemplateDialog(content: any) {
+    this.modalRef = this.modalService.open(content, this.modalOptions);
+  }
+
+  removeTemplate() {
+    this.templateService.removeTemplate(this.id?.value).subscribe(success => {   
+      this.toastService.show('', 'Template ' + this.name?.value + ' has been removed.');
+      this.templates.splice(this.selectedTemplateIndex, 1);
+      this.clearSelected();
+      this.modalRef?.close();
+    });
   }
 
   private addValueAndOperatorTypeControlls(index: number) {

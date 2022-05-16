@@ -94,9 +94,25 @@
             </a>
           </div>
           <button class="btn btn-primary rounded-pill my-2 w-100" type="submit">Save</button>
-          <button *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</button>
+          <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-danger btn-block rounded-pill shadow-none" (click)="openRemoveTemplateDialog(removeTemplateDialog)">Remove</div>
+          <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #removeTemplateDialog let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Remove confirmation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span>Are you sure you want to remove template ?</span>
+    </div>
+    <div class="modal-footer">
+      <div class="btn btn-primary rounded-pill w-100 mt-3" (click)="removeTemplate()">Remove</div>
+    </div>
+</ng-template>

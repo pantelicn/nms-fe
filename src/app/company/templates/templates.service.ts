@@ -74,4 +74,9 @@ export class TemplateService {
     return this.httpClient.get<TemplateView[]>(environment.api.backend + 'companies/' + currentUser?.username + '/search-templates');
   }
 
+  removeTemplate(id: number): Observable<{}> {
+    const currentUser = this.authService.currentUser;
+    return this.httpClient.delete<{}>(environment.api.backend + 'companies/' + currentUser?.username + '/search-templates/' + id);
+  }
+
 }
