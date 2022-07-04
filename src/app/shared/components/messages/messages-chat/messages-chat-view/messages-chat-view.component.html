@@ -1,0 +1,10 @@
+<div class="chat-view">
+  <div [ngClass]="message.byCurrentUser ? 'text-right' : ''" *ngFor="let message of chatMessages">
+    <div class="d-flex" [ngClass]="message.byCurrentUser ? 'flex-row-reverse' : ''">
+      <strong>{{message.name}}</strong>
+      <span class="mx-1">&middot;</span>
+      <span class="font-weight-light text-secondary">{{formatDate(message.date)}}</span>
+    </div>
+    <p class="font-weight-light">{{message.content}}</p>
+  </div>
+</div>

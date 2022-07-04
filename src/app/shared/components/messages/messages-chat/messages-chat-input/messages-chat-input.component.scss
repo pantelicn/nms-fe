@@ -1,0 +1,15 @@
+.nms-chat-input {
+  width: 100%;
+  max-height: 10em;
+  border: none;
+  resize: none;
+}
+
+.nms-chat-input:focus {
+  border: none;
+  outline: none;
+}
+
+.button-send {
+  width: 1.2em;
+}

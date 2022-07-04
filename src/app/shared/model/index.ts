@@ -6,3 +6,7 @@ export * from './user.model';
 export * from './country.model';
 export * from './post-reaction.model';
 export * from './reaction-type.enum';
+export * from './message.model';
+export * from './available-chat.model';
+export * from './page.model';
+export * from './available-chat.model';

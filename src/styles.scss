@@ -44,3 +44,7 @@ $container-max-widths: (
 * {
   font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif !important; 
 }
+
+.clickable :hover {
+  cursor: pointer;
+}

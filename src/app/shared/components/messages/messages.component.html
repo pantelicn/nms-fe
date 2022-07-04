@@ -1,0 +1,31 @@
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-4">
+      <div *ngIf="!searchingUser && lastMessages.length">
+        <div class="mb-1" *ngFor="let lastMessage of lastMessages">
+          <nms-messages-user [lastMessage]="lastMessage" (click)="openChat(lastMessage)"></nms-messages-user>
+        </div>
+      </div>
+      <div *ngIf="availableChats.length || searchingUser">
+        <div *ngIf="searchingUser" class="d-flex justify-content-between my-3">
+          <span class="font-weight-light">Search results for: {{searchString}}</span>
+          <bi name="x" class="icon" (click)="onStopSearch()"></bi>
+        </div>
+        <div class="font-weight-light my-3" *ngIf="!searchingUser">From recent requests:</div>
+        <div class="mb-1" *ngFor="let availableChat of availableChats">
+          <nms-messages-new-user [availableChat]="availableChat" (click)="startChat(availableChat)"></nms-messages-new-user>
+        </div>
+      </div>
+      <div *ngIf="!availableChats.length && ! lastMessages.length" class="text-center">
+        <span>No chats available.</span>
+        <br>
+        <span>
+          You will be able to chat with someone after a successful request.
+        </span>
+      </div>
+    </div>
+    <div class="col-6">
+      <nms-messages-chat (onSearch)="onSearch($event)" (onStartSearch)="onStartSearch()" [searchingUser]="searchingUser" [to]="to"></nms-messages-chat>
+    </div>
+  </div>
+</div>
