@@ -1,0 +1,69 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.templates-list {
+  height:300px;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.card-body-templates {
+  padding: 0px;
+}
+
+.templates-list > .list-group-item {
+  border: none;
+  border-radius: 0px;
+  text-decoration: none;
+  color: $gray-600;
+  border-left: 4px solid white;
+}
+
+.templates-list > a:hover {
+  border-left: 4px solid $cyan !important;
+}
+
+.selected-template {
+  border-left: 4px solid $cyan !important;
+}
+
+.nms-row {
+  padding-bottom: 15px;
+}
+
+.nms-plus-circle {
+  height: 2em;
+}
+
+.nms-plus-circle:hover {
+  color: $cyan;
+}
+
+.nms-x-circle {
+  height: 2em;
+}
+
+.nms-x-circle:hover {
+  color: theme-color("danger");
+}
+
+.nms-template-vertical {
+  width: 0px;
+  height: 100vh;
+  border-left: 1px;
+}
+
+.nms-cursor:hover {
+  cursor: pointer;
+}
+
+.invalid-number-of-facets {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: theme-color("danger");
+}
+
+.nms-anonymous-avatar {
+  height: 4em;
+}

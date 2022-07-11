@@ -1,0 +1,131 @@
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-lg-3 col-md-5 d-md-block d-none">
+      <div class="card">
+        <div class="card-header">
+          Existing templates
+        </div>
+        <div class="card-body card-body-templates">
+          <ul class="list-group templates-list">
+            <a [routerLink]="" 
+              [class.selected-template]="template.id === selectedTemplate?.id" 
+              *ngFor="let template of templates;let i = index" 
+              (click)="selectTemplate(template)" 
+              class="list-group-item list-group-item-action nms-cursor">{{template.name}}</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-7 border-left border-grey">
+      <div class="vr"></div>
+      <div class="bg-light shadow-sm border rounded p-3">
+        <h3>Filters</h3>
+        <form [formGroup]="searchTalentsForm" (ngSubmit)="search()" novalidate>
+          <div formArrayName="facets">
+              <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
+                <div class="col">
+                  <select formControlName="type" 
+                          class="form-control" 
+                          (change)="setCodes(facets.controls[i].get('type'), i)" 
+                          aria-label="Select term type" 
+                          [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select type</option>
+                    <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
+                    Please select type.
+                  </div>
+                </div>
+                <div class="col">
+                  <select formControlName="code" 
+                          class="form-control" 
+                          aria-label="Select skill"
+                          [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select skill</option>
+                    <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
+                    Please select skill.
+                  </div>
+                </div>
+                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                  <input formControlName="value" 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Value" 
+                  [class]="(facets.controls[i].get('value')?.invalid && (facets.controls[i].get('value')?.dirty || facets.controls[i].get('value')?.touched)) ? 'is-invalid' : ''">
+                  <div *ngIf="facets.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+                    Please enter value.
+                  </div>
+                </div>
+                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                  <select formControlName="operatorType" 
+                          class="form-control" 
+                          aria-label="Select operator"
+                          [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched)) ? 'is-invalid' : ''">
+                    <option [ngValue]="null">Select operator</option>
+                    <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
+                  </select>
+                  <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">
+                    Please select operator type.
+                  </div>
+                </div>
+                <div class="pr-3">
+                  <a (click)="removeFacet(i)" class="text-secondary text-decoration-none nms-cursor">
+                    <bi name="x-circle" class="icon lead fa-lg nms-x-circle"></bi>
+                  </a>
+                </div>
+              </div>
+          </div>
+          <div class="d-flex justify-content-center text-end">
+            <a (click)="addFacet()" class="text-secondary text-decoration-none nms-cursor">
+              <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
+            </a>
+          </div>
+          <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="searchTalentsForm.invalid" type="submit">Search</button>
+          <div *ngIf="selectedTemplate" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
+        </form>
+      </div>
+      <div *ngFor="let talent of searchResult?.content; let i = index" 
+        class="bg-light p-3 shadow-sm border rounded d-flex justify-content-between align-items-start">
+        <bi name="person-circle" class="col-md-1 nms-anonymous-avatar avatar text-secondary text-white p-1 avatar"></bi>
+        <div class="col-md-8">
+          <div class="m-0">
+            Talent{{i + 1}}
+          </div>
+          <div class="m-0">
+            Positions
+          </div>
+          <div class="font-weight-light text-secondary m-0 text-date">
+            <span *ngFor="let position of talent.positions; let positionIndex = index">
+              {{position.name}} {{positionIndex != talent.positions.length - 1 ? ',' : ''}}
+            </span>
+          </div>
+          <div class="m-0">
+            Skills
+          </div>
+          <div class="font-weight-light text-secondary m-0 text-date">
+            <span *ngFor="let skill of talent.skills;let skillIndex = index">
+              {{skill.name}} {{skillIndex != talent.skills.length - 1 ? ',' : ''}}
+            </span>
+          </div>
+          <div class="m-0">
+            Terms
+          </div>
+          <div *ngFor="let talentTerm of talent.terms" class="font-weight-light text-secondary m-0 text-date">
+            {{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}} {{talentTerm.unitOfMeasure}} {{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}
+          </div>
+        </div>
+        <a class="btn btn-primary col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog)" >Send request</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #sendRequestDialog let-modal>
+  <send-request [negotiableTerms]="negotiableTerms" 
+                [nonNegotiableTerms]="nonNegotiableTerms"
+                [talentId]="selectedTalent?.talentId"
+                (requestSentChange)="search()">
+  </send-request>
+</ng-template>

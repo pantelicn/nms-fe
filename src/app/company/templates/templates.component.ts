@@ -8,7 +8,7 @@ import { SkillService, SkillView } from "./skill/skill.service";
 import { Facet, TemplateService, TemplateView } from "./templates.service";
 import { TermService, TermView } from "./term/term.service";
 
-interface Code {
+export interface Code {
   name: string,
   code: string
 }

@@ -14,6 +14,8 @@ import { TemplatesComponent } from './templates/templates.component';
 import { HomeProfileComponent } from './home/home-profile/home-profile.component';
 import { RequestComponent } from './request/request.component';
 import { TalentTermRequestComponent } from './request/talent-term-request/talent-term-request.component';
+import { TalentsComponent } from './talents/talents.component';
+import { SendRequestComponent } from './talents/send-request/send-request.component';
 
 
 
@@ -28,7 +30,9 @@ import { TalentTermRequestComponent } from './request/talent-term-request/talent
     RequestComponent,
     TemplatesComponent,
     HomeProfileComponent,
-    TalentTermRequestComponent
+    TalentTermRequestComponent,
+    TalentsComponent,
+    SendRequestComponent
   ],
   imports: [
     CommonModule,
