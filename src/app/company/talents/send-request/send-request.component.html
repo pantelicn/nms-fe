@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div class="form-group">
       <input type="text" 
-            class="form-control shadow-none rounded-0" 
+            class="form-control" 
             formControlName="note" 
             id="note" 
             placeholder="Request note" 
@@ -43,7 +43,7 @@
         </div>
         <div>
           <div *ngIf="term.value.status === 'COUNTER_OFFER_COMPANY'" class="form-check form-check-inline">
-            <input class="form-control shadow-none rounded-0" 
+            <input class="form-control" 
               type="text" 
               formControlName="counterOffer"
               placeholder="Counter offer" 

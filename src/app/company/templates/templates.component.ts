@@ -40,7 +40,7 @@ export class TemplatesComponent implements OnInit {
   ];
 
   operatorTypes = [{
-    "name": "equal",
+    "name": "Equal",
     "value": "EQ"
   },
   {
@@ -285,6 +285,16 @@ export class TemplatesComponent implements OnInit {
 
   get facets() {
     return this.addTemplateForm.get('facets') as FormArray;
+  }
+
+  getPlaceholderText(termTypeValue: string): string {
+    if (termTypeValue === 'POSITION') {
+      return 'Select position';
+    } else if (termTypeValue === 'TERM') {
+      return 'Select term';
+    } else {
+      return 'Select skill';
+    }
   }
 
 }

@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-9 col-md-7 border-left border-grey">
       <div class="vr"></div>
-      <div class="bg-light shadow-sm border rounded p-3">
+      <div class="bg-white border rounded p-3">
         <h3>Template</h3>
         <form [formGroup]="addTemplateForm" (ngSubmit)="onSubmit()" novalidate>
           <div class="form-group">
@@ -40,7 +40,7 @@
                           (change)="setCodes(facets.controls[i].get('type'), i)" 
                           aria-label="Select term type" 
                           [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select type</option>
+                    <option value="" selected disabled>Select type</option>
                     <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
@@ -52,7 +52,7 @@
                           class="form-control" 
                           aria-label="Select skill"
                           [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select skill</option>
+                    <option value="" selected disabled>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
                     <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
@@ -74,7 +74,7 @@
                           class="form-control" 
                           aria-label="Select operator"
                           [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select operator</option>
+                    <option value="" selected disabled>Select operator</option>
                     <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">

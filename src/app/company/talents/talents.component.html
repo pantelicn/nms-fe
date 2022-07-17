@@ -18,7 +18,7 @@
     </div>
     <div class="col-lg-9 col-md-7 border-left border-grey">
       <div class="vr"></div>
-      <div class="bg-light shadow-sm border rounded p-3">
+      <div class="bg-white border rounded p-3">
         <h3>Filters</h3>
         <form [formGroup]="searchTalentsForm" (ngSubmit)="search()" novalidate>
           <div formArrayName="facets">
@@ -27,9 +27,9 @@
                   <select formControlName="type" 
                           class="form-control" 
                           (change)="setCodes(facets.controls[i].get('type'), i)" 
-                          aria-label="Select term type" 
+                          aria-label="Select term type"
                           [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select type</option>
+                    <option value="" disabled selected>Select type</option>
                     <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
@@ -41,7 +41,7 @@
                           class="form-control" 
                           aria-label="Select skill"
                           [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select skill</option>
+                    <option value="" disabled selected>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
                     <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
@@ -63,7 +63,7 @@
                           class="form-control" 
                           aria-label="Select operator"
                           [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched)) ? 'is-invalid' : ''">
-                    <option [ngValue]="null">Select operator</option>
+                    <option value="" selected disabled>Select operator</option>
                     <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">
@@ -87,7 +87,7 @@
         </form>
       </div>
       <div *ngFor="let talent of searchResult?.content; let i = index" 
-        class="bg-light p-3 shadow-sm border rounded d-flex justify-content-between align-items-start">
+        class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start">
         <bi name="person-circle" class="col-md-1 nms-anonymous-avatar avatar text-secondary text-white p-1 avatar"></bi>
         <div class="col-md-8">
           <div class="m-0">
@@ -116,7 +116,7 @@
             {{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}} {{talentTerm.unitOfMeasure}} {{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}
           </div>
         </div>
-        <a class="btn btn-primary col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog)" >Send request</a>
+        <a class="btn btn-primary rounded-pill col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog)" >Send request</a>
       </div>
     </div>
   </div>
