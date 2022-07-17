@@ -33,6 +33,10 @@
       <bi name="bell-fill" class="icon lead"></bi>
       <small>Notifications</small>
     </a>
+    <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+      <bi name="person-circle" class="icon lead"></bi>
+      <small>My profile</small>
+    </a>
   </div>
 </nav>
 <div class="d-lg-none fixed-bottom bg-light d-flex justify-content-center py-1">
@@ -59,5 +63,9 @@
   <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
     <bi name="bell-fill" class="icon lead"></bi>
     <small>Notifications</small>
+  </a>
+  <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="person-circle" class="icon lead"></bi>
+    <small>My profile</small>
   </a>
 </div>

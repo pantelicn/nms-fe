@@ -16,6 +16,8 @@ import { RequestComponent } from './request/request.component';
 import { TalentTermRequestComponent } from './request/talent-term-request/talent-term-request.component';
 import { TalentsComponent } from './talents/talents.component';
 import { SendRequestComponent } from './talents/send-request/send-request.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditDetailsComponent } from './profile/edit-details/edit-details.component';
 
 
 
@@ -32,7 +34,9 @@ import { SendRequestComponent } from './talents/send-request/send-request.compon
     HomeProfileComponent,
     TalentTermRequestComponent,
     TalentsComponent,
-    SendRequestComponent
+    SendRequestComponent,
+    ProfileComponent,
+    EditDetailsComponent
   ],
   imports: [
     CommonModule,

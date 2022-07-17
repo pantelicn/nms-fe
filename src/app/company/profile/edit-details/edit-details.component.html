@@ -1,0 +1,81 @@
+<form [formGroup]="editDetailsForm" (ngSubmit)="edit(editDetailsForm.value)" novalidate>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Company Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <input type="text" 
+                class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                formControlName="name" 
+                id="name" 
+                placeholder="Name" 
+                [class]="(name?.invalid && (name?.dirty || name?.touched)) ? 'is-invalid' : ''" />
+      <div *ngIf="name?.errors?.['required']" class="invalid-feedback">
+        Please enter name.
+      </div>
+    </div>
+    <div class="form-group">
+      <textarea type="text" 
+                class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                formControlName="description" 
+                id="description" 
+                placeholder="Description" 
+                [class]="(description?.invalid && (description?.dirty || description?.touched)) ? 'is-invalid' : ''"></textarea>
+      <div *ngIf="description?.errors?.['required']" class="invalid-feedback">
+        Please enter description.
+      </div>
+    </div>
+    <div formGroupName="newLocation">
+      <div class="form-group">
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="country" 
+                  id="country" 
+                  placeholder="Country" 
+                  [class]="(country?.invalid && (country?.dirty || country?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="country?.errors?.['required']" class="invalid-feedback">
+          Please enter country.
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="province" 
+                  id="province" 
+                  placeholder="Province" 
+                  [class]="(province?.invalid && (province?.dirty || province?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="province?.errors?.['required']" class="invalid-feedback">
+          Please enter province.
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="city" 
+                  id="city" 
+                  placeholder="City" 
+                  [class]="(city?.invalid && (city?.dirty || city?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="city?.errors?.['required']" class="invalid-feedback">
+          Please enter city.
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="address" 
+                  id="address" 
+                  placeholder="Address" 
+                  [class]="(address?.invalid && (address?.dirty || address?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="address?.errors?.['required']" class="invalid-feedback">
+          Please enter address.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Save</button>
+  </div>
+</form>
