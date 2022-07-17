@@ -47,7 +47,7 @@ export class TalentsComponent implements OnInit {
     "value": "TERM"
   }];
   operatorTypes = [{
-    "name": "equal",
+    "name": "Equal",
     "value": "EQ"
   },
   {
@@ -232,6 +232,16 @@ export class TalentsComponent implements OnInit {
       facets: new FormArray([]),
     });
     this.addFacet();
+  }
+
+  getPlaceholderText(termTypeValue: string): string {
+    if (termTypeValue === 'POSITION') {
+      return 'Select position';
+    } else if (termTypeValue === 'TERM') {
+      return 'Select term';
+    } else {
+      return 'Select skill';
+    }
   }
 
 }
