@@ -1,0 +1,79 @@
+<form [formGroup]="editContactsForm" (ngSubmit)="edit(contactsFormArrayOld.value, contactsFormArrayNew.value)" novalidate>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Contacts</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div formArrayName="contactsFormArrayOld">
+      <div [formGroupName]="i" *ngFor="let contact of contactsFormArrayOld.controls; let i=index">
+        <div class="form-group row">
+          <label [for]="'value'+ i" class="col-sm-1 col-form-label">
+            <bi *ngIf="contactsFormArrayOld.controls[i].get('type')?.value === 'EMAIL'" class="icon mr-2 text-primary nms-icon" name="envelope"></bi>
+            <bi *ngIf="contactsFormArrayOld.controls[i].get('type')?.value === 'TELEPHONE'" class="icon mr-2 text-primary nms-icon" name="telephone"></bi>
+            <bi *ngIf="contactsFormArrayOld.controls[i].get('type')?.value === 'URL'" class="icon mr-2 text-primary nms-icon" name="link"></bi>
+          </label>
+          <div class="col-sm-9">
+            <input type="text" 
+                    class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                    formControlName="value" 
+                    [id]="'value' + i" 
+                    placeholder="Value" 
+                    [class]="(contactsFormArrayOld.controls[i].get('value')?.invalid && (contactsFormArrayOld.controls[i].get('value')?.dirty || contactsFormArrayOld.controls[i].get('value')?.touched)) ? 'is-invalid' : ''" />
+            <div *ngIf="contactsFormArrayOld.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+              {{contactsFormArrayOld.controls[i].get('type')?.value === 'EMAIL' ? 'Please enter email.' : ''}}
+              {{contactsFormArrayOld.controls[i].get('type')?.value === 'TELEPHONE' ? 'Please enter telephone number.' : ''}}
+              {{contactsFormArrayOld.controls[i].get('type')?.value === 'URL' ? 'Please enter link.' : ''}}
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <a class="ml-2 text-secondary text-decoration-none nms-cursor" (click)="removeOldContact(i)">
+              <bi name="x-circle" class="nms-remove-icon"></bi>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="contactsFormArrayNew">
+      <div [formGroupName]="i" *ngFor="let contact of contactsFormArrayNew.controls; let i=index">
+        <div class="form-row mb-2">
+          <div class="col">
+            <select formControlName="type" 
+                    class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0"
+                    aria-label="Select term type" 
+                    [class]="(contactsFormArrayNew.controls[i].get('type')?.invalid && (contactsFormArrayNew.controls[i].get('type')?.dirty || contactsFormArrayNew.controls[i].get('type')?.touched)) ? 'is-invalid' : ''">
+              <option value="" selected disabled>Select contact</option>
+              <option *ngFor="let contactType of contactTypes" [value]="contactType.value">{{contactType.name}}</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" 
+                   formControlName="value" 
+                   class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                   [class]="(contactsFormArrayNew.controls[i].get('value')?.invalid && (contactsFormArrayNew.controls[i].get('value')?.dirty || contactsFormArrayNew.controls[i].get('value')?.touched)) ? 'is-invalid' : ''"
+                   placeholder="Value" />
+            <div *ngIf="contactsFormArrayNew.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+              {{contactsFormArrayNew.controls[i].get('type')?.value === 'EMAIL' ? 'Please enter email.' : ''}}
+              {{contactsFormArrayNew.controls[i].get('type')?.value === 'TELEPHONE' ? 'Please enter telephone number.' : ''}}
+              {{contactsFormArrayNew.controls[i].get('type')?.value === 'URL' ? 'Please enter link.' : ''}}
+            </div>
+          </div>
+          <div>
+            <a class="ml-2 text-secondary text-decoration-none nms-cursor" (click)="removeNewContact(i)">
+              <bi name="x-circle" class="nms-remove-icon"></bi>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center text-end">
+      <a class="text-secondary text-decoration-none nms-cursor" (click)="addNewContactForm()">
+        <bi name="plus-circle" class="lead nms-circle"></bi>
+      </a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary rounded-pill w-100 mt-3" [disabled]="editContactsForm.invalid" type="submit">Save</button>
+  </div>
+</form>

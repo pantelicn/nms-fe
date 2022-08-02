@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Company } from "src/app/shared/model";
@@ -16,6 +16,7 @@ export class EditDetailsComponent implements OnInit {
     description: new FormControl('', [Validators.required]),
   });
   @Input() company?: Company;
+  @Output() detailsChange = new EventEmitter<Company>();
 
   constructor(private modalService: NgbModal, 
               private companyService: CompanyService,
@@ -40,6 +41,7 @@ export class EditDetailsComponent implements OnInit {
   edit(modified: Company) {
     this.companyService.edit(modified).subscribe(result => {
       this.toastService.show('', 'Details updated.');
+      this.detailsChange.emit(result);
       this.close();
     });
   }

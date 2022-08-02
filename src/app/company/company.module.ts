@@ -18,6 +18,7 @@ import { TalentsComponent } from './talents/talents.component';
 import { SendRequestComponent } from './talents/send-request/send-request.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditDetailsComponent } from './profile/edit-details/edit-details.component';
+import { EditContactsComponent } from './profile/edit-contacts/edit-contacts.component';
 
 
 
@@ -36,7 +37,8 @@ import { EditDetailsComponent } from './profile/edit-details/edit-details.compon
     TalentsComponent,
     SendRequestComponent,
     ProfileComponent,
-    EditDetailsComponent
+    EditDetailsComponent,
+    EditContactsComponent
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { AuthService } from "src/app/auth/auth.service";
 import { Company } from "src/app/shared/model";
+import { ContactService, ContactView } from "src/app/shared/services/contact.service";
 import { CompanyService } from "../company.service";
 
 @Component({
@@ -12,6 +13,7 @@ import { CompanyService } from "../company.service";
 export class ProfileComponent {
 
   company!: Company;
+  contacts?: ContactView[];
   modalOptions: NgbModalOptions = {
     backdrop: true,
     backdropClass: 'customBackdrop',
@@ -20,19 +22,29 @@ export class ProfileComponent {
 
   constructor(private authService: AuthService, 
               private companyService: CompanyService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private contactService: ContactService) { }
 
   ngOnInit(): void {
     if (this.username) {
       this.companyService.getCompany(this.username).subscribe(
-        company => this.company = company 
+        company => this.company = company
       );
+      this.contactService.getAll().subscribe(response => {
+        console.log(response);
+        this.contacts = response;
+      })
     }
   }
 
-  openEditDetailsDialog(content: any, company: Company): void {
-    console.log('open')
+  openDialog(content: any): void {
     this.modalService.open(content, this.modalOptions);
+  }
+
+  newContactsAdded(newContacts: ContactView[]) {
+    newContacts.forEach(newContact => {
+      this.contacts?.push(newContact);
+    })
   }
 
   get username(): string | undefined {

@@ -22,7 +22,11 @@ import {
   ArrowLeftShort,
   ArrowRightShort,
   ArrowClockwise,
-  CheckAll
+  CheckAll,
+  Envelope,
+  Telephone,
+  Link45deg,
+  Link
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -48,7 +52,10 @@ const icons = {
   ArrowRightShort,
   ArrowLeftShort,
   ArrowClockwise,
-  CheckAll
+  CheckAll,
+  Envelope,
+  Telephone,
+  Link
 };
 
 @NgModule({
