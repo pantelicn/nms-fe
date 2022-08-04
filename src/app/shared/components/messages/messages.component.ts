@@ -59,7 +59,8 @@ export class MessagesComponent implements OnInit {
   startChat(availableChat: AvailableChat): void {
     this.onStopSearch();
     this.to = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentUsername : availableChat.companyUsername;
-    this.chatService.getChatMessages(this.to);
+    const toName = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentName : availableChat.companyName;
+    this.chatService.getChatMessages(this.to, toName);
     this.init();
   }
 
@@ -67,7 +68,8 @@ export class MessagesComponent implements OnInit {
     this.onStopSearch();
     this.selectedMessage = lastMessage.message;
     this.to = (this.authService.currentUser?.role === 'COMPANY' ? lastMessage.message.talentUsername : lastMessage.message.companyUsername) ?? '';
-    this.chatService.getChatMessages(this.to);
+    const toName = (this.authService.currentUser?.role === 'COMPANY' ? lastMessage.talentName : lastMessage.companyName) ?? '';
+    this.chatService.getChatMessages(this.to, toName);
     this.init();
   }
 

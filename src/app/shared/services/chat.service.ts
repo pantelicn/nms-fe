@@ -11,6 +11,10 @@ export interface MessageSend {
   content: string;
 }
 
+export interface MessageReceived {
+  body: string
+}
+
 declare var SockJS: new (url: string) => any;
 declare var Stomp: any;
 
@@ -28,15 +32,18 @@ export class ChatService {
   private page = 1;
   private timestamp = new Date();
 
-  public lastMessages: LastMessage[] = []
-  public msg: MessageSend[] = [];
+  public lastMessages: LastMessage[] = [];
   public stompClient: any;
-  public messagesSubject = new Subject<MessageSend>();
+  public sentMessagesSubject = new Subject<MessageSend>();
+  public receivedMessagesSubject = new Subject<MessageReceived>();
   public messages: Message[] = [];
+  public to = '';
+  public toName = '';
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.connect();
-    this.messagesSubject.subscribe(message => this.handleSentMessage(message))
+    this.sentMessagesSubject.subscribe(message => this.handleSentMessage(message));
+    this.receivedMessagesSubject.subscribe(message => this.handleReceivedMessage(message));
     this.chatsApi = (this.role === 'TALENT' ? this.talentsApi : this.companiesApi)
       + this.username
       + this.chatsSuffix;
@@ -48,9 +55,9 @@ export class ChatService {
     // TODO: Uncomment line bellow to remove websocket logs
     // this.stompClient.debug = null;
     this.stompClient.connect({token: this.authService.currentUser?.idToken}, () => {
-      this.stompClient.subscribe('/user/queue/messages', (message: MessageSend) => {
+      this.stompClient.subscribe('/user/queue/messages', (message: MessageReceived) => {
         if (message) {
-          this.msg.push(message);
+          this.receivedMessagesSubject.next(message);
         }
       });
     });
@@ -58,7 +65,7 @@ export class ChatService {
 
   sendMessage(message: MessageSend): void {
     this.stompClient.send('/chat', {}, JSON.stringify(message));
-    this.messagesSubject.next(message);
+    this.sentMessagesSubject.next(message);
   }
 
   getAvailableChats(search: string): Observable<AvailableChat[]> {
@@ -78,11 +85,25 @@ export class ChatService {
     return this.http.get<LastMessage[]>(this.chatsApi).pipe(tap(data => this.lastMessages = data));
   }
 
-  getChatMessages(to: string): void {
+  getChatMessages(to: string, toName: string): void {
+    this.to = to;
+    this.toName = toName;
     this.http.get<Page<Message>>(this.chatsApi + '/' + to).subscribe(data => {
-      this.messages = data.content;
+      console.log(toName);
+      this.messages = this.addNameToMessages(data.content, toName);
       this.resetPage();
     });;
+  }
+
+  private addNameToMessages(messages: Message[], name: string): Message[] {
+    messages.forEach(message => {
+      if (this.authService.currentUser?.role === 'COMPANY') {
+        message['talentName'] = name;
+      } else {
+        message['companyName'] = name;
+      }
+    });
+    return messages;
   }
 
   getNextPage(to: string): void {
@@ -105,7 +126,7 @@ export class ChatService {
     return this.authService.currentUser?.role;
   }
 
-  handleSentMessage(message: MessageSend) {
+  handleSentMessage(message: MessageSend): void {
     let talentUsername;
     let companyUsername;
     if (this.authService.currentUser?.role === 'COMPANY') {
@@ -131,6 +152,40 @@ export class ChatService {
       const talentName = this.lastMessages[removeIndex].talentName;
       this.lastMessages.splice(removeIndex, 1);
       this.lastMessages.unshift({companyName, talentName, message: sentMessage});
+    }
+  }
+
+  handleReceivedMessage(message: MessageReceived): void {
+    let talentUsername;
+    let companyUsername;
+    if (this.authService.currentUser?.role === 'TALENT') {
+      console.log('message start___');
+      console.log(message);
+      console.log('message end___');
+      talentUsername = this.to;
+    } else {
+      companyUsername = this.to
+    };
+    const receivedMessage = {
+      id: 0,
+      content: message.body,
+      createdBy: this.to === this.authService.currentUser?.username ? this.currentUserRole : this.targetUserRole,
+      createdOn: new Date().toUTCString(),
+      companyUsername,
+      talentUsername,
+      companyName: this.authService.currentUser?.role === 'TALENT' ? this.toName : '',
+      talentName: this.authService.currentUser?.role === 'COMPANY' ? this.toName : '',
+      seen: false
+    }
+    this.messages.unshift(receivedMessage);
+    const removeIndex = this.lastMessages.findIndex(lastMessage => 
+      lastMessage.message.companyUsername === this.to || lastMessage.message.talentUsername === this.to
+    );
+    if (removeIndex >= 0) {
+      const companyName = this.lastMessages[removeIndex].companyName;
+      const talentName = this.lastMessages[removeIndex].talentName;
+      this.lastMessages.splice(removeIndex, 1);
+      this.lastMessages.unshift({companyName, talentName, message: receivedMessage});
     }
   }
 

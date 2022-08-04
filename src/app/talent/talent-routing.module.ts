@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MessagesComponent } from '../shared/components/messages/messages.component';
 import { TalentComponent } from './talent.component';
 
 const routes: Routes = [
   {
     path: '',
     component: TalentComponent,
-    children: []
+    children: [
+      { path: 'messages', component: MessagesComponent }
+    ]
   }
 ]
 
