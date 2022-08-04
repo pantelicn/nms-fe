@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-4 bg-white border rounded py-3">
       <div *ngIf="!searchingUser && lastMessages.length">
-        <div class="mb-1" *ngFor="let lastMessage of lastMessages">
+        <div class="mb-1 message-item" *ngFor="let lastMessage of lastMessages">
           <nms-messages-user [lastMessage]="lastMessage" (click)="openChat(lastMessage)"></nms-messages-user>
         </div>
       </div>
@@ -12,7 +12,7 @@
           <bi name="x" class="icon" (click)="onStopSearch()"></bi>
         </div>
         <div class="font-weight-light my-3" *ngIf="!searchingUser">From recent requests:</div>
-        <div class="mb-1" *ngFor="let availableChat of availableChats">
+        <div class="mb-1 message-item" *ngFor="let availableChat of availableChats">
           <nms-messages-new-user [availableChat]="availableChat" (click)="startChat(availableChat)"></nms-messages-new-user>
         </div>
       </div>
