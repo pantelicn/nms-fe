@@ -1,7 +1,14 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
 .icon {
   width: 1.2em;
 }
 
 .icon:hover {
   cursor: pointer;
+}
+
+.message-item:hover {
+  border-left: 4px solid $cyan !important;
 }
