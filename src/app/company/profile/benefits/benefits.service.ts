@@ -11,6 +11,12 @@ export interface BenefitView {
   isDefault: boolean;
 }
 
+export interface BenefitAdd {
+  name: string;
+  description: string;
+  isDefault: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +30,11 @@ export class BenefitService {
   getAll(): Observable<BenefitView[]> {
     const username = this.authService.currentUser?.username;
     return this.http.get<BenefitView[]>(this.companiesApi + '/' + username + '/benefits');
+  }
+
+  edit(newBenefits: BenefitAdd[]): Observable<BenefitView[]> {
+    const username = this.authService.currentUser?.username;
+    return this.http.put<BenefitView[]>(this.companiesApi + '/' + username + '/benefits', newBenefits);  
   }
 
 }
