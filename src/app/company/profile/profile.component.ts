@@ -4,6 +4,7 @@ import { AuthService } from "src/app/auth/auth.service";
 import { Company } from "src/app/shared/model";
 import { ContactService, ContactView } from "src/app/shared/services/contact.service";
 import { CompanyService } from "../company.service";
+import { BenefitService, BenefitView } from "./benefits/benefits.service";
 
 @Component({
   selector: 'profile',
@@ -14,6 +15,7 @@ export class ProfileComponent {
 
   company!: Company;
   contacts?: ContactView[];
+  benefits?: BenefitView[];
   modalOptions: NgbModalOptions = {
     backdrop: true,
     backdropClass: 'customBackdrop',
@@ -23,7 +25,8 @@ export class ProfileComponent {
   constructor(private authService: AuthService, 
               private companyService: CompanyService,
               private modalService: NgbModal,
-              private contactService: ContactService) { }
+              private contactService: ContactService,
+              private benefitService: BenefitService) { }
 
   ngOnInit(): void {
     if (this.username) {
@@ -31,9 +34,11 @@ export class ProfileComponent {
         company => this.company = company
       );
       this.contactService.getAll().subscribe(response => {
-        console.log(response);
         this.contacts = response;
-      })
+      });
+      this.benefitService.getAll().subscribe(response => {
+        this.benefits = response;
+      });
     }
   }
 

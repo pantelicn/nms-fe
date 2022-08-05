@@ -54,6 +54,23 @@
           </div>
         </div>
       </div>
+      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="col-md-8">
+            <h3>Benefits</h3>
+            <div *ngFor="let benefit of benefits">
+              <div class="d-flex mb-2 align-items-center">
+                <p><b>{{benefit.name}}</b> - {{benefit.description}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
+              <bi name="pencil-square" class="lead nms-pencil-square"></bi>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -67,4 +84,9 @@
 <ng-template #editContactsDialog let-modal>
   <edit-contacts [contacts]="contacts"
                  (contactsChanged)="contacts=$event"></edit-contacts>
+</ng-template>
+
+<ng-template #editBenefitsDialog let-modal>
+  <edit-benefits [benefits]="benefits"
+                 (benefitsChanged)="benefits=$event"></edit-benefits>
 </ng-template>
