@@ -26,7 +26,9 @@ import {
   Envelope,
   Telephone,
   Link45deg,
-  Link
+  Link,
+  Box,
+  FilePost
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -55,7 +57,9 @@ const icons = {
   CheckAll,
   Envelope,
   Telephone,
-  Link
+  Link,
+  Box,
+  FilePost
 };
 
 @NgModule({

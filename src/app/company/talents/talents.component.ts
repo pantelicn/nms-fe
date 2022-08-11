@@ -34,6 +34,7 @@ export class TalentsComponent implements OnInit {
   selectedTalent?: TalentViewSearchDto;
   negotiableTerms: TalentTermViewDto[] = [];
   nonNegotiableTerms: TalentTermViewDto[] = [];
+  noFoundTalents: boolean = false;
   termTypes = [{
     "name": "Position",
     "value": "POSITION"
@@ -196,6 +197,7 @@ export class TalentsComponent implements OnInit {
   search() {
     this.talentService.find(this.searchTalentsForm.value.facets).subscribe(response => {
       this.searchResult = response;
+      this.noFoundTalents = response.content.length === 0;
     });
   }
 
