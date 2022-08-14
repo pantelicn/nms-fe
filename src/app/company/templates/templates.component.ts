@@ -174,7 +174,6 @@ export class TemplatesComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    console.log(this.addTemplateForm.value);
     if (this.addTemplateForm.valid && this.facets.length > 0) {
       if (this.id === null) {
         this.templateService.addTemplate(this.addTemplateForm.value).subscribe(newTemplate => {
