@@ -94,7 +94,7 @@
               <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
             </a>
           </div>
-          <button class="btn btn-primary rounded-pill my-2 w-100" type="submit">Save</button>
+          <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="addTemplateForm.invalid || facets.length === 0" type="submit">Save</button>
           <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-danger btn-block rounded-pill shadow-none" (click)="openRemoveTemplateDialog(removeTemplateDialog)">Remove</div>
           <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
         </form>
