@@ -5,7 +5,8 @@ import { environment } from "src/environments/environment";
 
 export interface TermView {
   code: string,
-  name: string
+  name: string,
+  type: string
 }
 
 @Injectable({

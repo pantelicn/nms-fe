@@ -15,7 +15,8 @@ export interface Facet {
   type: string,
   code: string,
   value: string,
-  operatorType: string
+  operatorType: string,
+  codeType?: string
 }
 
 export interface EditTemplate {
@@ -49,7 +50,7 @@ export class TemplateService {
 
   addTemplate(newTemplate: AddTemplate): Observable<TemplateView> {
     newTemplate.facets.forEach(facet => {
-      if (facet.type === 'POSITION' || facet.type === 'SKILL') {
+      if (facet.type === 'POSITION' || facet.type === 'SKILL' || facet.codeType === 'BOOLEAN') {
         facet.operatorType = 'EQ';
         facet.value = 'true';
       }
@@ -60,7 +61,7 @@ export class TemplateService {
 
   editTemplate(modified: EditTemplate): Observable<TemplateView> {
     modified.facets.forEach(facet => {
-      if (facet.type === 'POSITION' || facet.type === 'SKILL') {
+      if (facet.type === 'POSITION' || facet.type === 'SKILL' || facet.codeType === 'BOOLEAN') {
         facet.operatorType = 'EQ';
         facet.value = 'true';
       }

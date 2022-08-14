@@ -10,7 +10,8 @@ import { TermService, TermView } from "./term/term.service";
 
 export interface Code {
   name: string,
-  code: string
+  code: string,
+  type? : string
 }
 
 @Component({
@@ -173,6 +174,7 @@ export class TemplatesComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    console.log(this.addTemplateForm.value);
     if (this.addTemplateForm.valid && this.facets.length > 0) {
       if (this.id === null) {
         this.templateService.addTemplate(this.addTemplateForm.value).subscribe(newTemplate => {
@@ -198,6 +200,10 @@ export class TemplatesComponent implements OnInit {
       let facetGroup = this.existingFacet(facet);
       this.facets.push(facetGroup);
       this.setCodes(facetGroup.get('type'), i);
+      if (facetGroup.get('type')?.value === 'TERM') {
+        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      }
     }
     this.selectedTemplateIndex = index;
   }
@@ -237,9 +243,8 @@ export class TemplatesComponent implements OnInit {
       this.removeValueAndOperatorTypeControlls(index);
     } else if (value.value === 'TERM') {
       this.terms.forEach((term => {
-        codes.push(this.newCode(term.name, term.code));
+        codes.push(this.newCode(term.name, term.code, term.type));
       }));
-      this.addValueAndOperatorTypeControlls(index);
     }
 
     this.codes.set(index, codes);
@@ -268,10 +273,22 @@ export class TemplatesComponent implements OnInit {
     (this.facets.at(index) as FormGroup).removeControl('operatorType');
   }
 
-  newCode(name: string, code: string) {
+  newCode(name: string, code: string, type?: string) {
     return {
       'name': name,
-      'code': code
+      'code': code,
+      'type': type
+    }
+  }
+
+  setCodeType(selectedType: any, selectedCode: any, index: number) {
+    if (selectedType.value === 'TERM') {
+      const codeDetail = this.codes.get(index)?.find(({code}) => code === selectedCode.value);
+      (this.facets.at(index) as FormGroup).removeControl('codeType');
+      (this.facets.at(index) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      if (codeDetail?.type != 'BOOLEAN') {
+        this.addValueAndOperatorTypeControlls(index);
+      }
     }
   }
 
