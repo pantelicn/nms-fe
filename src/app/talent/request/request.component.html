@@ -11,8 +11,8 @@
               (click)="setSelectedRequest(activeRequest)" 
               [ngClass]="{ 'selected-request' : selectedRequest?.id === activeRequest.id}"
               class="list-group-item list-group-item-action nms-cursor d-flex justify-content-between align-items-center mb-4">
-                <span [ngClass]="{ 'font-weight-bold' : activeRequest.seenByCompany === false }">{{activeRequest.note}}</span> 
-                <span *ngIf="!activeRequest.seenByCompany" class="badge badge-danger">o</span>
+                <span [ngClass]="{ 'font-weight-bold' : activeRequest.seenByTalent === false }">{{activeRequest.company}}</span> 
+                <span *ngIf="!activeRequest.seenByTalent" class="badge badge-danger">o</span>
             </a>
           </ul>
         </div>
@@ -28,26 +28,24 @@
           </a>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <h5>Note: {{selectedRequest?.note}}</h5>
-          <a *ngIf="selectedRequest" class="text-secondary text-decoration-none nms-cursor">
-            <bi name="pencil-square" class="icon lead nms-pencil-square" (click)="openEditNoteDialog(editNoteDialog)"></bi>
-          </a>
+          <h5>Company: {{selectedRequest?.company}}</h5>
         </div>
         <h5>Terms</h5>
         <div class="nms-row" *ngFor="let talentTermRequest of selectedRequest.talentTermRequests; let i=index">
           <talent-term-request [talentTermRequest]="talentTermRequest" 
                                 [requestId]="selectedRequest.id" 
                                 [requestModifiedOn]="selectedRequest.modifiedOn"
-                                (selectedRequestCompanyChange)="selectedRequest=$event" 
+                                (selectedRequestTalentChange)="selectedRequest=$event" 
                                 (showRefreshBtnChange)="showRefreshBtn=true">
           </talent-term-request>
         </div>
+        <div class="btn btn-outline-danger btn-block rounded-pill shadow-none">Remove</div>
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #editNoteDialog let-modal>
+<!-- <ng-template #editNoteDialog let-modal>
   <form [formGroup]="editNoteForm" (ngSubmit)="editNote()" novalidate>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Edit note</h4>
@@ -73,4 +71,4 @@
       <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Save</button>
     </div>
   </form>
-</ng-template>
+</ng-template> -->

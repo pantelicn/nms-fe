@@ -6,13 +6,15 @@ import { SharedModule } from '../shared/shared.module';
 import { BootstrapModule } from '../shared/bootstrap.module';
 import { IconsModule } from '../shared/icons.module';
 import { TalentRoutingModule } from './talent-routing.module';
+import { RequestComponent } from './request/request.component';
 
 
 
 @NgModule({
   declarations: [
     NavComponent,
-    TalentComponent
+    TalentComponent,
+    RequestComponent
   ],
   imports: [
     CommonModule,
