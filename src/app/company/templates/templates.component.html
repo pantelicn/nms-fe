@@ -47,9 +47,10 @@
                     Please select type.
                   </div>
                 </div>
-                <div class="col">
-                  <select formControlName="code" 
-                          class="form-control" 
+                <div *ngIf="facets.controls[i].get('type')?.value !== ''" class="col">
+                  <select formControlName="code"
+                          (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
+                          class="form-control"
                           aria-label="Select skill"
                           [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched || submitted)) ? 'is-invalid' : ''">
                     <option value="" selected disabled>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
@@ -59,7 +60,7 @@
                     Please select skill.
                   </div>
                 </div>
-                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
                   <input formControlName="value" 
                   type="text" 
                   class="form-control" 
@@ -69,7 +70,7 @@
                     Please enter value.
                   </div>
                 </div>
-                <div *ngIf="facet.value.type === 'TERM'" class="col">
+                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
                   <select formControlName="operatorType" 
                           class="form-control" 
                           aria-label="Select operator"
@@ -93,7 +94,7 @@
               <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
             </a>
           </div>
-          <button class="btn btn-primary rounded-pill my-2 w-100" type="submit">Save</button>
+          <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="addTemplateForm.invalid || facets.length === 0" type="submit">Save</button>
           <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-danger btn-block rounded-pill shadow-none" (click)="openRemoveTemplateDialog(removeTemplateDialog)">Remove</div>
           <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
         </form>

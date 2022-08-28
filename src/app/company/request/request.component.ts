@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/shared/toast/toast.service";
-import { RequestDetailView, RequestService, RequestView, TalentTermRequestViewDto } from "./request.service";
-import { TalentTermRequestService } from "./talent-term-request.service";
+import { RequestDetailView, RequestService, RequestView } from "./request.service";
 
 @Component({
   selector: 'request',
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss']
 })
-export class RequestComponent implements OnInit {
+export class RequestComponent implements OnInit, OnDestroy {
 
   submitted:boolean = false;
   activeRequests: RequestView[] = [];
@@ -28,6 +27,7 @@ export class RequestComponent implements OnInit {
   showRefreshBtn: boolean = false;
   private modalRef?: NgbModalRef;
   private readonly TIME_INTERVAL_IN_SECONDS: number = 60000; // 60 seconds
+  intervalId: any;
 
   constructor(private fb:FormBuilder, 
               private requestService: RequestService,
@@ -36,7 +36,13 @@ export class RequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAllActiveRequests();
-    setInterval(()=> { this.findAllActiveRequests() }, this.TIME_INTERVAL_IN_SECONDS);
+    this.intervalId = setInterval(()=> { this.findAllActiveRequests() }, this.TIME_INTERVAL_IN_SECONDS);
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   findAllActiveRequests() {

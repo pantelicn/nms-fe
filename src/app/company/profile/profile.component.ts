@@ -3,6 +3,8 @@ import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { AuthService } from "src/app/auth/auth.service";
 import { Company } from "src/app/shared/model";
 import { ContactService, ContactView } from "src/app/shared/services/contact.service";
+import { ProductUsageService, ProductUsageView } from "src/app/shared/services/product-usage.service";
+import { SubscriptionService, SubscriptionView } from "src/app/shared/services/subscription.service";
 import { CompanyService } from "../company.service";
 import { BenefitService, BenefitView } from "./benefits/benefits.service";
 
@@ -16,6 +18,8 @@ export class ProfileComponent {
   company!: Company;
   contacts?: ContactView[];
   benefits?: BenefitView[];
+  subscription?: SubscriptionView;
+  productUsages: ProductUsageView[] = [];
   modalOptions: NgbModalOptions = {
     backdrop: true,
     backdropClass: 'customBackdrop',
@@ -26,7 +30,9 @@ export class ProfileComponent {
               private companyService: CompanyService,
               private modalService: NgbModal,
               private contactService: ContactService,
-              private benefitService: BenefitService) { }
+              private benefitService: BenefitService,
+              private subscriptionService: SubscriptionService,
+              private productUsageService: ProductUsageService) { }
 
   ngOnInit(): void {
     if (this.username) {
@@ -38,6 +44,13 @@ export class ProfileComponent {
       });
       this.benefitService.getAll().subscribe(response => {
         this.benefits = response;
+      });
+      this.subscriptionService.get().subscribe(response => {
+        this.subscription = response;
+      });
+      this.productUsageService.getForCompany().subscribe(response => {
+        console.log(response);
+        this.productUsages = response;
       });
     }
   }

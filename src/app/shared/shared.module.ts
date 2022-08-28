@@ -17,6 +17,7 @@ import { MessagesChatViewComponent } from './components/messages/messages-chat/m
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessagesNewUserComponent } from './components/messages/messages-new-user/messages-new-user.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { TalentTermRequestComponent } from './components/talent-term-request/talent-term-request.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MessagesChatComponent,
     MessagesChatInputComponent,
     MessagesChatViewComponent,
-    MessagesNewUserComponent
+    MessagesNewUserComponent,
+    TalentTermRequestComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   exports: [
     PostComponent,
     TalentComponent,
-    ToastComponent
+    ToastComponent,
+    TalentTermRequestComponent
   ]
 })
 export class SharedModule { }

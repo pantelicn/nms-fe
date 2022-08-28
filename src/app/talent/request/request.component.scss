@@ -1,0 +1,37 @@
+.requests-list {
+  height:300px;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.card-body-requests {
+  padding: 0px;
+}
+
+.requests-list > .list-group-item {
+  border: none;
+  border-radius: 0px;
+  text-decoration: none;
+  color: #495057;
+  border-left: 4px solid white;
+}
+
+.requests-list > a:hover {
+  border-left: 4px solid #17a2b8 !important;
+}
+
+.selected-request {
+  border-left: 4px solid #17a2b8 !important;
+}
+
+.nms-pencil-square {
+  height: 2em;
+}
+
+.nms-row {
+  padding-bottom: 15px;
+}
+
+.nms-cursor:hover {
+  cursor: pointer;
+}

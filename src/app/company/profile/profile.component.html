@@ -10,6 +10,10 @@
           <bi class="icon mr-1 text-primary" name="geo-alt"></bi>
           {{company.location.city}}, {{company.location.country}}
         </div>
+        <div class="mt-3 d-flex">
+          <bi class="icon mr-1 text-primary" name="box"></bi>
+          {{subscription?.plan?.name}}
+        </div>
       </div>
     </div>
     <div class="col-lg-8 col-md-7">
@@ -68,6 +72,31 @@
             <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
               <bi name="pencil-square" class="lead nms-pencil-square"></bi>
             </a>
+          </div>
+        </div>
+      </div>
+      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="col-md-12">
+            <h3>Subcription</h3>
+            <div class="mb-2">
+              <p>
+                <b>{{subscription?.plan?.name}}</b> - {{subscription?.plan?.description}}
+                <br/>
+                <b>Active</b> - {{subscription?.startDate}} - {{subscription?.endDate}}
+                <br/>
+              </p>
+            </div>
+            <div *ngFor="let productUsage of productUsages" class="mb-2">
+              <h4>{{productUsage.product.name}}</h4>
+              <p>
+                {{productUsage.product.description}}
+                <br />
+                Remaining  <b>{{productUsage.remaining}}</b>
+                <br />
+                Valid to <b>{{productUsage.endDate}}</b>
+              </p>
+            </div>
           </div>
         </div>
       </div>

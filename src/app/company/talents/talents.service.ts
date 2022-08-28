@@ -51,7 +51,8 @@ export interface FacetSpecifierDto {
   type: string,
   code: string,
   value: string,
-  operatorType: string
+  operatorType: string,
+  codeType?: string
 }
 
 @Injectable({
@@ -65,7 +66,7 @@ export class TalentService {
 
   find(facetSpecifiers: FacetSpecifierDto[]) {
     facetSpecifiers.forEach(facetSpecifier => {
-      if (facetSpecifier.type !== 'TERM') {
+      if (facetSpecifier.type !== 'TERM' || facetSpecifier.codeType === 'BOOLEAN') {
         facetSpecifier.value = facetSpecifier.code;
         facetSpecifier.operatorType = 'EQ'
       }

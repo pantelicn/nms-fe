@@ -34,6 +34,7 @@ export class TalentsComponent implements OnInit {
   selectedTalent?: TalentViewSearchDto;
   negotiableTerms: TalentTermViewDto[] = [];
   nonNegotiableTerms: TalentTermViewDto[] = [];
+  noFoundTalents: boolean = false;
   termTypes = [{
     "name": "Position",
     "value": "POSITION"
@@ -116,6 +117,10 @@ export class TalentsComponent implements OnInit {
       let facetGroup = this.existingFacet(facet);
       this.facets.push(facetGroup);
       this.setCodes(facetGroup.get('type'), i);
+      if (facetGroup.get('type')?.value === 'TERM') {
+        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      }
     }
     this.selectedTemplate = template;
   }
@@ -149,18 +154,19 @@ export class TalentsComponent implements OnInit {
       this.removeValueAndOperatorTypeControlls(index);
     } else if (value.value === 'TERM') {
       this.terms.forEach((term => {
-        codes.push(this.newCode(term.name, term.code));
+        codes.push(this.newCode(term.name, term.code, term.type));
       }));
-      this.addValueAndOperatorTypeControlls(index);
+      //this.addValueAndOperatorTypeControlls(index);
     }
 
     this.codes.set(index, codes);
   }
 
-  newCode(name: string, code: string) {
+  newCode(name: string, code: string, type?: string) {
     return {
       'name': name,
-      'code': code
+      'code': code,
+      'type': type
     }
   }
 
@@ -172,6 +178,17 @@ export class TalentsComponent implements OnInit {
         if (code) {
           this.codes.set(i, code);
         }
+    }
+  }
+
+  setCodeType(selectedType: any, selectedCode: any, index: number) {
+    if (selectedType.value === 'TERM') {
+      const codeDetail = this.codes.get(index)?.find(({code}) => code === selectedCode.value);
+      (this.facets.at(index) as FormGroup).removeControl('codeType');
+      (this.facets.at(index) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      if (codeDetail?.type != 'BOOLEAN') {
+        this.addValueAndOperatorTypeControlls(index);
+      }
     }
   }
 
@@ -196,6 +213,7 @@ export class TalentsComponent implements OnInit {
   search() {
     this.talentService.find(this.searchTalentsForm.value.facets).subscribe(response => {
       this.searchResult = response;
+      this.noFoundTalents = response.content.length === 0;
     });
   }
 
