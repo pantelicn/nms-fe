@@ -1,15 +1,25 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  AuthenticationDetails,
-  CognitoUser,
-  CognitoUserPool,
-  CognitoUserSession,
-  IAuthenticationDetailsData
-} from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
 import { User } from '../shared/model/user.model';
 import { ToastService } from '../shared/toast/toast.service';
+
+export interface LoginSuccessResponse {
+  username: string,
+  token: string,
+  roles: string[]
+}
+
+interface JwtPayload {
+  sub: string,
+  roles: string
+}
+
+export interface LoginRequest {
+  username: string,
+  password: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +28,22 @@ export class AuthService {
 
   private user!: User;
   private authenticated = false;
-  private readonly userPool: CognitoUserPool;
+  private readonly loginApi = 'http://localhost:8080/api/login';
 
-  constructor(private router: Router, private toastService: ToastService) {
-    this.userPool = new CognitoUserPool({
-        UserPoolId: environment.cognito.userPoolId,
-        ClientId: environment.cognito.appClientId
-    });
-    this.initUser();
-  }
-
-  private initUser(): void {
-    const cognitoUser = this.userPool.getCurrentUser();
-    if (cognitoUser) {
-      cognitoUser.getSession((_: null, session: CognitoUserSession) => this.setCurrentUser(session));
+  constructor(private router: Router, 
+              private toastService: ToastService,
+              private httpClient: HttpClient) {
+                const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      const encodedPayload = jwt.split(".")[1];
+      const payload: JwtPayload = JSON.parse(atob(encodedPayload));
+      const roles = [];
+      roles.push(payload.roles);
+      if (roles.includes('ROLE_COMPANY')) {
+        this.user = { username: payload.sub, role: 'COMPANY', idToken: jwt };
+      } else {
+        this.user = { username: payload.sub, role: 'TALENT', idToken: jwt };
+      }
     }
   }
 
@@ -43,41 +55,31 @@ export class AuthService {
     return this.authenticated;
   }
 
-  login(formData: IAuthenticationDetailsData) {
-    const authenticationDetails = new AuthenticationDetails(formData);
-    const cognitoUser = new CognitoUser({
-      Username: formData.Username,
-      Pool: this.userPool
-    });
-    cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (session: CognitoUserSession) => this.setCurrentUser(session),
-      onFailure: (error: Error) => this.toastService.error('Error logging in.', error.message)
+  login(loginRequest: LoginRequest) {
+    this.httpClient.post<LoginSuccessResponse>(this.loginApi, loginRequest).subscribe(response => {
+      this.setCurrentUser(response.token, response.username, response.roles);
+    },
+    error => {
+      this.toastService.error('Error logging in.', error.message);
     });
   }
 
   logout(): void {
-    this.userPool.getCurrentUser()?.signOut(() => {
-      this.authenticated = false;
-      this.router.navigate(['/login']);
-    });
+    this.authenticated = false;
+    this.router.navigate(['/login']);
+    localStorage.removeItem('jwt');
   }
 
-  private setCurrentUser(session: CognitoUserSession): void {
-    if (session.isValid()) {
-      this.authenticated = true;
-      const idToken = session.getIdToken().getJwtToken();
-      const username = session.getIdToken().decodePayload()['email'];
-      const groups: string[] = session.getIdToken().decodePayload()['cognito:groups'];
-      if (groups?.includes('TALENT')) {
-        this.user = { username, idToken, role: 'TALENT' };
-        this.router.navigate(['/talent']);
-      } else if (groups?.includes('COMPANY')) {
-        this.user = { username, idToken, role: 'COMPANY' };
-        this.router.navigate(['/company']);
-      }
-    } else {
-      this.authenticated = false;
+  private setCurrentUser(token: string, username: string, groups: string[]): void {
+    this.authenticated = true;
+    if (groups?.includes('ROLE_TALENT')) {
+      this.user = { username, role: 'TALENT', idToken: token };
+      this.router.navigate(['/talent']);
+    } else if (groups?.includes('ROLE_COMPANY')) {
+      this.user = { username, role: 'COMPANY', idToken: token };
+      this.router.navigate(['/company']);
     }
+    localStorage.setItem("jwt", token);
   }
 
 }

@@ -7,6 +7,7 @@ import { BootstrapModule } from '../shared/bootstrap.module';
 import { IconsModule } from '../shared/icons.module';
 import { TalentRoutingModule } from './talent-routing.module';
 import { RequestComponent } from './request/request.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -14,7 +15,8 @@ import { RequestComponent } from './request/request.component';
   declarations: [
     NavComponent,
     TalentComponent,
-    RequestComponent
+    RequestComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

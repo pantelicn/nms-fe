@@ -23,8 +23,8 @@ export class LoginComponent {
     this.submitted = true;
     if (this.loginForm.valid) {
       this.authService.login({
-        Username: this.username?.value,
-        Password: this.password?.value
+        username: this.username?.value,
+        password: this.password?.value
       });
     }
   }
