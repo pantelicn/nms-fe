@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/shared/toast/toast.service";
@@ -17,6 +17,7 @@ export class AddPostComponent {
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
   });
+  @Output() postAddedChange = new EventEmitter<void>();
 
   constructor(private modalService: NgbModal, 
               private addPostService: AddPostService,
@@ -43,6 +44,7 @@ export class AddPostComponent {
   }
 
   private onAddPostSuccess() {
+    this.postAddedChange.emit();
     this.modalService.dismissAll();
     this.addPostForm.reset();
     this.toastService.show('', 'Post has been added.');

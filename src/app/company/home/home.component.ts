@@ -7,6 +7,16 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  remainingPosts: number = 0;
+
   constructor() { }
+
+  decreaseRemainingPosts() {
+    this.remainingPosts = this.remainingPosts - 1;
+  }
+
+  setRemainingPosts(remainingPosts: any) {
+    this.remainingPosts = remainingPosts;
+  }
 
 }

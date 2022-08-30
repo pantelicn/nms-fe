@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from 'src/app/shared/model';
 import { ProductUsageService } from 'src/app/shared/services/product-usage.service';
@@ -12,7 +12,8 @@ import { CompanyService } from '../../company.service';
 export class HomeProfileComponent implements OnInit {
 
   company!: Company;
-  remainingPosts: number = 0;
+  @Input() remainingPosts: number = 0;
+  @Output() remainingPostsChange = new EventEmitter<number>();
 
   constructor(private authService: AuthService, 
               private companyService: CompanyService, 
@@ -24,7 +25,10 @@ export class HomeProfileComponent implements OnInit {
         company => this.company = company
       );
       this.productUsageService.getRemainingPosts().subscribe(
-        remainingPosts => this.remainingPosts = remainingPosts
+        remainingPosts => {
+          this.remainingPosts = remainingPosts;
+          this.remainingPostsChange.emit(remainingPosts);
+        }
       )
     }
   }
