@@ -71,7 +71,10 @@ export class TalentService {
         facetSpecifier.operatorType = 'EQ'
       }
     });
-    return this.httpClient.post<SearchPageResponse>(this.talentFindApi + "find", facetSpecifiers);
+    const data = {
+      facets: facetSpecifiers
+    };
+    return this.httpClient.post<SearchPageResponse>(this.talentFindApi + "find", data);
   }
 
 }
