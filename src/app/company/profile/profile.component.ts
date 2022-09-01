@@ -6,7 +6,7 @@ import { ContactService, ContactView } from "src/app/shared/services/contact.ser
 import { ProductUsageService, ProductUsageView } from "src/app/shared/services/product-usage.service";
 import { SubscriptionService, SubscriptionView } from "src/app/shared/services/subscription.service";
 import { CompanyService } from "../company.service";
-import { BenefitService, BenefitView } from "./benefits/benefits.service";
+import { BenefitService, BenefitView } from "../../shared/services/benefits.service";
 
 @Component({
   selector: 'profile',

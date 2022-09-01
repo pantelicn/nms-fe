@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/shared/toast/toast.service";
-import { BenefitService, BenefitView } from "./benefits.service";
+import { BenefitService, BenefitView } from "../../../shared/services/benefits.service";
 
 @Component({
   selector: 'edit-benefits',
