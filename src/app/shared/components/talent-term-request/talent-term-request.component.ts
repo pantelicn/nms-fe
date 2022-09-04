@@ -66,33 +66,35 @@ export class TalentTermRequestComponent implements OnInit {
       }
     }
     if (this.user?.role === 'COMPANY') {
-      this.talentTermRequestService.editByCompany(editCounterOfferRequest).subscribe(response => {
-        this.selectedRequestCompanyChange.emit(response);
-        this.toastService.show('', 'Counter offer has been modified.');
-        this.modalRef?.close();
-      }, 
-      (error: HttpErrorResponse) => {
-        if (error.status === HttpStatusCode.Conflict) {
-          this.showRefreshBtnChange.emit();
-          this.toastService.warning('', 'Please refresh request before editing talent terms!');
+      this.talentTermRequestService.editByCompany(editCounterOfferRequest).subscribe({
+        next: (response) => {
+          this.selectedRequestCompanyChange.emit(response);
+          this.toastService.show('', 'Counter offer has been modified.');
           this.modalRef?.close();
-        } 
-      });
+        }, 
+        error: (error: HttpErrorResponse) => {
+          if (error.status === HttpStatusCode.Conflict) {
+            this.showRefreshBtnChange.emit();
+            this.toastService.warning('', 'Please refresh request before editing talent terms!');
+            this.modalRef?.close();
+          } 
+      }});
     } else {
-      this.talentTermRequestService.editByTalent(editCounterOfferRequest).subscribe(response => {
+      this.talentTermRequestService.editByTalent(editCounterOfferRequest).subscribe({
+        next: response => {
         this.selectedRequestTalentChange.emit(response);
         this.toastService.show('', 'Counter offer has been modified.');
         this.modalRef?.close();
-      }, 
-      (error: HttpErrorResponse) => {
+      },
+      error: (error: HttpErrorResponse) => {
         if (error.status === HttpStatusCode.Conflict) {
           this.showRefreshBtnChange.emit();
           this.toastService.warning('', 'Please refresh request before editing talent terms!');
           this.modalRef?.close();
         } 
-      });
+      }
+    });
     }
-    
   }
 
   sendCounterOffer() {
@@ -111,16 +113,33 @@ export class TalentTermRequestComponent implements OnInit {
       }
     }
     if (this.user?.role === 'COMPANY') {
-      this.talentTermRequestService.editByCompany(editCounterOfferRequest).subscribe(response => {
+      this.talentTermRequestService.editByCompany(editCounterOfferRequest).subscribe({next: response => {
         this.selectedRequestCompanyChange.emit(response);
         this.toastService.show('', 'Counter offer has been sent.');
         this.modalRef?.close();
-      })
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === HttpStatusCode.Conflict) {
+          this.showRefreshBtnChange.emit();
+          this.toastService.warning('', 'Please refresh request before editing talent terms!');
+          this.modalRef?.close();
+        }
+      }}
+      )
     } else {
-      this.talentTermRequestService.editByTalent(editCounterOfferRequest).subscribe(response => {
-        this.selectedRequestTalentChange.emit(response);
-        this.toastService.show('', 'Counter offer has been sent.');
-        this.modalRef?.close();
+      this.talentTermRequestService.editByTalent(editCounterOfferRequest).subscribe({
+        next: response => {
+          this.selectedRequestTalentChange.emit(response);
+          this.toastService.show('', 'Counter offer has been sent.');
+          this.modalRef?.close();
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === HttpStatusCode.Conflict) {
+            this.showRefreshBtnChange.emit();
+            this.toastService.warning('', 'Please refresh request before editing talent terms!');
+            this.modalRef?.close();
+          }
+        }
       })
     }
   }

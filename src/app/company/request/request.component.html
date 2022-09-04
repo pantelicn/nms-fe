@@ -22,16 +22,15 @@
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3>Request info</h3>
-          <a *ngIf="showRefreshBtn && selectedRequest" class="text-secondary text-decoration-none nms-cursor">
-            <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
-          </a>
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <h5>Note: {{selectedRequest?.note}}</h5>
-          <a *ngIf="selectedRequest" class="text-secondary text-decoration-none nms-cursor">
-            <bi name="pencil-square" class="icon lead nms-pencil-square" (click)="openEditNoteDialog(editNoteDialog)"></bi>
-          </a>
+          <h3>{{selectedRequest?.note}}</h3>
+          <div class="d-flex justify-content-between align-items-center">
+            <a *ngIf="showRefreshBtn && selectedRequest" class="text-secondary text-decoration-none nms-cursor">
+              <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
+            </a>
+            <a *ngIf="selectedRequest" class="text-secondary text-decoration-none nms-cursor">
+              <bi name="pencil-square" class="icon lead nms-pencil-square" (click)="openEditNoteDialog(editNoteDialog)"></bi>
+            </a>
+          </div>
         </div>
         <hr/>
         <div>
