@@ -33,6 +33,27 @@
             <bi name="pencil-square" class="icon lead nms-pencil-square" (click)="openEditNoteDialog(editNoteDialog)"></bi>
           </a>
         </div>
+        <hr/>
+        <div>
+          <h5>Talent details</h5>
+          <div class="m-0">
+            Positions
+          </div>
+          <div class="font-weight-light text-secondary m-0 text-date">
+            <span *ngFor="let position of selectedRequest.positions; let positionIndex = index">
+              {{position.name}} {{positionIndex != selectedRequest.positions.length - 1 ? ',' : ''}}
+            </span>
+          </div>
+          <div class="m-0">
+            Skills
+          </div>
+          <div class="font-weight-light text-secondary m-0 text-date">
+            <span *ngFor="let skill of selectedRequest.skills;let skillIndex = index">
+              {{skill.name}} {{skillIndex != selectedRequest.skills.length - 1 ? ',' : ''}}
+            </span>
+          </div>
+        </div>
+        <hr/>
         <h5>Terms</h5>
         <div class="nms-row" *ngFor="let talentTermRequest of selectedRequest.talentTermRequests; let i=index">
           <talent-term-request [talentTermRequest]="talentTermRequest" 
