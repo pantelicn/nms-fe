@@ -27,7 +27,11 @@
       <small>Requests</small>
     </a>
     <a href="#" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
-      <bi name="bell-fill" class="icon lead"></bi>
+      <bi name="bell-fill" class="icon lead">
+      </bi>
+      <span *ngIf="numberOfunseenNotifications > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+        {{numberOfunseenNotifications}}
+      </span>
       <small>Notifications</small>
     </a>
     <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
