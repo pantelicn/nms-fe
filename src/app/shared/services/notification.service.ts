@@ -3,6 +3,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
+export interface NotificationResponse {
+  unseenRequests: number,
+  lastRequestId?: number
+}
+
 export interface NotificationPage {
   content: NotificationView[],
   pageable: Pageable,
@@ -33,10 +38,16 @@ export class NotificationService {
 
   constructor(private http: HttpClient) { }
 
-  findAll(page: number):Observable<NotificationPage> {
+  findAllUnseen(page: number):Observable<NotificationResponse> {
     let params = new HttpParams();
     params = params.append('page', page);
-    return this.http.get<NotificationPage>(this.notificationApi, {params: params});
+    return this.http.get<NotificationResponse>(this.notificationApi, {params: params});
+  }
+
+  setRequestsToSeen(lastVisibleRequestId: number):Observable<void> {
+    let params = new HttpParams();
+    params = params.append('lastVisibleRequestId', lastVisibleRequestId);
+    return this.http.put<void>(this.notificationApi + '/requests/seen', null, {params: params});
   }
 
 }

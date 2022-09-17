@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { NotificationService, NotificationView } from 'src/app/shared/services/notification.service';
+import { NotificationResponse, NotificationService, NotificationView } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'nms-nav',
@@ -14,6 +14,8 @@ export class NavComponent implements OnInit, OnDestroy {
   intervalId: any;
   notifications: NotificationView[] = [];
   numberOfunseenNotifications = 0;
+  notificationStatus?: NotificationResponse;
+  requestNotifications: NotificationView[] = []
 
   constructor(private authService: AuthService,
               private notificationService: NotificationService) { }
@@ -23,8 +25,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.findAllNotifications(0);
-    this.intervalId = setInterval(()=> { this.findAllNotifications(0) }, this.TIME_INTERVAL_IN_SECONDS);
+    this.findAllUnseenNotifications(0);
+    this.intervalId = setInterval(()=> { this.findAllUnseenNotifications(0) }, this.TIME_INTERVAL_IN_SECONDS);
   }
 
   ngOnDestroy(): void {
@@ -33,15 +35,24 @@ export class NavComponent implements OnInit, OnDestroy {
     }
   }
 
-  findAllNotifications(page: number) {
-    this.notificationService.findAll(page).subscribe({
+  findAllUnseenNotifications(page: number) {
+    this.notificationService.findAllUnseen(page).subscribe({
       next: response => {
-        this.notifications = response.content;
-        this.notifications.forEach(notification => {
-          if (!notification.sean) {
-            this.numberOfunseenNotifications++;
-          }
-        })
+        this.notificationStatus = response;
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  setRequestsToSeen() {
+    if (!this.notificationStatus || this.notificationStatus.unseenRequests === 0 || !this.notificationStatus.lastRequestId) {
+      return;
+    }
+    this.notificationService.setRequestsToSeen(this.notificationStatus.lastRequestId).subscribe({
+      next: response => {
+        this.findAllUnseenNotifications(0);
       },
       error: error => {
 
