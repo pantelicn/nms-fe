@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { NotificationResponse, NotificationService, NotificationView } from 'src/app/shared/services/notification.service';
+import { NotificationResponse, NotificationService, NotificationType, NotificationView } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'nms-nav',
@@ -25,8 +25,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.findAllUnseenNotifications(0);
-    this.intervalId = setInterval(()=> { this.findAllUnseenNotifications(0) }, this.TIME_INTERVAL_IN_SECONDS);
+    this.findAll(0);
+    this.intervalId = setInterval(()=> { this.findAll(0) }, this.TIME_INTERVAL_IN_SECONDS);
   }
 
   ngOnDestroy(): void {
@@ -35,8 +35,8 @@ export class NavComponent implements OnInit, OnDestroy {
     }
   }
 
-  findAllUnseenNotifications(page: number) {
-    this.notificationService.findAllUnseen(page).subscribe({
+  findAll(page: number) {
+    this.notificationService.findAll(page).subscribe({
       next: response => {
         this.notificationStatus = response;
       },
@@ -50,9 +50,23 @@ export class NavComponent implements OnInit, OnDestroy {
     if (!this.notificationStatus || this.notificationStatus.unseenRequests === 0 || !this.notificationStatus.lastRequestId) {
       return;
     }
-    this.notificationService.setRequestsToSeen(this.notificationStatus.lastRequestId).subscribe({
+    this.notificationService.setNotificationToSeen(this.notificationStatus.lastRequestId, NotificationType.REQUEST).subscribe({
       next: response => {
-        this.findAllUnseenNotifications(0);
+        this.findAll(0);
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  setMessagesToSeen() {
+    if (!this.notificationStatus || this.notificationStatus.unseenMessages === 0 || !this.notificationStatus.lastMessageId) {
+      return;
+    }
+    this.notificationService.setNotificationToSeen(this.notificationStatus.lastMessageId, NotificationType.MESSAGE).subscribe({
+      next: response => {
+        this.findAll(0);
       },
       error: error => {
 

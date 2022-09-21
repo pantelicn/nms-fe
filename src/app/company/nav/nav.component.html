@@ -23,13 +23,19 @@
       <bi name="card-list" class="icon lead"></bi>
       <small>Templates</small>
     </a>
-    <a routerLink="/company/messages" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a [routerLink]="['messages']" [routerLinkActiveOptions]="{exact: true}" (click)="setMessagesToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="envelope-fill" class="icon lead"></bi>
       <small>Messages</small>
+      <span *ngIf="notificationStatus && notificationStatus.unseenMessages > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+        {{notificationStatus.unseenMessages}}
+      </span>
     </a>
-    <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" (click)="setRequestsToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="person-bounding-box" class="icon lead"></bi>
       <small>Requests</small>
+      <span *ngIf="notificationStatus && notificationStatus.unseenRequests > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+        {{notificationStatus.unseenRequests}}
+      </span>
     </a>
     <a href="#" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="bell-fill" class="icon lead"></bi>
