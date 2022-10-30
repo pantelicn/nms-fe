@@ -53,13 +53,16 @@ export class EditTalentTermsComponent implements OnInit {
   }
 
   add(newTalentTerm: TalentTermAdd) {
-    this.talentTermService.add([newTalentTerm]).subscribe(result => {
-      this.talentTerms.push(result[0]);
-      this.pushToTalentTermsFormArray(result[0]);
-      this.showSaveButton = false;
-      this.newTalentTermForm.reset({code: '', value: '', negotiable: true});
-      this.showAddNewTalentTermForm = false;
-      this.toastService.show('', 'Added term.');
+    this.talentTermService.add([newTalentTerm]).subscribe({
+      next: result => {
+        this.talentTerms.push(result[0]);
+        this.pushToTalentTermsFormArray(result[0]);
+        this.showSaveButton = false;
+        this.newTalentTermForm.reset({code: '', value: '', negotiable: true});
+        this.showAddNewTalentTermForm = false;
+        this.toastService.show('', 'Added term.');
+      },
+      error: error => this.toastService.error("", error.error.message)
     });
   }
 

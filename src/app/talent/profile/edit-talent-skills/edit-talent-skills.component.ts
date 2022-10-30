@@ -29,10 +29,13 @@ export class EditTalentSkillsComponent implements OnInit {
   }
 
   add(code: string): void {
-    this.skillService.add(code).subscribe(skill => {
-      this.talentSkills.push(skill);
-      this.talentSkillsChanged.emit(this.talentSkills);
-      this.toastService.show('', 'Skill added.')
+    this.skillService.add(code).subscribe({
+      next: skill => {
+        this.talentSkills.push(skill);
+        this.talentSkillsChanged.emit(this.talentSkills);
+        this.toastService.show('', 'Skill added.')
+      },
+      error: error => this.toastService.error("", error.error.message)
     });
   }
 
