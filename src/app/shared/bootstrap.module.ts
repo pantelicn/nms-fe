@@ -5,7 +5,8 @@ import {
   NgbToastModule,
   NgbDatepickerModule,
   NgbDropdownModule,
-  NgbModalModule
+  NgbModalModule,
+  NgbTypeaheadModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -17,7 +18,8 @@ import {
     NgbToastModule,
     NgbDatepickerModule,
     NgbDropdownModule,
-    NgbModalModule
+    NgbModalModule,
+    NgbTypeaheadModule
   ],
   exports: [
     NgbNavModule,
@@ -25,7 +27,8 @@ import {
     NgbToastModule,
     NgbDatepickerModule,
     NgbDropdownModule,
-    NgbModalModule
+    NgbModalModule,
+    NgbTypeaheadModule
   ]
 })
 export class BootstrapModule { }

@@ -1,0 +1,110 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit terms</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="!talentTerms.length && !showAddNewTalentTermForm" class="d-flex justify-content-center my-3">You have no terms yet. Add them bellow.</div>
+    <form [formGroup]="editTalentTermsForm" (ngSubmit)="edit(talentTermsFormArray.value)" novalidate>
+      <div formArrayName="talentTermsFormArray">
+        <div [formGroupName]="i" *ngFor="let talentTerm of talentTermsFormArray.controls; let i=index">
+          <div class="d-flex justify-content-between align-items-center">
+            {{talentTerms[i].term.name}}
+            <div class="d-flex">
+              <div class="form-group mx-1">
+                <input type="text" 
+                      class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                      formControlName="value" 
+                      placeholder="Value" 
+                      [class]="(talentTermsFormArray.controls[i].get('value')?.invalid && (talentTermsFormArray.controls[i].get('value')?.dirty || talentTermsFormArray.controls[i].get('value')?.touched)) ? 'is-invalid' : ''" />
+                <div *ngIf="talentTermsFormArray.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+                  Please enter term value!
+                </div>
+              </div>
+              <fieldset class="form-group mx-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [id]="'negotiable-radio' + i" formControlName="negotiable" [value]="true" [checked]="talentTermsFormArray.controls[i].get('negotiable')?.value === true">
+                  <label class="form-check-label" [for]="'negotiable-radio' + i">Negotiable</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [id]="'non-negotiable-radio' + i" formControlName="negotiable" [value]="false" [checked]="talentTermsFormArray.controls[i].get('negotiable')?.value === false">
+                  <label class="form-check-label" [for]="'non-negotiable-radio' + i">Non-negotiable</label>
+                </div>
+              </fieldset>
+              <a class="ml-1 text-secondary text-decoration-none nms-cursor" (click)="removeTalentTerm(i)">
+                <bi name="x-circle" class="nms-icon"></bi>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a *ngIf="!showAddNewTalentTermForm" class="text-secondary text-decoration-none nms-cursor" (click)="showAddNewTalentTermForm = true">
+          <bi name="plus-circle" class="lead nms-icon nms-add"></bi>
+        </a>
+      </div>
+      <button *ngIf="!showAddNewTalentTermForm && showSaveButton" class="btn btn-primary rounded-pill w-100 mt-3" [disabled]="editTalentTermsForm.invalid" type="submit">Save</button>
+    </form>
+    <form *ngIf="showAddNewTalentTermForm" [formGroup]="newTalentTermForm" (ngSubmit)="add(newTalentTermForm.value)" novalidate>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="form-group">
+          <select formControlName="code" 
+                  class="form-control" 
+                  [class]="(newTalentTermForm.get('code')?.invalid && (newTalentTermForm.get('code')?.dirty || newTalentTermForm.get('code')?.touched)) ? 'is-invalid' : ''">
+            <option value="" selected disabled hidden>Select term</option>
+            <option *ngFor="let term of terms" [value]="term.code">{{term.name}}</option>
+          </select>
+        </div>
+        <div class="d-flex">
+          <div class="form-group mx-1">
+            <input *ngIf="getTermType(newTalentTermForm.get('code')?.value) === 'INT'" type="number" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="value" 
+                  placeholder="Value" 
+                  [class]="(newTalentTermForm.get('value')?.invalid && (newTalentTermForm.get('value')?.dirty || newTalentTermForm.get('value')?.touched)) ? 'is-invalid' : ''" />
+            <input *ngIf="getTermType(newTalentTermForm.get('code')?.value) === 'STRING'" type="text" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="value" 
+                  placeholder="Value" 
+                  [class]="(newTalentTermForm.get('value')?.invalid && (newTalentTermForm.get('value')?.dirty || newTalentTermForm.get('value')?.touched)) ? 'is-invalid' : ''" />
+            <input *ngIf="getTermType(newTalentTermForm.get('code')?.value) === 'DATE'" type="date" 
+                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  formControlName="value" 
+                  placeholder="Value" 
+                  [class]="(newTalentTermForm.get('value')?.invalid && (newTalentTermForm.get('value')?.dirty || newTalentTermForm.get('value')?.touched)) ? 'is-invalid' : ''" />
+            <fieldset *ngIf="getTermType(newTalentTermForm.get('code')?.value) === 'BOOLEAN'">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="'true-value-radio" formControlName="value" [value]="true" [checked]="newTalentTermForm.get('value')?.value === true">
+                <label class="form-check-label" for="true-value-radio">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="false-value-radio" formControlName="value" [value]="false" [checked]="newTalentTermForm.get('value')?.value === false">
+                <label class="form-check-label" for="false-value-radio" >No</label>
+              </div>
+            </fieldset>
+            <div *ngIf="newTalentTermForm.get('value')?.errors?.['required']" class="invalid-feedback">
+              Please enter value!
+            </div>
+          </div>
+          <fieldset class="form-group mx-1">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="'negotiable-radio" formControlName="negotiable" [value]="true" [checked]="newTalentTermForm.get('negotiable')?.value === true">
+              <label class="form-check-label" for="negotiable-radio">Negotiable</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="non-negotiable-radio" formControlName="negotiable" [value]="false" [checked]="newTalentTermForm.get('negotiable')?.value === false">
+              <label class="form-check-label" for="non-negotiable-radio" >Non-negotiable</label>
+            </div>
+          </fieldset>
+          <a class="ml-1 text-secondary text-decoration-none nms-cursor">
+            <bi name="x-circle" class="nms-icon"></bi>
+          </a>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary rounded-pill w-100 m-2" [disabled]="newTalentTermForm.invalid" type="submit">Add</button>
+        <button class="btn btn-secondary rounded-pill w-100 m-2" type="button" (click)="showAddNewTalentTermForm = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

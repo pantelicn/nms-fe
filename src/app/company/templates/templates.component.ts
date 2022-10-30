@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Code } from "ng-bootstrap-icons/icons";
+import { Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "./position/position.service";
-import { SkillService, SkillView } from "./skill/skill.service";
+import { SkillService } from "../../shared/services/skill.service";
 import { Facet, TemplateService, TemplateView } from "./templates.service";
 import { TermService, TermView } from "./term/term.service";
 
@@ -63,7 +64,7 @@ export class TemplatesComponent implements OnInit {
 
   positions: PositionView[] = [];
 
-  skills: SkillView[] = [];
+  skills: Skill[] = [];
 
   terms: TermView[] = [];
 

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Term } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
 
 export interface TermView {
@@ -18,10 +19,10 @@ export class TermService {
 
   constructor(private httpClient: HttpClient) { }
 
-  findAvailableForSearch(): Observable<TermView[]> {
+  findAvailableForSearch(): Observable<Term[]> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("availableForSearch", true);
-    return this.httpClient.get<TermView[]>(this.termsApi, {params: queryParams}); 
+    return this.httpClient.get<Term[]>(this.termsApi, {params: queryParams}); 
   }
 
 }
