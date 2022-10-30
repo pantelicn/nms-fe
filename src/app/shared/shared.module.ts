@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MessagesNewUserComponent } from './components/messages/messages-new-user/messages-new-user.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TalentTermRequestComponent } from './components/talent-term-request/talent-term-request.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { TalentTermRequestComponent } from './components/talent-term-request/tal
     MessagesChatInputComponent,
     MessagesChatViewComponent,
     MessagesNewUserComponent,
-    TalentTermRequestComponent
+    TalentTermRequestComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { TalentTermRequestComponent } from './components/talent-term-request/tal
     PostComponent,
     TalentComponent,
     ToastComponent,
-    TalentTermRequestComponent
+    TalentTermRequestComponent,
+    SpinnerComponent
   ]
 })
 export class SharedModule { }

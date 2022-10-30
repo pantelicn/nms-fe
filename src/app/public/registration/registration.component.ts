@@ -11,6 +11,9 @@ import { RegistrationService } from '..';
 })
 export class RegistrationComponent {
 
+  registrationFinished: boolean = false;
+  showSpinner = false;
+
   constructor(
     private registrationService: RegistrationService,
     private toastService: ToastService,
@@ -51,8 +54,11 @@ export class RegistrationComponent {
       ...this.registrationForm.value,
       ...companyDetails
     }
-
-    this.registrationService.registerCompany(formData).subscribe(() => this.onRegistrationSuccess());
+    this.showSpinner = true;
+    this.registrationService.registerCompany(formData).subscribe(() => {
+      this.showSpinner = false;
+        this.onRegistrationSuccess();
+      });
   }
 
   onTalentRegistered(talentDetails: AbstractControl): void {
@@ -62,8 +68,11 @@ export class RegistrationComponent {
       ...this.registrationForm.value,
       ...talentDetails
     }
-
-    this.registrationService.registerTalent(formData).subscribe(() => this.onRegistrationSuccess());
+    this.showSpinner = true;
+    this.registrationService.registerTalent(formData).subscribe(() => {
+      this.showSpinner = false;
+      this.onRegistrationSuccess();
+    });
   }
 
   private onRegistrationSuccess() {
@@ -71,7 +80,7 @@ export class RegistrationComponent {
       'Successful registration!',
       'A message has been sent to your inbox. Please validate your email before logging in.'
     );
-    this.router.navigate(['/login']);
+    this.registrationFinished = true;
   }
 
   get username() {

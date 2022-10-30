@@ -13,6 +13,7 @@ import { CompanyRegistrationComponent } from './company-registration/company-reg
 import { RegistrationComponent } from './registration/registration.component';
 import { TalentRegistrationComponent } from './talent-registration/talent-registration.component';
 import { LoginComponent } from './login/login.component';
+import { ActivationComponent } from './activation/activation.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { LoginComponent } from './login/login.component';
     CompanyRegistrationComponent,
     RegistrationComponent,
     TalentRegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    ActivationComponent
   ],
   imports: [
     CommonModule,

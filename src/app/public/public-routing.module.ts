@@ -6,6 +6,7 @@ import {
   RegistrationComponent,
   LoginComponent
 } from './';
+import { ActivationComponent } from './activation/activation.component';
 
 const routes: Routes = [
   { 
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       { path: '', component: LandingComponent },
       { path: 'register', component: RegistrationComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'activation', component: ActivationComponent }
     ] 
   }
 ];

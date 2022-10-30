@@ -1,4 +1,4 @@
-<nav ngbNav #nav="ngbNav" class="navbar navbar-light bg-light d-flex justify-content-center">
+<nav *ngIf="router.url !== '/activation'" ngbNav #nav="ngbNav" class="navbar navbar-light bg-light d-flex justify-content-center">
     <a class="navbar-brand" href="#">
         <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
     </a>

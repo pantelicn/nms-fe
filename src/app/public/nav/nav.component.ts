@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class NavComponent {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, 
+    public router: Router) { }
 
   get isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
