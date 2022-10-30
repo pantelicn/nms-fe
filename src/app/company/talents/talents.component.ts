@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Skill } from "src/app/shared/model";
 import { PositionService, PositionView } from "../templates/position/position.service";
-import { SkillService, SkillView } from "../templates/skill/skill.service";
+import { SkillService } from "../../shared/services/skill.service";
 import { Code } from "../templates/templates.component";
 import { Facet, TemplateService, TemplateView } from "../templates/templates.service";
 import { TermService, TermView } from "../templates/term/term.service";
@@ -22,7 +23,7 @@ export class TalentsComponent implements OnInit {
     facets: new FormArray([]),
   });
   positions: PositionView[] = [];
-  skills: SkillView[] = [];
+  skills: Skill[] = [];
   terms: TermView[] = [];
   codes: Map<number, Code[]> = new Map();
   private modalRef?: NgbModalRef;

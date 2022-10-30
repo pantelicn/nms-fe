@@ -1,18 +1,15 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 
-.icon {
-  width: 1em;
+.nms-icon {
+  height: 1.8em;
+  width: 1.8em
 }
 
-.nms-pencil-square {
-  height: 2em;
-}
-
-.nms-cursor:hover {
+.nms-icon:hover {
   cursor: pointer;
 }
 
-.nms-pencil-square:hover {
+.nms-add:hover {
   color: $cyan;
 }
