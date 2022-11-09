@@ -30,7 +30,10 @@ import {
   FilePost,
   Laptop,
   ArrowRight,
-  CheckCircle
+  CheckCircle,
+  Image,
+  CloudArrowUpFill,
+  Person
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -64,7 +67,10 @@ const icons = {
   FilePost,
   Laptop,
   ArrowRight,
-  CheckCircle
+  CheckCircle,
+  Image,
+  CloudArrowUpFill,
+  Person
 };
 
 @NgModule({

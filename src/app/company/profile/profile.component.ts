@@ -65,6 +65,11 @@ export class ProfileComponent {
     })
   }
 
+  profileImageChanged(profileImagePath: any) {
+    console.log(profileImagePath);
+    this.company.profileImage = profileImagePath;
+  }
+
   get username(): string | undefined {
     return this.authService.currentUser?.username;
   }

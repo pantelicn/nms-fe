@@ -2,7 +2,13 @@
   <div class="row">
     <div class="col-lg-4 col-md-5 d-md-block d-none">
       <div class="py-3 px-3 sticky-top top-gap bg-white border rounded" *ngIf="company">
-        <img class="bg-light rounded-circle p-1 w-100" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
+        <div class="d-flex">
+          <a (click)="openDialog(uploadProfileImageDialog)" class="text-secondary text-decoration-none nms-cursor">
+            <bi class="upload-image-icon" name="image"></bi>
+          </a>
+        </div>
+        <img *ngIf="company.profileImage" class="bg-light rounded-circle p-1 w-100" [src]="company.profileImage">
+        <bi *ngIf="!company.profileImage" class="bg-light rounded-circle p-1 w-100" name="person"></bi>
         <div class="h2">{{company.name}}</div>
         <div class="h4 text-secondary font-weight-light">{{username}}</div>
         <div class="mt-4">{{company.description}}</div>
@@ -118,4 +124,8 @@
 <ng-template #editBenefitsDialog let-modal>
   <edit-benefits [benefits]="benefits"
                  (benefitsChanged)="benefits=$event"></edit-benefits>
+</ng-template>
+
+<ng-template #uploadProfileImageDialog let-modal>
+  <upload-profile-image (profileImageChangedEvent)="profileImageChanged($event)"></upload-profile-image>
 </ng-template>

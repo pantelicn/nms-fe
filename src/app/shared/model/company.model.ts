@@ -7,5 +7,6 @@ export interface Company {
   description: string;
   user: User;
   location: Location;
+  profileImage: string;
   
 }

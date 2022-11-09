@@ -19,7 +19,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditDetailsComponent } from './profile/edit-details/edit-details.component';
 import { EditContactsComponent } from './profile/edit-contacts/edit-contacts.component';
 import { EditBenefitsComponent } from './profile/benefits/edit-benefits.component';
-
+import { ImageCropperModule } from 'ngx-image-cropper';  
+import { UploadProfileImageComponent } from './profile/upload-profile-image/upload-profile-image.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { EditBenefitsComponent } from './profile/benefits/edit-benefits.componen
     ProfileComponent,
     EditDetailsComponent,
     EditContactsComponent,
-    EditBenefitsComponent
+    EditBenefitsComponent,
+    UploadProfileImageComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { EditBenefitsComponent } from './profile/benefits/edit-benefits.componen
     CompanyRoutingModule,
     BootstrapModule,
     IconsModule,
-    SharedModule
+    SharedModule,
+    ImageCropperModule
   ]
 })
 export class CompanyModule { }
