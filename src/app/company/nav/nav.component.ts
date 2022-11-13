@@ -72,4 +72,18 @@ export class NavComponent {
       })
     }
 
+    setInfoNotificationsToSeen() {
+      if (!this.notificationStatus || this.notificationStatus.unseenInfoNotifications === 0 || !this.notificationStatus.lastInfoNotificationId) {
+        return;
+      }
+      this.notificationService.setNotificationToSeen(this.notificationStatus.lastInfoNotificationId, NotificationType.INFO).subscribe({
+        next: response => {
+          this.findAll(0);
+        },
+        error: error => {
+  
+        }
+      })
+    }
+
 }

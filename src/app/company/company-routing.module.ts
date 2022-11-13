@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { MessagesComponent } from "../shared/components/messages/messages.component";
 import { CompanyComponent } from "./company.component";
 import { HomeComponent } from "./home/home.component";
+import { NotificationsComponent } from "./notifications/notifications.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { RequestComponent } from "./request/request.component";
 import { TalentsComponent } from "./talents/talents.component";
@@ -18,7 +19,8 @@ const routes: Routes = [
       { path: 'requests', component: RequestComponent },
       { path: 'templates', component: TemplatesComponent },
       { path: 'talents', component: TalentsComponent },
-      { path: 'profile', component: ProfileComponent }
+      { path: 'profile', component: ProfileComponent },
+      { path: 'notifications', component: NotificationsComponent }
     ]
   }
 ]

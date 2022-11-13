@@ -7,7 +7,9 @@ export interface NotificationResponse {
   unseenRequests: number,
   lastRequestId?: number,
   unseenMessages: number,
-  lastMessageId?: number
+  lastMessageId?: number,
+  unseenInfoNotifications: number,
+  lastInfoNotificationId?: number
 }
 
 export interface NotificationPage {
@@ -16,6 +18,19 @@ export interface NotificationPage {
   totalPages: number,
   totalElements: number,
   numberOfElements: number
+}
+
+export interface NotificationInfosPage {
+  content: NotificationInfoView[],
+  pageable: Pageable,
+  totalPages: number,
+  totalElements: number,
+  numberOfElements: number
+}
+
+export interface NotificationInfoView {
+  description: string,
+  createdOn: Date
 }
 
 export interface Pageable {
@@ -33,7 +48,8 @@ export interface NotificationView {
 
 export enum NotificationType {
   REQUEST = 'REQUEST',
-  MESSAGE = 'MESSAGE'
+  MESSAGE = 'MESSAGE',
+  INFO = 'INFO'
 }
 
 @Injectable({
@@ -55,6 +71,12 @@ export class NotificationService {
     let params = new HttpParams();
     params = params.append('lastVisibleRequestId', lastVisibleRequestId).append('type', type);
     return this.http.put<void>(this.notificationApi + '/seen', null, {params: params});
+  }
+
+  findAllInfos(page: number): Observable<NotificationInfoView> {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    return this.http.get<NotificationInfoView>(this.notificationApi + '/infos', { params: params });
   }
 
 }

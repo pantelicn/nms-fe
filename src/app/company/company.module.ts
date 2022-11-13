@@ -21,6 +21,7 @@ import { EditContactsComponent } from './profile/edit-contacts/edit-contacts.com
 import { EditBenefitsComponent } from './profile/benefits/edit-benefits.component';
 import { ImageCropperModule } from 'ngx-image-cropper';  
 import { UploadProfileImageComponent } from './profile/upload-profile-image/upload-profile-image.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { UploadProfileImageComponent } from './profile/upload-profile-image/uplo
     EditDetailsComponent,
     EditContactsComponent,
     EditBenefitsComponent,
-    UploadProfileImageComponent
+    UploadProfileImageComponent,
+    NotificationsComponent
   ],
   imports: [
     CommonModule,

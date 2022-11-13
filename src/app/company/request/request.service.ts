@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
@@ -75,6 +75,11 @@ export class RequestService {
       note: newNote
     }
     return this.httpClient.patch<RequestDetailView>(this.companiesApi + username + "/requests/" + id + "/note", patchBody);
+  }
+
+  reject(id: number): Observable<void> {
+    const username = this.authService.currentUser?.username;
+    return this.httpClient.put<void>(this.companiesApi + username + '/requests/' + id + '/reject', {});
   }
 
 }

@@ -1,6 +1,5 @@
 <div class="d-flex flex-column align-items-center">
   <h1 *ngIf="registrationFinished" class="my-5">Please check your email to finish registration process.</h1>
-  <h1 *ngIf="!registrationFinished" class="my-5">Welcome to nullhire</h1>
   <div *ngIf="!registrationFinished && !showSpinner" class="bg-white border p-4 rounded form-width">
     <form [ngClass]="step !== 'FIRST' ? 'd-none' : ''" [formGroup]="registrationForm" novalidate>
       <div class="form-group">

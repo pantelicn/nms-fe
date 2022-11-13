@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/shared/toast/toast.service";
-import { TalentTermRequestViewDto } from "src/app/talent/request/request.service";
 import { RequestDetailView, RequestService, RequestView } from "./request.service";
 
 @Component({
@@ -98,6 +98,22 @@ export class RequestComponent implements OnInit, OnDestroy {
       }
     }
     return true;
+  }
+
+  reject() {
+    if (!this.selectedRequest) {
+      return;
+    }
+    this.requestService.reject(this.selectedRequest?.id).subscribe({
+      next: response => {
+        this.toastService.show('', 'Request has been rejected.');
+        this.findAllActiveRequests();
+        this.selectedRequest = undefined;
+      }, 
+      error: (err: HttpErrorResponse) => {
+        this.toastService.error('Error', 'Unable to update request status');
+      }
+    });
   }
 
   get note() {
