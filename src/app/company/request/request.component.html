@@ -62,6 +62,7 @@
                                 (showRefreshBtnChange)="showRefreshBtn=true">
           </talent-term-request>
         </div>
+        <h5 *ngIf="areAllTermsAccepted()" class="text-center">All terms are accepted, please wait for talent to accept request.</h5>
       </div>
     </div>
   </div>

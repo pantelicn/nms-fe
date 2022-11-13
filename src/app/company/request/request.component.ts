@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/shared/toast/toast.service";
+import { TalentTermRequestViewDto } from "src/app/talent/request/request.service";
 import { RequestDetailView, RequestService, RequestView } from "./request.service";
 
 @Component({
@@ -84,6 +85,19 @@ export class RequestComponent implements OnInit, OnDestroy {
   openEditNoteDialog(content: any) {
     this.newNote?.setValue(this.selectedRequest?.note);
     this.modalRef = this.modalService.open(content, this.modalOptions);
+  }
+
+  areAllTermsAccepted():boolean {
+    if (!this.selectedRequest) {
+      return false;
+    }
+
+    for (let talentTermRequest of this.selectedRequest?.talentTermRequests) {
+      if (talentTermRequest.status !== 'ACCEPTED') {
+        return false;
+      }
+    }
+    return true;
   }
 
   get note() {

@@ -47,36 +47,10 @@
                                 (showRefreshBtnChange)="showRefreshBtn=true">
           </talent-term-request>
         </div>
-        <div class="btn btn-outline-danger btn-block rounded-pill shadow-none">Remove</div>
+        <h5 *ngIf="areAllTermsAccepted()" class="text-center mb-4">All terms are accepted.</h5>
+        <div class="btn btn-outline-danger btn-block rounded-pill shadow-none" (click)="reject()">Remove</div>
+        <div class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="accept()">Accept</div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <ng-template #editNoteDialog let-modal>
-  <form [formGroup]="editNoteForm" (ngSubmit)="editNote()" novalidate>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Edit note</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="newNote">Note:</label>
-        <input type="text" 
-                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
-                  formControlName="newNote" 
-                  id="newNote" 
-                  placeholder="Note" 
-                  [class]="(newNote?.invalid && (newNote?.dirty || newNote?.touched)) ? 'is-invalid' : ''" />
-        <div *ngIf="newNote?.errors?.['required']" class="invalid-feedback">
-          Please enter note.
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Save</button>
-    </div>
-  </form>
-</ng-template> -->

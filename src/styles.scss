@@ -52,3 +52,9 @@ $container-max-widths: (
 html, body {
   background-color: $gray-100;
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: $cyan;
+  background-color: $cyan;
+}

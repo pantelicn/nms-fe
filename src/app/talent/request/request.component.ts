@@ -55,4 +55,39 @@ export class RequestComponent implements OnInit, OnDestroy {
     });
   }
 
+  areAllTermsAccepted():boolean {
+    if (!this.selectedRequest) {
+      return false;
+    }
+
+    for (let talentTermRequest of this.selectedRequest?.talentTermRequests) {
+      if (talentTermRequest.status !== 'ACCEPTED') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  accept() {
+    if (!this.selectedRequest) {
+      return;
+    }
+    this.requestService.accept(this.selectedRequest?.id).subscribe(response => {
+      this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been accepted.');
+      this.findAllActiveRequests();
+      this.selectedRequest = undefined;
+    });
+  }
+
+  reject () {
+    if (!this.selectedRequest) {
+      return;
+    }
+    this.requestService.reject(this.selectedRequest?.id).subscribe(response => {
+      this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been rejected.');
+      this.findAllActiveRequests();
+      this.selectedRequest = undefined;
+    });
+  }
+
 }

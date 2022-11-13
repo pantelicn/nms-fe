@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
@@ -63,6 +63,18 @@ export class RequestService {
   get(id: number): Observable<TalentRequestDetailView> {
     const username = this.authService.currentUser?.username;
     return this.httpClient.get<TalentRequestDetailView>(this.talentsApi + username + "/requests/" + id);
+  }
+
+  accept(id: number): Observable<void> {
+    const username = this.authService.currentUser?.username;
+    const params = new HttpParams().set('status', 'ACCEPTED');
+    return this.httpClient.put<void>(this.talentsApi + username + '/requests/' + id, {}, { params: params});
+  }
+
+  reject(id: number): Observable<void> {
+    const username = this.authService.currentUser?.username;
+    const params = new HttpParams().set('status', 'REJECTED');
+    return this.httpClient.put<void>(this.talentsApi + username + '/requests/' + id, {}, { params: params});
   }
 
 }
