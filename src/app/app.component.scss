@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: $cyan;
+  background-color: $cyan;
+}

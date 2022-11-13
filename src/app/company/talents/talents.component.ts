@@ -30,7 +30,7 @@ export class TalentsComponent implements OnInit {
   modalOptions: NgbModalOptions = {
     backdrop: true,
     backdropClass: 'customBackdrop',
-    size: 'lg'
+    size: 'xl'
   };
   selectedTalent?: TalentViewSearchDto;
   negotiableTerms: TalentTermViewDto[] = [];
