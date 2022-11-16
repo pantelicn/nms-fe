@@ -29,8 +29,9 @@ export interface NotificationInfosPage {
 }
 
 export interface NotificationInfoView {
-  description: string,
-  createdOn: Date
+  message: string,
+  createdOn: Date,
+  type: NotificationInfoType
 }
 
 export interface Pageable {
@@ -44,6 +45,10 @@ export interface NotificationView {
   sean: string,
   type: string,
   referenceId: number
+}
+
+export enum NotificationInfoType {
+  REQUEST = 'REQUEST'
 }
 
 export enum NotificationType {
@@ -73,10 +78,10 @@ export class NotificationService {
     return this.http.put<void>(this.notificationApi + '/seen', null, {params: params});
   }
 
-  findAllInfos(page: number): Observable<NotificationInfoView> {
+  findAllInfos(page: number): Observable<NotificationInfosPage> {
     let params = new HttpParams();
     params = params.append('page', page);
-    return this.http.get<NotificationInfoView>(this.notificationApi + '/infos', { params: params });
+    return this.http.get<NotificationInfosPage>(this.notificationApi + '/infos', { params: params });
   }
 
 }
