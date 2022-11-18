@@ -14,8 +14,9 @@ export interface SearchPageResponse {
 export interface TalentViewSearchDto {
   talentId: string,
   terms: TalentTermViewDto[],
-  skills: SkillViewDto[]
-  positions: PositionViewDto[]
+  skills: SkillViewDto[],
+  positions: PositionViewDto[],
+  lastTimeSentOn: Date
 }
 
 export interface PositionViewDto {
