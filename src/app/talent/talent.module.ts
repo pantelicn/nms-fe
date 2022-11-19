@@ -13,6 +13,7 @@ import { EditTalentSkillsComponent } from './profile/edit-talent-skills/edit-tal
 import { EditContactsComponent } from './profile/edit-contacts/edit-contacts.component';
 import { EditDetailsComponent } from './profile/edit-details/edit-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 
@@ -25,7 +26,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     EditTalentTermsComponent,
     EditTalentSkillsComponent,
     EditContactsComponent,
-    EditDetailsComponent
+    EditDetailsComponent,
+    NotificationsComponent
   ],
   imports: [
     CommonModule,
