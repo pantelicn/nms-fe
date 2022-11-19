@@ -19,6 +19,7 @@ import { MessagesNewUserComponent } from './components/messages/messages-new-use
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TalentTermRequestComponent } from './components/talent-term-request/talent-term-request.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ConfirmationDialog } from './dialogs/confirmation/confirmation.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     MessagesChatViewComponent,
     MessagesNewUserComponent,
     TalentTermRequestComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ConfirmationDialog
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     TalentComponent,
     ToastComponent,
     TalentTermRequestComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ConfirmationDialog
   ]
 })
 export class SharedModule { }

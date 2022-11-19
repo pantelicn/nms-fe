@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmationDialog } from "src/app/shared/dialogs/confirmation/confirmation.component";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { TalentRequestDetailView, RequestService, RequestView } from "./request.service";
 
@@ -80,13 +82,24 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   reject () {
-    if (!this.selectedRequest) {
-      return;
-    }
-    this.requestService.reject(this.selectedRequest?.id).subscribe(response => {
-      this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been rejected.');
-      this.findAllActiveRequests();
-      this.selectedRequest = undefined;
+    const modalRef = this.modalService.open(ConfirmationDialog);
+    modalRef.componentInstance.message = 'Please confirm that you want to decline request from '.concat(this.selectedRequest ? this.selectedRequest?.company : '');
+    modalRef.result.then(res => {
+      if (!this.selectedRequest || !res) {
+        return;
+      }
+      this.requestService.reject(this.selectedRequest?.id).subscribe({
+        next: response => {
+          this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been rejected.');
+          this.findAllActiveRequests();
+          this.selectedRequest = undefined;
+        }, 
+        error: (err: HttpErrorResponse) => {
+          this.toastService.error('Error', 'Unable to update request status');
+        }
+      });
+    }, dismiss => {
+      
     });
   }
 
