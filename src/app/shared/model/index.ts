@@ -18,3 +18,4 @@ export * from './position.model';
 export * from './skill-status.enum';
 export * from './skill.model';
 export * from './city.model';
+export * from './available-location.model';

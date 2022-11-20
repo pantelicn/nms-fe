@@ -19,7 +19,7 @@ export class TalentComponent {
     let locations = '';
     let i;
     for (i = 0; i < this.talent.availableLocations.length && i < this.MAX_LOCATIONS; i++) {
-      locations += this.talent.availableLocations[i].city + ', ';
+      locations += this.talent.availableLocations[i].country + ', ';
     }
     locations = locations.slice(0, -2);
     if (this.talent.availableLocations.length > this.MAX_LOCATIONS) {

@@ -1,5 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { AuthService } from "src/app/auth/auth.service";
+import { Talent } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
 import { Pageable } from "../request/request.service";
 
@@ -61,11 +64,11 @@ export interface FacetSpecifierDto {
 })
 export class TalentService {
 
-  private readonly talentFindApi = environment.api.backend + 'talents/';
+  private readonly talentsApi = environment.api.backend + 'talents/';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
-  find(facetSpecifiers: FacetSpecifierDto[]) {
+  find(facetSpecifiers: FacetSpecifierDto[]): Observable<SearchPageResponse> {
     facetSpecifiers.forEach(facetSpecifier => {
       if (facetSpecifier.type !== 'TERM' || facetSpecifier.codeType === 'BOOLEAN') {
         facetSpecifier.value = facetSpecifier.code;
@@ -75,7 +78,24 @@ export class TalentService {
     const data = {
       facets: facetSpecifiers
     };
-    return this.httpClient.post<SearchPageResponse>(this.talentFindApi + "find", data);
+    return this.httpClient.post<SearchPageResponse>(this.talentsApi + "find", data);
+  }
+
+  addAvailableLocation(country: string, cities: string[]): Observable<Talent> {
+    const data = {
+      country,
+      cities
+    };
+    return this.httpClient.post<Talent>(
+      this.talentsApi + this.authService.currentUser?.username + '/available-locations',
+      data
+    );
+  }
+
+  removeAvailableLocation(id: number): Observable<Talent> {
+    return this.httpClient.delete<Talent>(
+      this.talentsApi + this.authService.currentUser?.username + '/available-locations/' + id
+    );
   }
 
 }

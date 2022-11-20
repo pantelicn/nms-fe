@@ -1,0 +1,20 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.nms-icon {
+  height: 1.8em;
+  width: 1.8em
+}
+
+.nms-small-icon {
+  width: 1em;
+  color: $cyan;
+}
+
+.nms-icon:hover {
+  cursor: pointer;
+}
+
+.nms-add:hover {
+  color: $cyan;
+}

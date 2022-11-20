@@ -1,5 +1,5 @@
-<div>
+<div *ngIf="!hidden">
   <div class="input-group">
-    <input type="text" class="form-control" [placeholder]="placeholder" [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)" (selectItem)="selectItem$.next($any($event))" #instance="ngbTypeahead"> 
+    <input type="text" class="form-control" [placeholder]="placeholder" [(ngModel)]="model" [ngbTypeahead]="search" (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)" (selectItem)="selectItem$.next($any($event)); $event.preventDefault()" #instance="ngbTypeahead"> 
   </div>
 </div>

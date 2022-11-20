@@ -1,7 +1,56 @@
 <div>
-  <div class="modal-header"></div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body">
-    <typeahead [data]="searchableCountries" (selectItem)="onSelectCountry($event)"></typeahead>
-    <typeahead [data]="searchableCities"></typeahead>
+    Location of residence:
+    <hr>
+    <div class="mb-3">Locations you are available to work at:</div>
+    <div>
+      <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
+        <div class="col">
+          <div class="d-flex align-items-center">
+            <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
+            {{availableLocation.country}}
+          </div>
+        </div>
+        <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
+        <div class="col-2">
+          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right">
+            <bi name="x-circle" class="nms-icon"></bi>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="row">
+        <div class="col">
+          <typeahead *ngIf="!selectedCountry" [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
+          <div *ngIf="selectedCountry" class="d-flex justify-content-between align-items-center">
+            {{selectedCountry.name}}
+            <a class="ml-auto text-secondary text-decoration-none nms-cursor">
+              <bi name="x-circle" class="nms-icon" (click)="clearCountry()"></bi>
+            </a>
+          </div>
+        </div>
+        <div class="col" >
+          <div *ngFor="let selectedCity of selectedCities" class="d-flex justify-content-between align-items-center mb-2">
+            {{selectedCity.name}}
+            <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCity(selectedCity)">
+              <bi name="x-circle" class="nms-icon"></bi>
+            </a>
+          </div>
+          <typeahead *ngIf="selectedCountry" [data]="searchableCities" placeholder="Optionally select city" (selectItem)="onSelectCity($event)"></typeahead>
+        </div>
+        <div class="col-2">
+          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="addLocation()">
+            <bi name="plus-circle" class="nms-icon"></bi>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

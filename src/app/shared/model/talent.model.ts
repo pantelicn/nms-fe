@@ -1,4 +1,4 @@
-import { User } from ".";
+import { AvailableLocation, User } from ".";
 import { Location } from "./location.model";
 
 export interface Talent {
@@ -8,7 +8,7 @@ export interface Talent {
   skills: string[];
   positions: string[];
   location: Location;
-  availableLocations: Location[];
+  availableLocations: AvailableLocation[];
   user: User;
 
 }
