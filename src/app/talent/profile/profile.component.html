@@ -15,9 +15,9 @@
             </div>
           </div>
           <div class="col-md-2">
-            <!-- <a class="text-secondary text-decoration-none nms-cursor">
+            <a class="text-secondary text-decoration-none nms-cursor">
               <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
-            </a> -->
+            </a>
           </div>
         </div>
       </div>
@@ -70,6 +70,10 @@
     </div>
   </div>
 </div>
+
+<ng-template #editDetailsDialog let-modal>
+  <edit-details></edit-details>
+</ng-template>
 
 <ng-template #editTalentTermsDialog let-modal>
   <edit-talent-terms [talentTerms]="talentTerms"

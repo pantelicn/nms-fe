@@ -17,3 +17,4 @@ export * from './term.model';
 export * from './position.model';
 export * from './skill-status.enum';
 export * from './skill.model';
+export * from './city.model';

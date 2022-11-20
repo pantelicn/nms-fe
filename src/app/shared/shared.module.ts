@@ -20,6 +20,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TalentTermRequestComponent } from './components/talent-term-request/talent-term-request.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ConfirmationDialog } from './dialogs/confirmation/confirmation.component';
+import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ConfirmationDialog } from './dialogs/confirmation/confirmation.componen
     MessagesNewUserComponent,
     TalentTermRequestComponent,
     SpinnerComponent,
-    ConfirmationDialog
+    ConfirmationDialog,
+    TypeaheadComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +56,8 @@ import { ConfirmationDialog } from './dialogs/confirmation/confirmation.componen
     ToastComponent,
     TalentTermRequestComponent,
     SpinnerComponent,
-    ConfirmationDialog
+    ConfirmationDialog,
+    TypeaheadComponent
   ]
 })
 export class SharedModule { }

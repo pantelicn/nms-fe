@@ -1,1 +1,7 @@
-<p>edit-details works!</p>
+<div>
+  <div class="modal-header"></div>
+  <div class="modal-body">
+    <typeahead [data]="searchableCountries" (selectItem)="onSelectCountry($event)"></typeahead>
+    <typeahead [data]="searchableCities"></typeahead>
+  </div>
+</div>
