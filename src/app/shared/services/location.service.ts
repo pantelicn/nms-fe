@@ -18,7 +18,7 @@ export class LocationService {
     return this.http.get<Country[]>(this.countriesApi);
   }
 
-  public getCities(countryId: string): Observable<City[]> {
+  public getCities(countryId: number): Observable<City[]> {
     return this.http.get<City[]>(this.countriesApi + '/' + countryId + '/cities');
   }
 

@@ -14,6 +14,7 @@ import { EditContactsComponent } from './profile/edit-contacts/edit-contacts.com
 import { EditDetailsComponent } from './profile/edit-details/edit-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -27,7 +28,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     EditTalentSkillsComponent,
     EditContactsComponent,
     EditDetailsComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

@@ -20,9 +20,10 @@
   <div formGroupName="location">
     <div class="form-group">
       <label class="text-secondary" for="country"><small>Country</small></label>
-      <select class="form-control form-control-sm" id="company-country" type="text" formControlName="countryCode"
-        [class]="(countryCode?.invalid && (countryCode?.dirty || countryCode?.touched || submitted)) ? 'is-invalid' : ''">
-        <option *ngFor="let country of countries" [value]="country.code">{{country.name}}</option>
+      <select class="form-control form-control-sm" (change)="citiesForCountryId()" id="company-country" type="text" formControlName="countryId"
+        [class]="(countryId?.invalid && (countryId?.dirty || countryId?.touched || submitted)) ? 'is-invalid' : ''">
+        <option [value]="undefined">Select country</option>
+        <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
       <div class="invalid-feedback">
         Please select a country.
@@ -30,8 +31,11 @@
     </div>
     <div class="form-group">
       <label class="text-secondary" for="city"><small>City</small></label>
-      <input class="form-control form-control-sm" id="company-city" type="text" formControlName="city"
-        [class]="(city?.invalid && (city?.dirty || city?.touched || submitted)) ? 'is-invalid' : ''">
+      <select class="form-control form-control-sm" id="company-city" type="text" formControlName="cityId"
+        [class]="(cityId?.invalid && (cityId?.dirty || cityId?.touched || submitted)) ? 'is-invalid' : ''">
+        <option [value]="undefined">Select city</option>
+        <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+      </select>
       <div class="invalid-feedback">
         Please enter a city.
       </div>

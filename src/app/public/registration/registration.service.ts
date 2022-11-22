@@ -6,9 +6,8 @@ import { CountryService } from 'src/app/shared/services/country.service';
 import { environment } from 'src/environments/environment';
 
 interface Location {
-  countryCode: string;
-  country: string;
-  city: string;
+  countryId: number;
+  cityId: number;
   address: string;
 }
 
@@ -46,12 +45,10 @@ export class RegistrationService {
   constructor(private httpClient: HttpClient, private countryService: CountryService) { }
 
   registerCompany(formData: CompanyRegistration): Observable<Company> {
-    formData.location.country = this.countryService.getByCountryCode(formData.location.countryCode).name;
     return this.httpClient.post<Company>(this.companiesApi, formData);
   }
 
   registerTalent(formData: TalentRegistration): Observable<Talent> {
-    formData.location.country = this.countryService.getByCountryCode(formData.location.countryCode).name;
     return this.httpClient.post<Talent>(this.talentsApi, formData);
   }
 
