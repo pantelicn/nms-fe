@@ -6,7 +6,7 @@
   <a [routerLink]="['profile']" class="btn btn-sm btn-outline-primary rounded-pill w-100 mt-3" type="button">Edit profile</a>
   <div class="mt-3 d-flex">
     <bi class="icon mr-1 text-primary" name="geo-alt"></bi>
-    {{company.location.city}}, {{company.location.country}}
+    {{company.location.city.name}}, {{company.location.country.name}}
   </div>
   <div class="mt-3 d-flex">
     <bi class="icon mr-1 text-primary" name="file-post"></bi>
