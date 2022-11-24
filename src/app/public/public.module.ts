@@ -7,13 +7,13 @@ import { PublicRoutingModule } from './public-routing.module';
 import { BootstrapModule } from '../shared/bootstrap.module';
 import { PublicComponent } from './public.component';
 import { IconsModule } from '../shared/icons.module';
-import { FeedComponent } from './feed/feed.component';
 import { SharedModule } from '../shared/shared.module';
 import { CompanyRegistrationComponent } from './company-registration/company-registration.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { TalentRegistrationComponent } from './talent-registration/talent-registration.component';
 import { LoginComponent } from './login/login.component';
 import { ActivationComponent } from './activation/activation.component';
+import { PublicFeedComponent } from './feed/feed.component';
 
 
 @NgModule({
@@ -21,7 +21,7 @@ import { ActivationComponent } from './activation/activation.component';
     LandingComponent,
     NavComponent,
     PublicComponent,
-    FeedComponent,
+    PublicFeedComponent,
     CompanyRegistrationComponent,
     RegistrationComponent,
     TalentRegistrationComponent,

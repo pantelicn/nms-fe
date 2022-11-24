@@ -21,6 +21,7 @@ import { TalentTermRequestComponent } from './components/talent-term-request/tal
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ConfirmationDialog } from './dialogs/confirmation/confirmation.component';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
+import { FeedComponent } from './components/feed/feed.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { TypeaheadComponent } from './components/typeahead/typeahead.component';
     TalentTermRequestComponent,
     SpinnerComponent,
     ConfirmationDialog,
-    TypeaheadComponent
+    TypeaheadComponent,
+    FeedComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { TypeaheadComponent } from './components/typeahead/typeahead.component';
     TalentTermRequestComponent,
     SpinnerComponent,
     ConfirmationDialog,
-    TypeaheadComponent
+    TypeaheadComponent,
+    FeedComponent
   ]
 })
 export class SharedModule { }

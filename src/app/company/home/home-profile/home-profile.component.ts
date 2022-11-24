@@ -11,26 +11,21 @@ import { CompanyService } from '../../company.service';
 })
 export class HomeProfileComponent implements OnInit {
 
-  company!: Company;
+  @Input()
+  company?: Company;
   @Input() remainingPosts: number = 0;
   @Output() remainingPostsChange = new EventEmitter<number>();
 
-  constructor(private authService: AuthService, 
-              private companyService: CompanyService, 
+  constructor(private authService: AuthService,
               private productUsageService: ProductUsageService) { }
 
   ngOnInit(): void {
-    if (this.username) {
-      this.companyService.getCompany(this.username).subscribe(
-        company => this.company = company
-      );
-      this.productUsageService.getRemainingPosts().subscribe(
-        remainingPosts => {
-          this.remainingPosts = remainingPosts;
-          this.remainingPostsChange.emit(remainingPosts);
-        }
-      )
-    }
+    this.productUsageService.getRemainingPosts().subscribe(
+      remainingPosts => {
+        this.remainingPosts = remainingPosts;
+        this.remainingPostsChange.emit(remainingPosts);
+      }
+    )
   }
 
   get username(): string | undefined {

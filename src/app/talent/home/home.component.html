@@ -8,10 +8,21 @@
       </div>
     </div>
     <div class="col-lg-8 col-md-7">
-      <a class="btn btn-primary rounded-pill w-30 mr-2">Global posts</a>
-      <a class="btn btn-outline-primary rounded-pill w-30 mr-2">Followers posts</a>
-      <a class="btn btn-outline-primary rounded-pill w-30 mr-2">Specific country posts</a>
+      <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
+        (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
+        [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global posts</a>
+      <a class="btn w-30 mr-2 posts-selector" 
+        (click)="setPostsType(postsType.FOLLOWERS)"
+        [ngClass]="selectedPostsType === 'FOLLOWERS' ? 'btn-outline-primary' : 'btn-outline-secondary'">Followers posts</a>
+      <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
+      (click)="setPostsType(postsType.COUNTRY)"
+        [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country posts</a>
+      <select *ngIf="selectedPostsType === 'COUNTRY'" (change)="selectCountry($event)" class="form-control form-control-sm" id="company-country">
+        <option [value]="undefined">Select country</option>
+        <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+      </select>
       <hr/>
+      <nms-company-feed [posts]="posts"></nms-company-feed>
     </div>
   </div>
 </div>

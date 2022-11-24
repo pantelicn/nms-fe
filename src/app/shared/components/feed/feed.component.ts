@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Post } from 'src/app/shared/model';
 import { FeedService } from 'src/app/shared/services/feed.service';
 
@@ -9,14 +9,13 @@ import { FeedService } from 'src/app/shared/services/feed.service';
 })
 export class FeedComponent implements OnInit {
 
+  @Input()
   posts: Post[] = [];
 
-  constructor(private service: FeedService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.service.getLatest10ByCountry('Serbia').subscribe(
-      posts => this.posts = posts
-    );
+    
   }
 
 }

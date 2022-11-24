@@ -8,7 +8,7 @@ import { FeedService } from '../../shared/services/feed.service';
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss']
 })
-export class FeedComponent implements OnInit {
+export class PublicFeedComponent implements OnInit {
 
   posts: Post[] = [];
   talents: Talent[] = [];
