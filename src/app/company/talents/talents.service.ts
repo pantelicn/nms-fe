@@ -59,6 +59,11 @@ export interface FacetSpecifierDto {
   codeType?: string
 }
 
+export interface TalentBasicInfoDto {
+  firstName: string;
+  lastName: string;
+}
+
 @Injectable({
   providedIn: 'any'
 })
@@ -96,6 +101,10 @@ export class TalentService {
     return this.httpClient.delete<Talent>(
       this.talentsApi + this.authService.currentUser?.username + '/available-locations/' + id
     );
+  }
+
+  updateBasicInfo(basicInfo: TalentBasicInfoDto): Observable<Talent> {
+    return this.httpClient.put<Talent>(this.talentsApi + this.authService.currentUser?.username, basicInfo);
   }
 
 }
