@@ -6,7 +6,15 @@
     </button>
   </div>
   <div class="modal-body">
-    Location of residence:
+    <form *ngIf="nameForm" [formGroup]="nameForm" class="row" novalidate (submit)="onUpdateName()">
+      <div class="col">
+        <input class="form-control" type="text" placeholder="First name" formControlName="firstName">
+      </div>
+      <div class="col">
+        <input class="form-control" type="text" placeholder="Last name" formControlName="lastName">
+      </div>
+      <button class="btn btn-primary rounded-pill mr-3" [disabled]="nameForm.invalid || nameForm.pristine" type="submit">Save</button>
+    </form>
     <hr>
     <div class="mb-3">Locations you are available to work at:</div>
     <div>
@@ -19,7 +27,7 @@
         </div>
         <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
         <div class="col-2">
-          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right">
+          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="removeLocation(availableLocation)">
             <bi name="x-circle" class="nms-icon"></bi>
           </a>
         </div>
