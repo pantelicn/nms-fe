@@ -34,7 +34,9 @@ import {
   CheckCircle,
   Image,
   CloudArrowUpFill,
-  Person
+  Person,
+  Plus,
+  Dash
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -72,7 +74,9 @@ const icons = {
   CheckCircle,
   Image,
   CloudArrowUpFill,
-  Person
+  Person,
+  Plus,
+  Dash
 };
 
 @NgModule({

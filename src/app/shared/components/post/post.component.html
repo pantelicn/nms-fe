@@ -3,8 +3,16 @@
     <div class="d-flex">
       <img class="bg-light rounded-circle text-white p-1 avatar" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
       <div class="d-flex flex-column">
-        <div class="m-0">
-          {{post.company.name}}
+        <div class="m-0 mb-1 d-flex justify-content-between w-100">
+          <span>{{post.company.name}}</span>
+          <button *ngIf="!isFollowing" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="follow(post.company.id)">
+            <bi name="plus" class="follow-icon"></bi>
+            <span>Follow</span>
+          </button>
+          <button *ngIf="isFollowing" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="unfollow(post.company.id)">
+            <bi name="dash" class="follow-icon"></bi>
+            <span>Unfollow</span>
+          </button>
         </div>
         <small class="m-0 text-secondary">{{post.company.description}}</small>
         <div class="font-weight-light text-secondary m-0 text-date">

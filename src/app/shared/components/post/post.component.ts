@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Post } from '../../model/post.model';
+import { FollowerService } from '../../services/follower.service';
 import { ReactionService } from '../../services/reaction.service';
 import { ToastService } from '../../toast/toast.service';
 import { LinkPreviewService } from '../link-preview/link-preview.service';
@@ -16,13 +17,20 @@ export class PostComponent implements OnInit {
 
   @Input() post!: Post;
   contentUrls!: string[];
+  @Input()
+  isFollowing: boolean = false;
+  @Output()
+  followChange = new EventEmitter<number>();
+  @Output()
+  unfollowChange = new EventEmitter<number>();
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private reactionService: ReactionService,
     private toastService: ToastService,
-    private linkPreviewService: LinkPreviewService
+    private linkPreviewService: LinkPreviewService,
+    private followerService: FollowerService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +66,28 @@ export class PostComponent implements OnInit {
       this.post.likes++;
     }, (err: HttpErrorResponse) => {
       this.toastService.error('Error', err.error.message);
+    });
+  }
+
+  follow(companyId: number) {
+    this.followerService.follow(companyId).subscribe({
+      next: response => {
+        this.followChange.emit(companyId);
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  unfollow(companyId: number) {
+    this.followerService.unfollow(companyId).subscribe({
+      next: response => {
+        this.unfollowChange.emit(companyId);
+      },
+      error: error => {
+
+      }
     });
   }
 

@@ -43,4 +43,11 @@ export class PostService {
     return this.http.get<PostsPage>(this.postsApi, {params: params});
   }
 
+  findFollowingCompaniesPosts(page: number) {
+    let params = new HttpParams();
+    params = params.append('page', page)
+      .append('postsType', PostsType.FOLLOWING);
+    return this.http.get<PostsPage>(this.postsApi, {params: params});
+  }
+
 }

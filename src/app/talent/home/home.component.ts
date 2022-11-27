@@ -53,11 +53,21 @@ export class HomeComponent implements OnInit {
   }
 
   getCountryPosts(page: number, countryId?: number) {
-    console.log(countryId);
     if (!countryId) {
       return;
     }
     this.postService.findByCountry(page, countryId).subscribe({
+      next: response => {
+        this.posts = response.content;
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  getFollowingCompaniesPosts(page: number) {
+    this.postService.findFollowingCompaniesPosts(page).subscribe({
       next: response => {
         this.posts = response.content;
       },

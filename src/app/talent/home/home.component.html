@@ -12,8 +12,8 @@
         (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
         [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global posts</a>
       <a class="btn w-30 mr-2 posts-selector" 
-        (click)="setPostsType(postsType.FOLLOWERS)"
-        [ngClass]="selectedPostsType === 'FOLLOWERS' ? 'btn-outline-primary' : 'btn-outline-secondary'">Followers posts</a>
+        (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
+        [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following posts</a>
       <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
       (click)="setPostsType(postsType.COUNTRY)"
         [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country posts</a>

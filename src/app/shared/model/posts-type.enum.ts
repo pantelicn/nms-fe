@@ -1,6 +1,6 @@
 export enum PostsType {
   GLOBAL = 'GLOBAL', 
-  FOLLOWERS = 'FOLLOWERS', 
+  FOLLOWING = 'FOLLOWING', 
   COUNTRY = 'COUNTRY',
   COMPANY = 'COMPANY'
 }
