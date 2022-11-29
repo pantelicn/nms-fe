@@ -103,6 +103,17 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  getFollowingCompaniesPosts(page: number) {
+    this.postService.findFollowingCompaniesPosts(page).subscribe({
+      next: response => {
+        this.posts = response.content;
+      },
+      error: error => {
+
+      }
+    })
+  }
+
   private getCountries() {
     this.locationService.getCountries().subscribe({
       next: response => {

@@ -5,11 +5,11 @@
       <div class="d-flex flex-column">
         <div class="m-0 mb-1 d-flex justify-content-between w-100">
           <span>{{post.company.name}}</span>
-          <button *ngIf="!isFollowing" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="follow(post.company.id)">
+          <button *ngIf="!isFollowing && loggedCompanyId !== post.company.id" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="follow(post.company.id)">
             <bi name="plus" class="follow-icon"></bi>
             <span>Follow</span>
           </button>
-          <button *ngIf="isFollowing" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="unfollow(post.company.id)">
+          <button *ngIf="isFollowing && loggedCompanyId !== post.company.id" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="unfollow(post.company.id)">
             <bi name="dash" class="follow-icon"></bi>
             <span>Unfollow</span>
           </button>
@@ -32,7 +32,7 @@
   <div class="my-4 border-bottom border-top border-gray" *ngFor="let url of contentUrls">
     <nms-link-preview [url]="url"></nms-link-preview>
   </div>
-  <div *ngIf="showReactions" class="px-3 pb-3">
+  <div class="px-3 pb-3">
     <hr>
     <div *ngIf="liked; else notLiked" class="d-flex align-items-center">
       <button class="btn btn-sm btn-primary rounded-pill d-flex align-items-center"><bi name="hand-thumbs-up" class="like-icon"></bi><span class="ml-1 small">Dislike</span></button>
@@ -40,9 +40,13 @@
     </div>
     <ng-template #notLiked>
       <div class="d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onLike()">
+        <button *ngIf="!isLiked" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onLike()">
           <bi name="hand-thumbs-up" class="like-icon"></bi>
           <span class="ml-1 small">Like</span>
+        </button>
+        <button *ngIf="isLiked" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onUnlike()">
+          <bi name="hand-thumbs-down" class="like-icon"></bi>
+          <span class="ml-1 small">Unlike</span>
         </button>
         <span class="ml-1 small">&middot; {{likes}} people like this.</span>
       </div>

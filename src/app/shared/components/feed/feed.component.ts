@@ -13,6 +13,10 @@ export class FeedComponent implements OnInit {
   @Input()
   posts: Post[] = [];
   followCompanies: number[] = [];
+  @Input()
+  likedPosts: number[] = [];
+  @Input()
+  loggedCompanyId?: number;
 
   constructor(private followerService: FollowerService) { }
 
@@ -20,7 +24,6 @@ export class FeedComponent implements OnInit {
     this.followerService.following().subscribe({
       next: response => {
         this.followCompanies = response;
-        console.log(response);
       },
       error: error => {
 
@@ -34,6 +37,14 @@ export class FeedComponent implements OnInit {
 
   unfollowCompany(unfollowCompanyId: number) {
     this.followCompanies = this.followCompanies.filter(companyId => companyId !== unfollowCompanyId);
+  }
+
+  addLikedPost(postId: number) {
+    this.likedPosts.push(postId);
+  }
+
+  removeLikedPost(unlikedPostId: number) {
+    this.likedPosts = this.likedPosts.filter(postId => postId !== unlikedPostId);
   }
 
 }

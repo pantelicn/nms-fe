@@ -8,5 +8,6 @@ export interface Company {
   user: User;
   location: Location;
   profileImage: string;
+  likedPosts: number[];
   
 }

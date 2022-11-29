@@ -19,10 +19,18 @@ export class PostComponent implements OnInit {
   contentUrls!: string[];
   @Input()
   isFollowing: boolean = false;
+  @Input()
+  isLiked: boolean = false;
   @Output()
   followChange = new EventEmitter<number>();
   @Output()
   unfollowChange = new EventEmitter<number>();
+  @Output()
+  likeChange = new EventEmitter<number>();
+  @Output()
+  unlikeChange = new EventEmitter<number>();
+  @Input()
+  loggedCompanyId?: number;
 
   constructor(
     private router: Router,
@@ -53,20 +61,33 @@ export class PostComponent implements OnInit {
     return this.post.likes;
   }
 
-  get showReactions(): boolean {
-    return this.authService.currentUser?.role !== 'COMPANY';
-  }
-
   onLike(): void {
-    if (!this.isLoggedIn) {
+    if (!this.authService.currentUser) {
       this.router.navigate(['/register']);
       return;
     }
     this.reactionService.like(this.post.id).subscribe(() => {
       this.post.likes++;
+      this.likeChange.emit(this.post.id);
     }, (err: HttpErrorResponse) => {
       this.toastService.error('Error', err.error.message);
     });
+  }
+
+  onUnlike(): void {
+    if (!this.authService.currentUser) {
+      this.router.navigate(['/register']);
+      return;
+    }
+    this.reactionService.unlike(this.post.id).subscribe({
+      next: response => {
+        this.post.likes--;
+        this.unlikeChange.emit(this.post.id);
+      },
+      error: error => {
+        this.toastService.error('Error', error.error.message);
+      }
+    })
   }
 
   follow(companyId: number) {

@@ -36,7 +36,8 @@ import {
   CloudArrowUpFill,
   Person,
   Plus,
-  Dash
+  Dash,
+  HandThumbsDown
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -76,7 +77,8 @@ const icons = {
   CloudArrowUpFill,
   Person,
   Plus,
-  Dash
+  Dash,
+  HandThumbsDown
 };
 
 @NgModule({

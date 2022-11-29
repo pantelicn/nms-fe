@@ -10,5 +10,6 @@ export interface Talent {
   location: Location;
   availableLocations: AvailableLocation[];
   user: User;
+  likedPosts: number[];
 
 }

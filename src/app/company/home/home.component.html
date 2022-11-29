@@ -1,4 +1,4 @@
-<div class="container mb-5">
+<div class="container mb-5" *ngIf="company">
   <div class="row">
     <div class="col-lg-4 col-md-5 d-md-block d-none">
       <nms-home-profile 
@@ -14,7 +14,7 @@
         (click)="setPostsType(postsType.COMPANY);getMyPosts(0);"
         [ngClass]="selectedPostsType === 'COMPANY' ? 'btn-outline-primary' : 'btn-outline-secondary'">My posts</a>
       <a class="btn w-30 mr-2 posts-selector" 
-        (click)="setPostsType(postsType.FOLLOWING)"
+        (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
         [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following posts</a>
       <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
       (click)="setPostsType(postsType.COUNTRY)"
@@ -25,7 +25,7 @@
       </select>
       <hr/>
       <nms-add-post (postAddedChange)="decreaseRemainingPosts()"></nms-add-post>
-      <nms-company-feed [posts]="posts"></nms-company-feed>
+      <nms-company-feed [posts]="posts" [likedPosts]="company.likedPosts" [loggedCompanyId]="company.id"></nms-company-feed>
     </div>
   </div>
 </div>
