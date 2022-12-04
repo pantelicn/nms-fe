@@ -24,8 +24,14 @@
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
       <hr/>
-      <nms-add-post (postAddedChange)="decreaseRemainingPosts()"></nms-add-post>
-      <nms-company-feed [posts]="posts" [likedPosts]="company.likedPosts" [loggedCompanyId]="company.id"></nms-company-feed>
+      <nms-add-post (postAddedChange)="decreaseRemainingPosts();postAdded($event)"></nms-add-post>
+      <nms-company-feed 
+        [posts]="posts" 
+        [isLastPage]="isLastPage" 
+        (scrollChange)="getNextPosts()"
+        [likedPosts]="company.likedPosts" 
+        [loggedCompanyId]="company.id"></nms-company-feed>
+      <spinner *ngIf="showSpinnerPosts"></spinner>
     </div>
   </div>
 </div>

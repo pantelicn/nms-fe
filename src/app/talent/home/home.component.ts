@@ -17,6 +17,10 @@ export class HomeComponent implements OnInit {
   selectedPostsType: PostsType = PostsType.GLOBAL;
   postsType = PostsType;
   countries: Country[] = [];
+  currentPage: number = 0;
+  isLastPage: boolean = false;
+  selectedCountry?: number;
+  retrievingInProcess: boolean = false;
 
   constructor(private talentService: TalentService,
               private postService: PostService,
@@ -29,6 +33,7 @@ export class HomeComponent implements OnInit {
   }
 
   setPostsType(newPostsType: PostsType) {
+    this.posts = [];
     this.selectedPostsType = newPostsType;
     if (newPostsType === PostsType.COUNTRY) {
       this.getCountries();
@@ -38,7 +43,10 @@ export class HomeComponent implements OnInit {
   getGlobalPosts(page: number) {
     this.postService.findGlobal(page).subscribe({
       next: response => {
-        this.posts = response.content;
+        this.posts.push(...response.content);
+        this.currentPage = response.number;
+        this.isLastPage = response.last;
+        this.retrievingInProcess = false;
       },
       error: error => {
 
@@ -48,6 +56,8 @@ export class HomeComponent implements OnInit {
 
   selectCountry(event: any) {
     if (event.target.value) {
+      this.posts = [];
+      this.selectedCountry = event.target.value;
       this.getCountryPosts(0, event.target.value)
     }
   }
@@ -58,7 +68,10 @@ export class HomeComponent implements OnInit {
     }
     this.postService.findByCountry(page, countryId).subscribe({
       next: response => {
-        this.posts = response.content;
+        this.posts.push(...response.content);
+        this.currentPage = response.number;
+        this.isLastPage = response.last;
+        this.retrievingInProcess = false;
       },
       error: error => {
 
@@ -69,7 +82,10 @@ export class HomeComponent implements OnInit {
   getFollowingCompaniesPosts(page: number) {
     this.postService.findFollowingCompaniesPosts(page).subscribe({
       next: response => {
-        this.posts = response.content;
+        this.posts.push(...response.content);
+        this.currentPage = response.number;
+        this.isLastPage = response.last;
+        this.retrievingInProcess = false;
       },
       error: error => {
 
@@ -97,6 +113,21 @@ export class HomeComponent implements OnInit {
 
       }
     });
+  }
+
+  getNextPosts() {
+    if (this.isLastPage || this.retrievingInProcess) {
+      return;
+    }
+    this.retrievingInProcess = true;
+    this.currentPage++;
+    if (this.selectedPostsType === PostsType.GLOBAL) {
+      this.getGlobalPosts(this.currentPage);
+    } else if (this.selectedPostsType === PostsType.COMPANY) {
+      this.getFollowingCompaniesPosts(this.currentPage);
+    } else if (this.selectedPostsType === PostsType.COUNTRY && this.selectedCountry) {
+      this.getCountryPosts(this.currentPage, this.selectedCountry);
+    }
   }
 
 }

@@ -11,7 +11,9 @@ export interface PostsPage {
   pageable: Pageable,
   totalPages: number,
   totalElements: number,
-  numberOfElements: number
+  numberOfElements: number,
+  last: boolean,
+  number: number
 }
 
 @Injectable({

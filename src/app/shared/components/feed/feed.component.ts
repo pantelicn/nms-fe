@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post } from 'src/app/shared/model';
 import { FeedService } from 'src/app/shared/services/feed.service';
 import { FollowerService } from '../../services/follower.service';
@@ -17,6 +17,10 @@ export class FeedComponent implements OnInit {
   likedPosts: number[] = [];
   @Input()
   loggedCompanyId?: number;
+  @Input()
+  isLastPage: boolean = false;
+  @Output()
+  scrollChange = new EventEmitter<void>();
 
   constructor(private followerService: FollowerService) { }
 
@@ -45,6 +49,12 @@ export class FeedComponent implements OnInit {
 
   removeLikedPost(unlikedPostId: number) {
     this.likedPosts = this.likedPosts.filter(postId => postId !== unlikedPostId);
+  }
+
+  onScroll() {
+    if (!this.isLastPage) {
+      this.scrollChange.emit();
+    }
   }
 
 }

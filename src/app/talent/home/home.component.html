@@ -22,7 +22,10 @@
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
       <hr/>
-      <nms-company-feed [posts]="posts" [likedPosts]="talent.likedPosts"></nms-company-feed>
+      <nms-company-feed [posts]="posts" 
+                        [isLastPage]="isLastPage" 
+                        (scrollChange)="getNextPosts()" 
+                        [likedPosts]="talent.likedPosts"></nms-company-feed>
     </div>
   </div>
 </div>

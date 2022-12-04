@@ -1,4 +1,9 @@
-<div class="my-2" *ngFor="let post of posts">
+<div infinite-scroll
+[immediateCheck]="true"
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="1000"
+    (scrolled)="onScroll()" 
+    class="my-2" *ngFor="let post of posts">
   <nms-post [post]="post" 
     [isFollowing]="followCompanies.includes(post.company.id)"
     [isLiked]="likedPosts.includes(post.id)"
