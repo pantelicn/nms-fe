@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
@@ -11,7 +11,9 @@ export interface SearchPageResponse {
   pageable: Pageable,
   totalPages: number,
   totalElements: number,
-  numberOfElements: number
+  numberOfElements: number,
+  last: boolean,
+  number: number
 }
 
 export interface TalentViewSearchDto {
@@ -19,7 +21,8 @@ export interface TalentViewSearchDto {
   terms: TalentTermViewDto[],
   skills: SkillViewDto[],
   positions: PositionViewDto[],
-  lastTimeSentOn: Date
+  lastTimeSentOn: Date,
+  requestSent?: boolean
 }
 
 export interface PositionViewDto {
@@ -73,7 +76,9 @@ export class TalentService {
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
-  find(facetSpecifiers: FacetSpecifierDto[]): Observable<SearchPageResponse> {
+  find(facetSpecifiers: FacetSpecifierDto[], page: number): Observable<SearchPageResponse> {
+    let params = new HttpParams();
+    params = params.append('page', page);
     facetSpecifiers.forEach(facetSpecifier => {
       if (facetSpecifier.type !== 'TERM' || facetSpecifier.codeType === 'BOOLEAN') {
         facetSpecifier.value = facetSpecifier.code;
@@ -83,7 +88,7 @@ export class TalentService {
     const data = {
       facets: facetSpecifiers
     };
-    return this.httpClient.post<SearchPageResponse>(this.talentsApi + "find", data);
+    return this.httpClient.post<SearchPageResponse>(this.talentsApi + "find", data, {params: params});
   }
 
   addAvailableLocation(country: string, cities: string[]): Observable<Talent> {

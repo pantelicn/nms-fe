@@ -21,6 +21,7 @@ import { EditBenefitsComponent } from './profile/benefits/edit-benefits.componen
 import { ImageCropperModule } from 'ngx-image-cropper';  
 import { UploadProfileImageComponent } from './profile/upload-profile-image/upload-profile-image.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     BootstrapModule,
     IconsModule,
     SharedModule,
-    ImageCropperModule
+    ImageCropperModule,
+    InfiniteScrollModule
   ]
 })
 export class CompanyModule { }

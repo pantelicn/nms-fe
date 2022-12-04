@@ -7,7 +7,7 @@ import { SkillService } from "../../shared/services/skill.service";
 import { Code } from "../templates/templates.component";
 import { Facet, TemplateService, TemplateView } from "../templates/templates.service";
 import { TermService, TermView } from "../templates/term/term.service";
-import { FacetSpecifierDto, SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
+import { SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
 
 @Component({
   selector: 'talents',
@@ -19,6 +19,9 @@ export class TalentsComponent implements OnInit {
   searchResult?: SearchPageResponse;
   templates: TemplateView[] = [];
   selectedTemplate?: TemplateView;
+  isLastPage: boolean = false;
+  retrievingInProcess: boolean = false;
+  currentPage: number = 0;
   searchTalentsForm: FormGroup = this.fb.group({
     facets: new FormArray([]),
   });
@@ -32,10 +35,13 @@ export class TalentsComponent implements OnInit {
     backdropClass: 'customBackdrop',
     size: 'xl'
   };
+  showSpinnerPosts = false;
   selectedTalent?: TalentViewSearchDto;
   negotiableTerms: TalentTermViewDto[] = [];
   nonNegotiableTerms: TalentTermViewDto[] = [];
   noFoundTalents: boolean = false;
+  foundTalents: TalentViewSearchDto[] = [];
+  selectedTalentIndex: number = -1;
   termTypes = [{
     "name": "Position",
     "value": "POSITION"
@@ -211,17 +217,31 @@ export class TalentsComponent implements OnInit {
     this.initForm();
   }
 
-  search() {
-    this.talentService.find(this.searchTalentsForm.value.facets).subscribe(response => {
-      this.searchResult = response;
-      this.noFoundTalents = response.content.length === 0;
+  search(page: number) {
+    if (page === 0) {
+      this.foundTalents = [];
+    }
+    this.talentService.find(this.searchTalentsForm.value.facets, page).subscribe({
+      next: response => {
+        this.searchResult = response;
+        this.noFoundTalents = response.content.length === 0;
+        this.foundTalents.push(...response.content);
+        this.currentPage = response.number;
+        this.isLastPage = response.last;
+        this.retrievingInProcess = false;
+        this.showSpinnerPosts = false;
+      },
+      error: error => {
+        this.retrievingInProcess = false;
+      }
     });
   }
 
-  openSendRequestDialog(talent: TalentViewSearchDto, content: any) {
+  openSendRequestDialog(talent: TalentViewSearchDto, content: any, index: number) {
     this.selectedTalent = talent;
     this.negotiableTerms = [];
     this.nonNegotiableTerms = [];
+    this.selectedTalentIndex = index;
     talent.terms.forEach(term => {
       if (term.negotiable) {
         this.negotiableTerms.push(term);
@@ -230,6 +250,19 @@ export class TalentsComponent implements OnInit {
       }
     });
     this.modalRef = this.modalService.open(content, this.modalOptions);
+  }
+
+  getNextTalents() {
+    if (this.isLastPage || this.retrievingInProcess) {
+      return;
+    }
+    this.retrievingInProcess = true;
+    this.currentPage++;
+    this.search(this.currentPage);
+  }
+
+  requestSent() {
+    this.foundTalents[this.selectedTalentIndex].requestSent = true;
   }
 
   get facets() {

@@ -19,7 +19,7 @@
     <div class="col-lg-9 col-md-7">
       <div class="bg-white border rounded p-3">
         <h3>Filters</h3>
-        <form [formGroup]="searchTalentsForm" (ngSubmit)="search()" novalidate>
+        <form [formGroup]="searchTalentsForm" (ngSubmit)="search(0)" novalidate>
           <div formArrayName="facets">
               <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
                 <div class="col">
@@ -90,8 +90,13 @@
            class="bg-white p-3 my-2 border rounded d-flex justify-content-center">
         <h4>No talents found</h4>
       </div>
-      <div *ngFor="let talent of searchResult?.content; let i = index" 
-        class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start">
+      <div infinite-scroll 
+          [immediateCheck]="true"
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="1000"
+          (scrolled)="getNextTalents()" 
+          *ngFor="let talent of foundTalents; let i = index" 
+          class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start">
         <bi name="person-circle" class="col-md-1 nms-anonymous-avatar avatar text-secondary text-white p-1 avatar"></bi>
         <div class="col-md-8">
           <div *ngIf="talent.lastTimeSentOn" class="alert alert-warning">
@@ -123,8 +128,12 @@
             {{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}} {{talentTerm.unitOfMeasure}} {{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}
           </div>
         </div>
-        <a class="btn btn-primary rounded-pill col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog)" >Send request</a>
+        <div *ngIf="talent.requestSent" class="alert alert-success" role="alert">
+          Request to talent has been sent.
+        </div>
+        <a *ngIf="!talent.requestSent" class="btn btn-primary rounded-pill col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog, i)" >Send request</a>
       </div>
+      <spinner *ngIf="showSpinnerPosts"></spinner>
     </div>
   </div>
 </div>
@@ -133,6 +142,6 @@
   <send-request [negotiableTerms]="negotiableTerms" 
                 [nonNegotiableTerms]="nonNegotiableTerms"
                 [talentId]="selectedTalent?.talentId"
-                (requestSentChange)="search()">
+                (requestSentChange)="requestSent()">
   </send-request>
 </ng-template>

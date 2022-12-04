@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post } from 'src/app/shared/model';
-import { FeedService } from 'src/app/shared/services/feed.service';
 import { FollowerService } from '../../services/follower.service';
 
 @Component({
