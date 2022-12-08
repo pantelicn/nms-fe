@@ -18,7 +18,7 @@
     </div>
     <div class="col-lg-9 col-md-7">
       <div class="bg-white border rounded p-3">
-        <h3>Filters</h3>
+        <h5>Filters</h5>
         <form [formGroup]="searchTalentsForm" (ngSubmit)="search(0)" novalidate>
           <div formArrayName="facets">
               <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
@@ -77,10 +77,8 @@
                 </div>
               </div>
           </div>
-          <div class="d-flex justify-content-center text-end">
-            <a (click)="addFacet()" class="text-secondary text-decoration-none nms-cursor">
-              <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
-            </a>
+          <div class="d-flex justify-content-center text-end mb-5">
+            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
           </div>
           <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="searchTalentsForm.invalid" type="submit">Search</button>
           <div *ngIf="selectedTemplate" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
@@ -96,7 +94,8 @@
           [infiniteScrollThrottle]="1000"
           (scrolled)="getNextTalents()" 
           *ngFor="let talent of foundTalents; let i = index" 
-          class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start">
+          class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start"
+          [ngClass]="{'request-sent' : talent.requestSent}">
         <bi name="person-circle" class="col-md-1 nms-anonymous-avatar avatar text-secondary text-white p-1 avatar"></bi>
         <div class="col-md-8">
           <div *ngIf="talent.lastTimeSentOn" class="alert alert-warning">
@@ -124,11 +123,12 @@
           <div class="mt-2">
             Terms
           </div>
-          <div *ngFor="let talentTerm of talent.terms" class="font-weight-light text-secondary m-0 text-date">
-            {{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}} {{talentTerm.unitOfMeasure}} {{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}
+          <div *ngFor="let talentTerm of talent.terms" class="font-weight-light text-secondary m-0 text-date d-flex justify-content-between">
+            <span>{{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}}</span>
+            <span>{{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}</span>
           </div>
         </div>
-        <div *ngIf="talent.requestSent" class="alert alert-success" role="alert">
+        <div *ngIf="talent.requestSent">
           Request to talent has been sent.
         </div>
         <a *ngIf="!talent.requestSent" class="btn btn-primary rounded-pill col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog, i)" >Send request</a>

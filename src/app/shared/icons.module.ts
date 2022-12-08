@@ -37,7 +37,8 @@ import {
   Person,
   Plus,
   Dash,
-  HandThumbsDown
+  HandThumbsDown,
+  Trash
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -78,7 +79,8 @@ const icons = {
   Person,
   Plus,
   Dash,
-  HandThumbsDown
+  HandThumbsDown,
+  Trash
 };
 
 @NgModule({

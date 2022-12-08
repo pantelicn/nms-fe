@@ -54,24 +54,13 @@ export class TalentsComponent implements OnInit {
     "name": "Term",
     "value": "TERM"
   }];
-  operatorTypes = [{
-    "name": "Equal",
-    "value": "EQ"
-  },
+  operatorTypes = [
   {
-    "name": "Less than",
-    "value": "LT"
-  },
-  {
-    "name": "Less than or equal",
+    "name": "Less or equal",
     "value": "LTE"
   },
   {
-    "name": "Greater than",
-    "value": "GT"
-  },
-  {
-    "name": "Greater than or equal",
+    "name": "More or equal",
     "value": "GTE"
   }];
 

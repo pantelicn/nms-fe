@@ -15,7 +15,14 @@
     <div class="col-lg-9 col-md-7 border-left border-grey">
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
-        <h3>Template</h3>
+        <div class="d-flex justify-content-between mb-3">
+          <h5 *ngIf="selectedTemplateIndex === -1">Create new template</h5>
+          <h5 *ngIf="selectedTemplateIndex > -1">Edit template</h5>
+          <bi *ngIf="selectedTemplateIndex > -1" 
+            name="trash" 
+            class="icon lead fa-lg nms-x-circle nms-cursor" 
+            (click)="openRemoveTemplateDialog(removeTemplateDialog)"></bi>
+        </div>
         <form [formGroup]="addTemplateForm" (ngSubmit)="onSubmit()" novalidate>
           <div class="form-group">
             <input type="text" 
@@ -29,11 +36,10 @@
             </div>
           </div>
           <div formArrayName="facets">
-              <h4>Terms</h4>
               <div *ngIf="facets.length == 0" class="invalid-number-of-facets">
                 Please add facets.
               </div>
-              <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
+              <div [formGroupName]="i" class="row nms-row d-flex align-items-center" *ngFor="let facet of facets.controls; let i=index">
                 <div class="col">
                   <select formControlName="type" 
                           class="form-control" 
@@ -89,14 +95,11 @@
                 </div>
               </div>
           </div>
-          <div class="d-flex justify-content-center text-end">
-            <a (click)="addFacet()" class="text-secondary text-decoration-none nms-cursor">
-              <bi name="plus-circle" class="icon lead fa-lg nms-plus-circle"></bi>
-            </a>
+          <div class="d-flex justify-content-center text-end mb-5">
+            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
           </div>
-          <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="addTemplateForm.invalid || facets.length === 0" type="submit">Save</button>
-          <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-danger btn-block rounded-pill shadow-none" (click)="openRemoveTemplateDialog(removeTemplateDialog)">Remove</div>
           <div *ngIf="selectedTemplateIndex > -1" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
+          <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="addTemplateForm.invalid || facets.length === 0" type="submit">Save</button>
         </form>
       </div>
     </div>

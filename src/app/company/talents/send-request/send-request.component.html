@@ -17,8 +17,13 @@
         Please add request note.
       </div>
     </div>
-    <div class="mb-2">
-      Non-negotiable terms (you will need to accept all these terms if you want to send request to talent)
+    <div>
+      Non-negotiable terms
+    </div>
+    <div class="font-weight-light text-secondary text-date mb-2">
+      <span>
+        NOTE: You will need to accept all these terms if you want to send request to talent
+      </span>
     </div>
     <div formArrayName="nonNegotiableTermsForm">
       <div [formGroupName]="i" class="font-weight-light text-secondary m-0 text-date" *ngFor="let term of nonNegotiableTermsForm.controls; let i=index">
