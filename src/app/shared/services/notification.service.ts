@@ -25,7 +25,9 @@ export interface NotificationInfosPage {
   pageable: Pageable,
   totalPages: number,
   totalElements: number,
-  numberOfElements: number
+  numberOfElements: number,
+  last: boolean,
+  number: number
 }
 
 export interface NotificationInfoView {

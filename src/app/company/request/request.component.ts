@@ -49,7 +49,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   findAllActiveRequests() {
     this.requestService.getAllActiveRequests().subscribe(data => {
-      this.activeRequests = data.content;
+      this.activeRequests = data;
     });
   }
 

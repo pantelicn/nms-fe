@@ -11,7 +11,9 @@ export interface RequestPage {
   pageable: Pageable,
   totalPages: number,
   totalElements: number,
-  numberOfElements: number
+  numberOfElements: number,
+  last: boolean,
+  number: number
 }
 
 export interface Pageable {
@@ -59,9 +61,9 @@ export class RequestService {
   constructor(private httpClient: HttpClient, 
               private authService: AuthService) {}
 
-  getAllActiveRequests(): Observable<RequestPage> {
+  getAllActiveRequests(): Observable<RequestView[]> {
     const username = this.authService.currentUser?.username;
-    return this.httpClient.get<RequestPage>(this.companiesApi + username + "/requests/active");
+    return this.httpClient.get<RequestView[]>(this.companiesApi + username + "/requests/active");
   }
 
   get(id: number): Observable<RequestDetailView> {
