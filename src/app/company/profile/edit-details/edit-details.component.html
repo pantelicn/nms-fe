@@ -8,7 +8,7 @@
   <div class="modal-body">
     <div class="form-group">
       <input type="text" 
-                class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                class="form-control shadow-none rounded-0" 
                 formControlName="name" 
                 id="name" 
                 placeholder="Name" 
@@ -19,7 +19,7 @@
     </div>
     <div class="form-group">
       <textarea type="text" 
-                class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                class="form-control shadow-none rounded-0" 
                 formControlName="description" 
                 id="description" 
                 placeholder="Description" 
@@ -30,19 +30,21 @@
     </div>
     <div formGroupName="newLocation">
       <div class="form-group">
-        <input type="text" 
-                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
-                  formControlName="country" 
-                  id="country" 
-                  placeholder="Country" 
-                  [class]="(country?.invalid && (country?.dirty || country?.touched)) ? 'is-invalid' : ''" />
-        <div *ngIf="country?.errors?.['required']" class="invalid-feedback">
-          Please enter country.
+        <select class="form-control form-control-sm" 
+                (change)="citiesForCountryId();deselectCity();" 
+                id="company-country" 
+                type="text" 
+                formControlName="countryId"
+                [class]="(countryId?.invalid && (countryId?.dirty || countryId?.touched)) ? 'is-invalid' : ''">
+          <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+        </select>
+        <div *ngIf="!countryId" class="invalid-feedback">
+          Please select a country.
         </div>
       </div>
       <div class="form-group">
         <input type="text" 
-                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  class="form-control shadow-none rounded-0" 
                   formControlName="province" 
                   id="province" 
                   placeholder="Province" 
@@ -52,19 +54,18 @@
         </div>
       </div>
       <div class="form-group">
-        <input type="text" 
-                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
-                  formControlName="city" 
-                  id="city" 
-                  placeholder="City" 
-                  [class]="(city?.invalid && (city?.dirty || city?.touched)) ? 'is-invalid' : ''" />
-        <div *ngIf="city?.errors?.['required']" class="invalid-feedback">
+        <select class="form-control form-control-sm" id="company-city" type="text" formControlName="cityId"
+          [class]="cityId?.invalid ? 'is-invalid' : ''">
+          <option [value]="undefined" disabled="true">Select city</option>
+          <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+        <div *ngIf="cityId?.invalid" class="invalid-feedback">
           Please enter city.
         </div>
       </div>
       <div class="form-group">
         <input type="text" 
-                  class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                  class="form-control shadow-none rounded-0" 
                   formControlName="address" 
                   id="address" 
                   placeholder="Address" 

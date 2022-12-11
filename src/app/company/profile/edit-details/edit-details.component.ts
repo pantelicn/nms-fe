@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Company } from "src/app/shared/model";
+import { City, Company, Country } from "src/app/shared/model";
+import { LocationService } from "src/app/shared/services/location.service";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { CompanyService } from "../../company.service";
 
@@ -11,28 +12,32 @@ import { CompanyService } from "../../company.service";
   styleUrls: ['./edit-details.component.scss']
 })
 export class EditDetailsComponent implements OnInit {
+  
   editDetailsForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
   });
   @Input() company?: Company;
   @Output() detailsChange = new EventEmitter<Company>();
+  cities: City[] = [];
+  countries: Country[] = [];
 
   constructor(private modalService: NgbModal, 
               private companyService: CompanyService,
-              private toastService: ToastService ) {}
+              private toastService: ToastService,
+              private locationService: LocationService) {}
 
   ngOnInit(): void {
+    this.getCountries();
     this.editDetailsForm = new FormGroup({
       id: new FormControl(this.company?.id, [Validators.required]),
       name: new FormControl(this.company?.name, [Validators.required]),
       description: new FormControl(this.company?.description, [Validators.required]),
       newLocation: new FormGroup({
         id: new FormControl(this.company?.location.id, [Validators.required]),
-        country: new FormControl(this.company?.location.country, [Validators.required]),
+        countryId: new FormControl(this.company?.location.country.id, [Validators.required]),
         province: new FormControl(this.company?.location.province, []),
-        city: new FormControl(this.company?.location.city, [Validators.required]),
-        countryCode: new FormControl(this.company?.location.countryCode, [Validators.required]),
+        cityId: new FormControl(this.company?.location.city.id, [Validators.required]),
         address: new FormControl(this.company?.location.address, [Validators.required]),
       })
     });
@@ -50,6 +55,34 @@ export class EditDetailsComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  citiesForCountryId() {
+    if (!this.countryId?.value) {
+      return;
+    }
+    this.locationService.getCities(this.countryId.value).subscribe({next : response => {
+      this.cities = response;
+    },
+    error : errro => {
+
+    }});
+  }
+
+  getCountries() {
+    this.locationService.getCountries().subscribe({
+      next: response => {
+        this.countries = response;
+        this.citiesForCountryId();
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  deselectCity() {
+    (this.editDetailsForm.controls['newLocation'] as FormGroup).controls['cityId'].setValue(undefined);
+  }
+
   get name() {
     return this.editDetailsForm.get('name');
   }
@@ -62,16 +95,16 @@ export class EditDetailsComponent implements OnInit {
     return this.editDetailsForm.get('id');
   }
 
-  get country() {
-    return this.editDetailsForm.get('newLocation.country');
+  get countryId() {
+    return this.editDetailsForm.get('newLocation.countryId');
   }
 
   get province() {
     return this.editDetailsForm.get('newLocation.province');
   }
 
-  get city() {
-    return this.editDetailsForm.get('newLocation.city');
+  get cityId() {
+    return this.editDetailsForm.get('newLocation.cityId');
   }
 
   get address() {

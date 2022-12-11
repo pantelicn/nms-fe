@@ -49,7 +49,6 @@ export class ProfileComponent {
         this.subscription = response;
       });
       this.productUsageService.getForCompany().subscribe(response => {
-        console.log(response);
         this.productUsages = response;
       });
     }

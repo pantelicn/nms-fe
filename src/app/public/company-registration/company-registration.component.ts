@@ -37,7 +37,6 @@ export class CompanyRegistrationComponent implements OnInit {
     if (!this.companyDetailsForm.valid) {
       return;
     }
-    console.log(this.companyDetailsForm.value);
     this.registered.emit(this.companyDetailsForm.value);
   }
 
