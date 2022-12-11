@@ -88,7 +88,6 @@ export class RegistrationComponent {
   }
 
   get password() {
-    console.log(this.registrationForm.get('password'));
     return this.registrationForm.get('password');
   }
 
