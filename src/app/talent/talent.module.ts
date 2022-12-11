@@ -15,6 +15,7 @@ import { EditDetailsComponent } from './profile/edit-details/edit-details.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HomeComponent } from './home/home.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -37,7 +38,8 @@ import { HomeComponent } from './home/home.component';
     SharedModule,
     BootstrapModule,
     IconsModule,
-    TalentRoutingModule
+    TalentRoutingModule,
+    InfiniteScrollModule
   ]
 })
 export class TalentModule { }
