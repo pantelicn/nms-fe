@@ -28,8 +28,8 @@
       </small>
     </div>
   </div>
-  <div class="my-4 border-bottom border-top border-gray" *ngFor="let url of contentUrls">
-    <nms-link-preview [url]="url"></nms-link-preview>
+  <div *ngIf="contentUrls && contentUrls[0]" class="my-4 border-bottom border-top border-gray">
+    <nms-link-preview [url]="contentUrls[0]"></nms-link-preview>
   </div>
   <div class="px-3 pb-3">
     <hr>
