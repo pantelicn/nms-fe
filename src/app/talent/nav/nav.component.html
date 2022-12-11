@@ -2,7 +2,7 @@
   <a class="navbar-brand" href="#">
     <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
   </a>
-  <form class="mr-2 col-lg-5 col-md-6 col-sm-8">
+  <form class="mr-2 col-lg-4 col-md-5 col-sm-7">
       <div class="input-group">
           <div class="d-none d-sm-block input-group-prepend">
               <div class="input-group-text">Companies</div>
@@ -47,3 +47,36 @@
     <a class="btn btn-outline-primary rounded-pill shadow-none ml-2" (click)="onLogout()">Sign Out</a>
   </div>
 </nav>
+<div class="d-lg-none fixed-bottom bg-light d-flex justify-content-center py-1">
+  <a routerLink="/talent" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="house-door-fill" class="icon lead"></bi>
+    <small>Home</small>
+  </a>
+  <a [routerLink]="['messages']" [routerLinkActiveOptions]="{exact: true}" (click)="setMessagesToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="envelope-fill" class="icon lead"></bi>
+    <small>Messages</small>
+    <span *ngIf="notificationStatus && notificationStatus.unseenMessages > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+      {{notificationStatus.unseenMessages}}
+    </span>
+  </a>
+  <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" (click)="setRequestsToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="person-bounding-box" class="icon lead"></bi>
+    <small>Requests</small>
+    <span *ngIf="notificationStatus && notificationStatus.unseenRequests > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+      {{notificationStatus.unseenRequests}}
+    </span>
+  </a>
+  <a [routerLink]="['notifications']" [routerLinkActiveOptions]="{exact: true}" (click)="setInfoNotificationsToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="bell-fill" class="icon lead">
+    </bi>
+    <small>Notifications</small>
+    <span *ngIf="notificationStatus && notificationStatus.unseenInfoNotifications > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
+      {{notificationStatus.unseenInfoNotifications}}
+    </span>
+  </a>
+  <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <bi name="person-circle" class="icon lead"></bi>
+    <small>My profile</small>
+  </a>
+  <a class="btn btn-outline-primary rounded-pill shadow-none ml-2" (click)="onLogout()">Sign Out</a>
+</div>
