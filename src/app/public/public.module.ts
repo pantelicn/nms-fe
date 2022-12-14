@@ -14,6 +14,8 @@ import { TalentRegistrationComponent } from './talent-registration/talent-regist
 import { LoginComponent } from './login/login.component';
 import { ActivationComponent } from './activation/activation.component';
 import { PublicFeedComponent } from './feed/feed.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { PublicFeedComponent } from './feed/feed.component';
     RegistrationComponent,
     TalentRegistrationComponent,
     LoginComponent,
-    ActivationComponent
+    ActivationComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
