@@ -2,17 +2,24 @@
     <a class="navbar-brand" href="#">
         <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
     </a>
-    <form class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
+    <div class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
         <div class="input-group">
             <div class="d-none d-sm-block input-group-prepend">
                 <div class="input-group-text">Companies</div>
             </div>
-            <input type="text" class="form-control" placeholder="Search">
+            <input id="typeahead-template"
+                type="text"
+                class="form-control col"
+                [(ngModel)]="companyStartsWith"
+                [ngbTypeahead]="search"
+                [resultTemplate]="rt"
+                [inputFormatter]="formatter" 
+                type="text" class="form-control" placeholder="Search">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
             </div>
         </div>
-    </form>
+    </div>
     <div class="d-none d-md-block">
         <button class="btn btn-outline-primary rounded-pill mr-2 my-2 my-sm-0" type="button" routerLink="/register">Join now</button>
         <button class="btn btn-primary my-2 my-sm-0 mr-2 rounded-pill" type="button" routerLink="/login">Sign in</button>
@@ -24,3 +31,12 @@
     <button class="btn btn-primary rounded-pill my-2 mr-2" type="button" routerLink="/login">Sign in</button>
     <button *ngIf="isAuthenticated" class="btn btn-secondary rounded-pill my-2" type="button" (click)="onLogout()">Log out</button>
 </div>
+
+<ng-template #rt let-r="result" let-t="term">
+    <div (click)="openCompanyProfile(r.id)">
+        <img [src]="'https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png'" 
+        class="mr-2 rounded-circle" 
+        style="width: 2em" />
+	    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+    </div>
+</ng-template>

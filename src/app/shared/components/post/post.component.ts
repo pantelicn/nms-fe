@@ -31,6 +31,7 @@ export class PostComponent implements OnInit {
   unlikeChange = new EventEmitter<number>();
   @Input()
   loggedCompanyId?: number;
+  isLogged: boolean = false;
 
   constructor(
     private router: Router,
@@ -42,6 +43,7 @@ export class PostComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLogged = this.authService.isAuthenticated;
     this.contentUrls = this.linkPreviewService.parseUrls(this.post.content);
   }
 

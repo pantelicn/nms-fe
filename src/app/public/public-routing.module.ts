@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CompanyViewComponent } from '../shared/components/company-view/company-view.component';
 import { 
   PublicComponent,
   LandingComponent,
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'activation', component: ActivationComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'reset-password', component: ResetPasswordComponent }
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'companies/:id', component: CompanyViewComponent }
     ] 
   }
 ];

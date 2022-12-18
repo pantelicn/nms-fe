@@ -22,6 +22,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ConfirmationDialog } from './dialogs/confirmation/confirmation.component';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { FeedComponent } from './components/feed/feed.component';
+import { CompanyViewComponent } from './components/company-view/company-view.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { FeedComponent } from './components/feed/feed.component';
     SpinnerComponent,
     ConfirmationDialog,
     TypeaheadComponent,
-    FeedComponent
+    FeedComponent,
+    CompanyViewComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,8 @@ import { FeedComponent } from './components/feed/feed.component';
     NgxLinkifyjsModule,
     FormsModule,
     ReactiveFormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    FormsModule
   ],
   exports: [
     PostComponent,
@@ -60,7 +63,9 @@ import { FeedComponent } from './components/feed/feed.component';
     SpinnerComponent,
     ConfirmationDialog,
     TypeaheadComponent,
-    FeedComponent
+    FeedComponent,
+    CompanyViewComponent,
+    FormsModule
   ]
 })
 export class SharedModule { }

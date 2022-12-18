@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Post } from 'src/app/shared/model';
 import { FollowerService } from '../../services/follower.service';
 
@@ -21,17 +22,20 @@ export class FeedComponent implements OnInit {
   @Output()
   scrollChange = new EventEmitter<void>();
 
-  constructor(private followerService: FollowerService) { }
+  constructor(private followerService: FollowerService, 
+              private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.followerService.following().subscribe({
-      next: response => {
-        this.followCompanies = response;
-      },
-      error: error => {
-
-      }
-    })
+    if (this.authService.isAuthenticated) {
+      this.followerService.following().subscribe({
+        next: response => {
+          this.followCompanies = response;
+        },
+        error: error => {
+  
+        }
+      })
+    }
   }
 
   followCompany(companyId: number) {

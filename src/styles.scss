@@ -58,3 +58,7 @@ html, body {
   border-color: $cyan;
   background-color: $cyan;
 }
+
+.dropdown-item.active {
+  background-color: $cyan;
+}
