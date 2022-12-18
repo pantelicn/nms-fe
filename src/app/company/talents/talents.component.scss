@@ -43,6 +43,11 @@
   height: 2em;
 }
 
+.nms-small-icon {
+  width: 1em;
+  color: $cyan;
+}
+
 .nms-x-circle:hover {
   color: theme-color("danger");
 }
@@ -92,7 +97,7 @@
   top: 50%;
   width: 100%;
   height: 1px;
-  background: $gray-300;
+  background: $gray-200;
 }
 
 #experience-years {

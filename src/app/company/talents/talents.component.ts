@@ -1,13 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Skill } from "src/app/shared/model";
+import { City, Country, Skill } from "src/app/shared/model";
 import { PositionService, PositionView } from "../templates/position/position.service";
 import { SkillService } from "../../shared/services/skill.service";
 import { Code } from "../templates/templates.component";
 import { Facet, TemplateService, TemplateView } from "../templates/templates.service";
 import { TermService, TermView } from "../templates/term/term.service";
-import { SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
+import { AvailableLocationSearch, SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
+import { Searchable, TypeaheadComponent } from "src/app/shared/components/typeahead/typeahead.component";
+import { LocationService } from "src/app/shared/services/location.service";
 
 @Component({
   selector: 'talents',
@@ -30,7 +32,12 @@ export class TalentsComponent implements OnInit {
   skills: Skill[] = [];
   terms: TermView[] = [];
   codes: Map<number, Code[]> = new Map();
-  private modalRef?: NgbModalRef;
+  availableLocations: AvailableLocationSearch[] = [];
+  countries: Country[] = [];
+  cities: City[] = [];
+  selectedCountry: Country | null = null;
+  selectedCities: City[] = [];
+  @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
   modalOptions: NgbModalOptions = {
     backdrop: true,
     backdropClass: 'customBackdrop',
@@ -71,7 +78,8 @@ export class TalentsComponent implements OnInit {
               private positionService: PositionService,
               private termService: TermService, 
               private talentService: TalentService,
-              private modalService: NgbModal) {}
+              private modalService: NgbModal,
+              private locationService: LocationService) {}
 
   ngOnInit(): void {
     this.findAll();
@@ -79,6 +87,7 @@ export class TalentsComponent implements OnInit {
     this.initSkills();
     this.initPositions();
     this.initTerms();
+    this.initCountries();
   }
 
   findAll() {
@@ -213,7 +222,7 @@ export class TalentsComponent implements OnInit {
       this.foundTalents = [];
     }
     const formValue = this.searchTalentsForm.value;
-    this.talentService.find(formValue.facets, formValue.experienceYears, page).subscribe({
+    this.talentService.find(formValue.facets, formValue.experienceYears, this.availableLocations, page).subscribe({
       next: response => {
         this.searchResult = response;
         this.foundTalents.push(...response.content);
@@ -241,7 +250,7 @@ export class TalentsComponent implements OnInit {
         this.nonNegotiableTerms.push(term);
       }
     });
-    this.modalRef = this.modalService.open(content, this.modalOptions);
+    this.modalService.open(content, this.modalOptions);
   }
 
   getNextTalents() {
@@ -289,10 +298,71 @@ export class TalentsComponent implements OnInit {
     }
   }
 
+  initCountries(): void {
+    this.locationService.getCountries().subscribe(countries => this.countries = countries);
+  }
+
+  onSelectCountry(country: any): void {
+    this.selectedCountry = country;
+    this.locationService.getCities(country.id).subscribe(cities => this.cities = cities);
+  }
+
+  onSelectCity(city: any): void {
+    this.selectedCities.push(city);
+    this.cities.splice(this.cities.findIndex(c => city.name === c.name), 1);
+    this.typeahead.reset();
+  }
+  
+  clearCountry(): void {
+    this.selectedCities = [];
+    this.selectedCountry = null;
+  }
+  
+  addLocation(): void {
+    if (this.selectedCountry) {
+      this.countries.splice(this.countries.findIndex(c => c.name === this.selectedCountry?.name), 1);
+      this.availableLocations.push({
+        country: this.selectedCountry.name,
+        cities: this.selectedCities.map(city => city.name)
+      });
+      this.clearCountry();
+    }
+  }
+
+  removeLocation(availableLocation: AvailableLocationSearch): void {
+      this.availableLocations.splice(this.availableLocations.findIndex(location => availableLocation.country === location.country));
+      this.clearCountry();
+      this.initCountries();
+  }
+
+  clearCity(city: City): void {
+    this.selectedCities.splice(this.selectedCities.findIndex(c => c.name === city.name));
+  }
+
   get foundFilteredTalents(): TalentViewSearchDto[] {
     return this.foundTalents.filter(talent => 
       !(talent.previousRequest && (talent.previousRequest.status === 'ACCEPTED' || talent.previousRequest.status === 'PENDING'))
     );
+  }
+
+  get searchableCountries(): Searchable[] {
+    return this.countries
+      .filter(country => !this.availableLocations.map(availableLocation => availableLocation.country).includes(country.name))
+      .map(country => {
+        return {
+          searchTerm: country.name,
+          object: country
+        }
+      });
+  }
+
+  get searchableCities(): Searchable[] {
+    return this.cities.map(city => {
+      return {
+        searchTerm: city.name,
+        object: city
+      }
+    });
   }
 
 }

@@ -67,6 +67,11 @@ export interface TalentBasicInfoDto {
   lastName: string;
 }
 
+export interface AvailableLocationSearch {
+  country: string;
+  cities: string[];
+}
+
 @Injectable({
   providedIn: 'any'
 })
@@ -76,7 +81,7 @@ export class TalentService {
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
-  find(facetSpecifiers: FacetSpecifierDto[], experienceYears: number, page: number): Observable<SearchPageResponse> {
+  find(facetSpecifiers: FacetSpecifierDto[], experienceYears: number, locations: AvailableLocationSearch[], page: number): Observable<SearchPageResponse> {
     let params = new HttpParams();
     params = params.append('page', page);
     facetSpecifiers.forEach(facetSpecifier => {
@@ -87,7 +92,8 @@ export class TalentService {
     });
     const data = {
       facets: facetSpecifiers,
-      experienceYears
+      experienceYears,
+      locations
     };
     return this.httpClient.post<SearchPageResponse>(this.talentsApi + "find", data, {params: params});
   }
