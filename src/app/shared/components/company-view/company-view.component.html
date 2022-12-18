@@ -1,0 +1,30 @@
+<div class="container mb-5" *ngIf="company">
+  <div class="row">
+    <div class="col-lg-4 col-md-5 d-md-block d-none">
+      <div class="py-3 px-3 sticky-top top-gap bg-white border rounded">
+        <img class="bg-light rounded-circle p-1 w-100" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
+        <div class="h2">{{company.name}}</div>
+        <div class="mt-4">{{company.description}}</div>
+        <div class="mt-3 mb-3 d-flex">
+          <bi class="icon mr-1 text-primary" name="geo-alt"></bi>
+          {{company.location?.city?.name}}, {{company.location?.country?.name}}
+        </div>
+        <div *ngFor="let contact of company.contacts">
+          <div class="d-flex mb-2 align-items-center">
+            <bi *ngIf="contact.type === 'EMAIL'" class="icon mr-2 text-primary nms-icon" name="envelope"></bi>
+            <bi *ngIf="contact.type === 'TELEPHONE'" class="icon mr-2 text-primary nms-icon" name="telephone"></bi>
+            <bi *ngIf="contact.type === 'URL'" class="icon mr-2 text-primary nms-icon" name="link"></bi>
+            {{contact?.value}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-7">
+      <nms-company-feed 
+        [posts]="posts" 
+        [isLastPage]="isLastPage" 
+        (scrollChange)="getNextPosts()"
+        [loggedCompanyId]="company.id"></nms-company-feed>
+    </div>
+  </div>
+</div>
