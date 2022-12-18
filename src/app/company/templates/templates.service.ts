@@ -29,6 +29,7 @@ export interface TemplateView {
   id: number,
   name: string,
   facets: FacetView[]
+  experienceYears: number
 }
 
 export interface FacetView {

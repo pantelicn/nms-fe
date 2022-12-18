@@ -75,3 +75,26 @@
 .request-sent {
   background-color: #d4edda !important;
 }
+
+.hr {
+  overflow: hidden;
+}
+
+.hr > span {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.hr > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: $gray-300;
+}
+
+#experience-years {
+  width: 5em;
+}

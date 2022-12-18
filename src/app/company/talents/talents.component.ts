@@ -24,6 +24,7 @@ export class TalentsComponent implements OnInit {
   currentPage: number = 0;
   searchTalentsForm: FormGroup = this.fb.group({
     facets: new FormArray([]),
+    experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
   });
   positions: PositionView[] = [];
   skills: Skill[] = [];
@@ -107,6 +108,7 @@ export class TalentsComponent implements OnInit {
   selectTemplate(template: TemplateView) {
     this.searchTalentsForm = this.fb.group({
       facets: new FormArray([]),
+      experienceYears: new FormControl(template.experienceYears, [Validators.min(0), Validators.max(99)])
     });
     for (let i = 0; i < template.facets.length ; i++) {
       let facet = template.facets[i];
@@ -210,7 +212,8 @@ export class TalentsComponent implements OnInit {
     if (page === 0) {
       this.foundTalents = [];
     }
-    this.talentService.find(this.searchTalentsForm.value.facets, page).subscribe({
+    const formValue = this.searchTalentsForm.value;
+    this.talentService.find(formValue.facets, formValue.experienceYears, page).subscribe({
       next: response => {
         this.searchResult = response;
         this.foundTalents.push(...response.content);
@@ -271,6 +274,7 @@ export class TalentsComponent implements OnInit {
   private initForm() {
     this.searchTalentsForm = this.fb.group({
       facets: new FormArray([]),
+      experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
     });
     this.addFacet();
   }

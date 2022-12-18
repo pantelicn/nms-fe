@@ -20,6 +20,9 @@
       <div class="bg-white border rounded p-3">
         <h5>Filters</h5>
         <form [formGroup]="searchTalentsForm" (ngSubmit)="search(0)" novalidate>
+          <div class="hr">
+            <span class="text-secondary">Terms</span>
+          </div>
           <div formArrayName="facets">
               <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
                 <div class="col">
@@ -76,9 +79,19 @@
                   </a>
                 </div>
               </div>
+              
           </div>
           <div class="d-flex justify-content-center text-end mb-5">
             <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
+          </div>
+          <div class="hr">
+            <span class="text-secondary">Details (optional)</span>
+          </div>
+          <div class="row mb-3">
+            <div class="col-auto">
+              <label for="experience-years" class="text-secondary">Minimum years of experience:</label>
+              <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
+            </div>
           </div>
           <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="searchTalentsForm.invalid" type="submit">Search</button>
           <div *ngIf="selectedTemplate" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
