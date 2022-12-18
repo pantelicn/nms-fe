@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { Talent } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
-import { Pageable } from "../request/request.service";
+import { Pageable, RequestView } from "../request/request.service";
 
 export interface SearchPageResponse {
   content: TalentViewSearchDto[],
@@ -21,8 +21,8 @@ export interface TalentViewSearchDto {
   terms: TalentTermViewDto[],
   skills: SkillViewDto[],
   positions: PositionViewDto[],
-  lastTimeSentOn: Date,
-  requestSent?: boolean
+  previousRequest: RequestView;
+  requestSent: boolean
 }
 
 export interface PositionViewDto {
