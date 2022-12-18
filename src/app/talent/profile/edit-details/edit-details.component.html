@@ -6,12 +6,22 @@
     </button>
   </div>
   <div class="modal-body">
-    <form *ngIf="nameForm" [formGroup]="nameForm" class="row" novalidate (submit)="onUpdateName()">
-      <div class="col">
-        <input class="form-control" type="text" placeholder="First name" formControlName="firstName">
+    <form *ngIf="nameForm" [formGroup]="nameForm" novalidate (submit)="onUpdateName()">
+      <div class="row mb-2">
+        <div class="col-auto">
+          <label for="first-name" class="text-secondary">First name</label>
+          <input id='first-name' class="form-control" type="text" formControlName="firstName">
+        </div>
+        <div class="col-auto">
+          <label for="last-name" class="text-secondary">Last name</label>
+          <input id="last-name" class="form-control" type="text" formControlName="lastName">
+        </div>
       </div>
-      <div class="col">
-        <input class="form-control" type="text" placeholder="Last name" formControlName="lastName">
+      <div class="row mb-2">
+        <div class="col-auto">
+          <label for="experience-years" class="text-secondary">Years of experience</label>
+          <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
+        </div>
       </div>
       <button class="btn btn-primary rounded-pill mr-3" [disabled]="nameForm.invalid || nameForm.pristine" type="submit">Save</button>
     </form>
