@@ -35,7 +35,8 @@ export class EditDetailsComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.nameForm = new FormGroup({
       firstName: new FormControl(this.talent.firstName, [Validators.required]),
-      lastName: new FormControl(this.talent.lastName, [Validators.required])
+      lastName: new FormControl(this.talent.lastName, [Validators.required]),
+      experienceYears: new FormControl(this.talent.experienceYears, [Validators.required, Validators.min(0), Validators.max(99)])
     });
   }
 

@@ -213,14 +213,14 @@ export class TalentsComponent implements OnInit {
     this.talentService.find(this.searchTalentsForm.value.facets, page).subscribe({
       next: response => {
         this.searchResult = response;
-        this.noFoundTalents = response.content.length === 0;
         this.foundTalents.push(...response.content);
+        this.noFoundTalents = this.foundFilteredTalents.length === 0;
         this.currentPage = response.number;
         this.isLastPage = response.last;
         this.retrievingInProcess = false;
         this.showSpinnerPosts = false;
       },
-      error: error => {
+      error: () => {
         this.retrievingInProcess = false;
       }
     });
@@ -283,6 +283,12 @@ export class TalentsComponent implements OnInit {
     } else {
       return 'Select skill';
     }
+  }
+
+  get foundFilteredTalents(): TalentViewSearchDto[] {
+    return this.foundTalents.filter(talent => 
+      !(talent.previousRequest && (talent.previousRequest.status === 'ACCEPTED' || talent.previousRequest.status === 'PENDING'))
+    );
   }
 
 }

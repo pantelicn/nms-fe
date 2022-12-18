@@ -7,7 +7,8 @@
             <h3>Details</h3>
             <div class="mb-2 h4">{{talent?.firstName}} {{talent?.lastName}}</div>
             <div class="h5 text-secondary font-weight-light">{{talent?.user?.username}}</div>
-            <div class="d-flex">
+            <div class="text-secondary">Years of experience: {{talent?.experienceYears}}</div>
+            <div class="d-flex my-3">
               <bi class="icon mr-1 text-primary nms-icon" name="geo-alt"></bi>
               {{talent?.location?.city}}, 
               {{talent?.location?.province ? talent?.location?.province + ',' : ''}}
