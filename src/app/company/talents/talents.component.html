@@ -93,6 +93,49 @@
               <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
             </div>
           </div>
+          <div class="mb-3">
+            <label class="text-secondary">Talent's available locations:</label>
+            <div *ngFor="let availableLocation of availableLocations" class="row mb-2">
+              <div class="col">
+                <div class="d-flex align-items-center">
+                  <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
+                  {{availableLocation.country}}
+                </div>
+              </div>
+              <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
+              <div class="col-2">
+                <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="removeLocation(availableLocation)">
+                  <bi name="x-circle" class="nms-x-circle"></bi>
+                </a>
+              </div>
+            </div>
+            <div class="row" *ngIf="searchableCountries.length">
+              <div class="col">
+                <typeahead *ngIf="!selectedCountry" [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
+                <div *ngIf="selectedCountry" class="d-flex justify-content-between align-items-center">
+                  {{selectedCountry.name}}
+                  <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCountry()">
+                    <bi name="x-circle" class="nms-x-circle"></bi>
+                  </a>
+                </div>
+              </div>
+              <div class="col" >
+                <div *ngFor="let selectedCity of selectedCities" class="d-flex justify-content-between align-items-center mb-2">
+                  {{selectedCity.name}}
+                  <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCity(selectedCity)">
+                    <bi name="x-circle" class="nms-x-circle"></bi>
+                  </a>
+                </div>
+                <typeahead *ngIf="selectedCountry && searchableCities.length" [data]="searchableCities" placeholder="Optionally select city" (selectItem)="onSelectCity($event)"></typeahead>
+              </div>
+              <div class="col-2">
+                <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="addLocation()">
+                  <bi name="plus-circle" class="nms-plus-circle"></bi>
+                </a>
+              </div>
+            </div>
+          </div>
+          <hr>
           <button class="btn btn-primary rounded-pill my-2 w-100" [disabled]="searchTalentsForm.invalid" type="submit">Search</button>
           <div *ngIf="selectedTemplate" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
         </form>
