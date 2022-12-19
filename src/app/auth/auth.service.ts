@@ -26,7 +26,7 @@ export interface LoginRequest {
 })
 export class AuthService {
 
-  private user!: User;
+  private user?: User;
   private authenticated = false;
   private readonly loginApi = 'http://localhost:8080/api/login';
 
@@ -47,12 +47,12 @@ export class AuthService {
     }
   }
 
-  get currentUser(): User | null {
+  get currentUser(): User | null | undefined {
     return this.user;
   }
 
   get isAuthenticated(): boolean {
-    return this.authenticated;
+    return this.user !== null && this.user !== undefined;
   }
 
   login(loginRequest: LoginRequest) {
@@ -66,6 +66,7 @@ export class AuthService {
 
   logout(): void {
     this.authenticated = false;
+    this.user = undefined;
     this.router.navigate(['/login']);
     localStorage.removeItem('jwt');
   }

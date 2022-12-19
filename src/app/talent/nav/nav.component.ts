@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NotificationResponse, NotificationService, NotificationType, NotificationView } from 'src/app/shared/services/notification.service';
+import { PublicCompanyService, PublicCompanyView } from 'src/app/shared/services/public-company.service';
 
 @Component({
   selector: 'nms-nav',
@@ -15,10 +18,15 @@ export class NavComponent implements OnInit, OnDestroy {
   notifications: NotificationView[] = [];
   numberOfunseenNotifications = 0;
   notificationStatus?: NotificationResponse;
-  requestNotifications: NotificationView[] = []
+  requestNotifications: NotificationView[] = [];
+  searching: boolean = false;
+  searchFailed: boolean = false;
+  companyStartsWith: any;
 
   constructor(private authService: AuthService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private publicCompanyService: PublicCompanyService, 
+              private router: Router) { }
 
   onLogout(): void {
     this.authService.logout();
@@ -33,6 +41,30 @@ export class NavComponent implements OnInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+  }
+
+  search: OperatorFunction<string, readonly PublicCompanyView[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap((term) =>
+        this.publicCompanyService.findByNameStartsWith(term, 0).pipe(
+          tap(() => (this.searchFailed = false)),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          }),
+        ),
+      ),
+      tap(() => (this.searching = false)),
+    );
+
+  formatter = (x: { name: string }) => x.name;
+
+  openCompanyProfile(id: number) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+    this.router.navigate(['talent/companies/' + id]));
   }
 
   findAll(page: number) {

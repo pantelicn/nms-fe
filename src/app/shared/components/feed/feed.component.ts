@@ -16,17 +16,21 @@ export class FeedComponent implements OnInit {
   @Input()
   likedPosts: number[] = [];
   @Input()
-  loggedCompanyId?: number;
+  companyId?: number;
   @Input()
   isLastPage: boolean = false;
+  @Input()
+  loggedCompanyId?: number;
   @Output()
   scrollChange = new EventEmitter<void>();
+  isLogged: boolean = false;
 
   constructor(private followerService: FollowerService, 
               private authService: AuthService) { }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated) {
+      this.isLogged = true;
       this.followerService.following().subscribe({
         next: response => {
           this.followCompanies = response;

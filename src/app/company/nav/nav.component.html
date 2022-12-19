@@ -2,14 +2,22 @@
   <a class="navbar-brand d-none d-md-block" href="#">
     <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
   </a>
-  <form class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
+  <div class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
       <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input id="typeahead-template"
+                type="text"
+                class="form-control col"
+                [(ngModel)]="companyStartsWith"
+                [ngbTypeahead]="search"
+                [resultTemplate]="rt"
+                [inputFormatter]="formatter" 
+                type="text" class="form-control" 
+                placeholder="Search">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
         </div>
       </div>
-  </form>
+    </div>
   <div class="d-none d-lg-flex">
     <a routerLink="/company" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="house-door-fill" class="icon lead"></bi>
@@ -91,3 +99,12 @@
   </a>
   <a class="btn btn-outline-primary rounded-pill shadow-none ml-2" (click)="onLogout()">Sign Out</a>
 </div>
+
+<ng-template #rt let-r="result" let-t="term">
+  <div (click)="openCompanyProfile(r.id)">
+      <img [src]="'https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png'" 
+      class="mr-2 rounded-circle" 
+      style="width: 2em" />
+    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+  </div>
+</ng-template>

@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, tap, switchMap, catchError, of } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { NotificationResponse, NotificationService, NotificationType } from "src/app/shared/services/notification.service";
+import { PublicCompanyService, PublicCompanyView } from "src/app/shared/services/public-company.service";
 
 @Component({
     selector: 'company-nav',
@@ -14,9 +17,14 @@ export class NavComponent {
     intervalId: any;
     numberOfunseenNotifications = 0;
     notificationStatus?: NotificationResponse;
+    searching: boolean = false;
+    searchFailed: boolean = false;
+    companyStartsWith: any;
 
     constructor(private authService: AuthService, 
-                private notificationService: NotificationService) { }
+                private notificationService: NotificationService, 
+                public router: Router,
+                private publicCompanyService: PublicCompanyService) { }
 
     ngOnInit(): void {
         this.findAll(0);
@@ -27,6 +35,30 @@ export class NavComponent {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+    }
+
+    search: OperatorFunction<string, readonly PublicCompanyView[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap((term) =>
+        this.publicCompanyService.findByNameStartsWith(term, 0).pipe(
+          tap(() => (this.searchFailed = false)),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          }),
+        ),
+      ),
+      tap(() => (this.searching = false)),
+    );
+
+    formatter = (x: { name: string }) => x.name;
+    
+    openCompanyProfile(id: number) {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+      this.router.navigate(['company/' + id]));
     }
 
     onLogout(): void {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CompanyViewComponent } from '../shared/components/company-view/company-view.component';
 import { MessagesComponent } from '../shared/components/messages/messages.component';
 import { HomeComponent } from './home/home.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -16,7 +17,8 @@ const routes: Routes = [
       { path: 'messages', component: MessagesComponent },
       { path: 'requests', component: RequestComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'notifications', component: NotificationsComponent}
+      { path: 'notifications', component: NotificationsComponent },
+      { path: 'companies/:id', component: CompanyViewComponent }
     ]
   }
 ]

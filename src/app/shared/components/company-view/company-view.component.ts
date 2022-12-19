@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
+import { CompanyService } from "src/app/company/company.service";
 import { PublicCompanyService, PublicCompanyView } from "src/app/shared/services/public-company.service";
 import { Post } from "../../model/post.model";
 import { PostService } from "../../services/post.service";
@@ -17,12 +19,26 @@ export class CompanyViewComponent implements OnInit {
   retrievingInProcess: boolean = false;
   currentPage: number = 0;
   showSpinnerPosts: boolean = true;
+  isCompanyLogged: boolean = false;
+  loggedCompanyId?: number;
 
   constructor(private publicCompanyService: PublicCompanyService, 
+              private companyService: CompanyService,
               private route: ActivatedRoute,
-              private postService: PostService) {}
+              private postService: PostService, 
+              private authService: AuthService) {}
   
   ngOnInit(): void {
+    if (this.authService.currentUser?.role === 'COMPANY') {
+      this.companyService.getCompany(this.authService.currentUser.username).subscribe({
+        next: response => {
+          this.loggedCompanyId = response.id;
+        },
+        error: error => {
+
+        }
+      })
+    }
     this.getCompanyData();
     this.getCompanyPosts(0);
   }

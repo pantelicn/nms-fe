@@ -14,7 +14,7 @@
             <bi *ngIf="contact.type === 'EMAIL'" class="icon mr-2 text-primary nms-icon" name="envelope"></bi>
             <bi *ngIf="contact.type === 'TELEPHONE'" class="icon mr-2 text-primary nms-icon" name="telephone"></bi>
             <bi *ngIf="contact.type === 'URL'" class="icon mr-2 text-primary nms-icon" name="link"></bi>
-            {{contact?.value}}
+            <span>{{contact?.value}}</span>
           </div>
         </div>
       </div>
@@ -24,7 +24,8 @@
         [posts]="posts" 
         [isLastPage]="isLastPage" 
         (scrollChange)="getNextPosts()"
-        [loggedCompanyId]="company.id"></nms-company-feed>
+        [companyId]="company.id"
+        [loggedCompanyId]="loggedCompanyId"></nms-company-feed>
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@
     (scrolled)="onScroll()" 
     class="my-2" *ngFor="let post of posts">
   <nms-post [post]="post" 
+    [isLogged]="isLogged"
     [isFollowing]="followCompanies.includes(post.company.id)"
     [isLiked]="likedPosts.includes(post.id)"
     (followChange)="followCompany($event)"

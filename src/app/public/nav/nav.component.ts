@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { OperatorFunction, Observable, debounceTime, map, catchError, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { OperatorFunction, Observable, debounceTime, catchError, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { CompanyService } from 'src/app/company/company.service';
 import { PublicCompanyService, PublicCompanyView } from 'src/app/shared/services/public-company.service';
 
 @Component({
@@ -18,7 +17,7 @@ export class NavComponent {
 
   constructor(private authService: AuthService, 
               private publicCompanyService: PublicCompanyService,
-    public router: Router) { }
+              public router: Router) { }
 
   search: OperatorFunction<string, readonly PublicCompanyView[]> = (text$: Observable<string>) =>
   text$.pipe(
