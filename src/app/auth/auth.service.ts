@@ -59,8 +59,8 @@ export class AuthService {
     this.httpClient.post<LoginSuccessResponse>(this.loginApi, loginRequest).subscribe(response => {
       this.setCurrentUser(response.token, response.username, response.roles);
     },
-    error => {
-      this.toastService.error('Error logging in.', error.message);
+    () => {
+      this.toastService.error('', 'Invalid email or password.');
     });
   }
 
