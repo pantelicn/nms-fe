@@ -7,6 +7,7 @@
   </div>
   <div class="modal-body">
     <div class="form-group">
+      <small for="name" class="text-secondary">Name</small>
       <input type="text" 
                 class="form-control shadow-none rounded-0" 
                 formControlName="name" 
@@ -18,6 +19,7 @@
       </div>
     </div>
     <div class="form-group">
+      <small for="description" class="text-secondary">Description</small>
       <textarea type="text" 
                 class="form-control shadow-none rounded-0" 
                 formControlName="description" 
@@ -30,6 +32,7 @@
     </div>
     <div formGroupName="newLocation">
       <div class="form-group">
+        <small for="company-country" class="text-secondary">Country</small>
         <select class="form-control form-control-sm" 
                 (change)="citiesForCountryId();deselectCity();" 
                 id="company-country" 
@@ -43,6 +46,7 @@
         </div>
       </div>
       <div class="form-group">
+        <small for="province" class="text-secondary">Province</small>
         <input type="text" 
                   class="form-control shadow-none rounded-0" 
                   formControlName="province" 
@@ -54,6 +58,7 @@
         </div>
       </div>
       <div class="form-group">
+        <small for="company-city" class="text-secondary">City</small>
         <select class="form-control form-control-sm" id="company-city" type="text" formControlName="cityId"
           [class]="cityId?.invalid ? 'is-invalid' : ''">
           <option [value]="undefined" disabled="true">Select city</option>
@@ -64,6 +69,7 @@
         </div>
       </div>
       <div class="form-group">
+        <small for="address" class="text-secondary">Address</small>
         <input type="text" 
                   class="form-control shadow-none rounded-0" 
                   formControlName="address" 

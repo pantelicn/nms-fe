@@ -21,62 +21,54 @@
       </div>
     </div>
     <div class="col-lg-8 col-md-7">
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-md-10">
-            <h3>Details</h3>
-            <div class="mb-2"><b>Name</b>: {{company?.name}}</div>
-            <div class="mb-2"><b>Username</b>: {{username}}</div>
-            <div class="mb-2"><b>Description</b>: {{company?.description}}</div>
-            <div *ngIf="company?.location" class="d-flex">
-              <bi class="icon mr-1 text-primary nms-icon" name="geo-alt"></bi>
-              {{company.location.address}}, 
-              {{company.location.city.name}}, 
-              {{company.location.province ? company?.location?.province + ',' : ''}}
-              {{company.location.country.name}}
-            </div>
-          </div>
-          <div class="col-md-2">
-            <a class="text-secondary text-decoration-none nms-cursor">
-              <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
-            </a>
+      <div class="mt-1 p-4 bg-white border rounded">
+        <div class="d-flex justify-content-between">
+          <h3>Details</h3>
+          <a class="text-secondary text-decoration-none nms-cursor">
+            <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
+          </a>
+        </div>
+        <div class="mb-2"><b>Name</b>: {{company?.name}}</div>
+        <div class="mb-2"><b>Username</b>: {{username}}</div>
+        <div class="mb-2"><b>Description</b>: {{company?.description}}</div>
+        <div *ngIf="company?.location" class="d-flex">
+          <bi class="icon mr-1 text-primary nms-icon" name="geo-alt"></bi>
+          {{company.location.address}}, 
+          {{company.location.city.name}}, 
+          {{company.location.province ? company?.location?.province + ',' : ''}}
+          {{company.location.country.name}}
+        </div>
+      </div>
+      <div class="p-4 mt-1 bg-white border">
+        <div class="d-flex justify-content-between">
+          <h3>Contacts</h3>
+          <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editContactsDialog)">
+            <bi name="pencil-square" class="lead nms-pencil-square"></bi>
+          </a>
+        </div>
+        <div *ngFor="let contact of contacts">
+          <div class="d-flex mb-2 align-items-center">
+            <bi *ngIf="contact.type === 'EMAIL'" class="icon mr-2 text-primary nms-icon" name="envelope"></bi>
+            <bi *ngIf="contact.type === 'TELEPHONE'" class="icon mr-2 text-primary nms-icon" name="telephone"></bi>
+            <bi *ngIf="contact.type === 'URL'" class="icon mr-2 text-primary nms-icon" name="link"></bi>
+            {{contact?.value}}
           </div>
         </div>
       </div>
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-md-8">
-            <h3>Contacts</h3>
-            <div *ngFor="let contact of contacts">
-              <div class="d-flex mb-2 align-items-center">
-                <bi *ngIf="contact.type === 'EMAIL'" class="icon mr-2 text-primary nms-icon" name="envelope"></bi>
-                <bi *ngIf="contact.type === 'TELEPHONE'" class="icon mr-2 text-primary nms-icon" name="telephone"></bi>
-                <bi *ngIf="contact.type === 'URL'" class="icon mr-2 text-primary nms-icon" name="link"></bi>
-                {{contact?.value}}
-              </div>
+      <div class="p-4 mt-1 bg-white border rounded">
+        <div>
+          <div>
+            <div class="d-flex justify-content-between">
+              <h3>Benefits</h3>
+              <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
+                <bi name="pencil-square" class="lead nms-pencil-square"></bi>
+              </a>
             </div>
-          </div>
-          <div class="col-md-2">
-            <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editContactsDialog)">
-              <bi name="pencil-square" class="lead nms-pencil-square"></bi>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-md-8">
-            <h3>Benefits</h3>
             <div *ngFor="let benefit of benefits">
               <div class="d-flex mb-2 align-items-center">
                 <p><b>{{benefit.name}}</b> - {{benefit.description}}</p>
               </div>
             </div>
-          </div>
-          <div class="col-md-2">
-            <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
-              <bi name="pencil-square" class="lead nms-pencil-square"></bi>
-            </a>
           </div>
         </div>
       </div>
@@ -88,7 +80,7 @@
               <p>
                 <b>{{subscription?.plan?.name}}</b> - {{subscription?.plan?.description}}
                 <br/>
-                <b>Active</b> - {{subscription?.startDate}} - {{subscription?.endDate}}
+                <b>Active</b> - from <b>{{subscription?.startDate | date: 'longDate'}}</b> until <b>{{subscription?.endDate | date: 'longDate'}}</b>
                 <br/>
               </p>
             </div>
@@ -99,7 +91,7 @@
                 <br />
                 Remaining  <b>{{productUsage.remaining}}</b>
                 <br />
-                Valid to <b>{{productUsage.endDate}}</b>
+                Valid until <b>{{productUsage.endDate | date: 'longDate'}}</b>
               </p>
             </div>
           </div>

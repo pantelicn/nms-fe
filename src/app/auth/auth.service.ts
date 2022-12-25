@@ -13,7 +13,8 @@ export interface LoginSuccessResponse {
 
 interface JwtPayload {
   sub: string,
-  roles: string
+  roles: string,
+  exp: number
 }
 
 export interface LoginRequest {
@@ -28,6 +29,7 @@ export class AuthService {
 
   private user?: User;
   private authenticated = false;
+  private expDate?: Date;
   private readonly loginApi = 'http://localhost:8080/api/login';
 
   constructor(private router: Router, 
@@ -38,6 +40,7 @@ export class AuthService {
       const encodedPayload = jwt.split(".")[1];
       const payload: JwtPayload = JSON.parse(atob(encodedPayload));
       const roles = [];
+      this.expDate = new Date(payload.exp*1000);
       roles.push(payload.roles);
       if (roles.includes('ROLE_COMPANY')) {
         this.user = { username: payload.sub, role: 'COMPANY', idToken: jwt };
@@ -52,7 +55,7 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    return this.user !== null && this.user !== undefined;
+    return (this.expDate !== undefined || this.expDate !== undefined) && this.expDate?.getTime() > new Date().getTime()
   }
 
   login(loginRequest: LoginRequest) {

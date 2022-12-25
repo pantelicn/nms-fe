@@ -5,14 +5,22 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body p-4">
     <div formArrayName="benefitsFormArray">
-      <div [formGroupName]="i" *ngFor="let benefit of benefitsFormArray.controls; let i=index">
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <div class="form-group">
+      <div class="mb-5" [formGroupName]="i" *ngFor="let benefit of benefitsFormArray.controls; let i=index">
+        <div class="d-flex justify-content-between">
+          <h5>Benefit {{i + 1}}</h5>
+          <a class="ml-2 text-secondary text-decoration-none nms-cursor" (click)="removeBenefit(i)">
+            <bi name="trash" class="nms-remove-icon"></bi>
+          </a>
+        </div>
+        <div class="form-group">
+          <div class="">
+            <div class="form-group mb-0">
+              <small class="text-secondary">Name</small>
               <input type="text" 
-                    class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                    class="form-control shadow-none rounded-0" 
+                    [id]="'name' + i"
                     formControlName="name" 
                     placeholder="Name" 
                     [class]="(benefitsFormArray.controls[i].get('name')?.invalid && (benefitsFormArray.controls[i].get('name')?.dirty || benefitsFormArray.controls[i].get('name')?.touched)) ? 'is-invalid' : ''" />
@@ -21,8 +29,9 @@
               </div>
             </div>
             <div class="form-group">
+              <small class="text-secondary">Description</small>
               <textarea type="text" 
-                    class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
+                    class="form-control shadow-none rounded-0" 
                     formControlName="description" 
                     placeholder="Description" 
                     [class]="(benefitsFormArray.controls[i].get('description')?.invalid && (benefitsFormArray.controls[i].get('description')?.dirty || benefitsFormArray.controls[i].get('description')?.touched)) ? 'is-invalid' : ''"></textarea>
@@ -31,21 +40,14 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-2">
-            <a class="ml-2 text-secondary text-decoration-none nms-cursor" (click)="removeBenefit(i)">
-              <bi name="x-circle" class="nms-remove-icon"></bi>
-            </a>
-          </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center text-end">
-      <a class="text-secondary text-decoration-none nms-cursor" (click)="addNewBenefitForm()">
-        <bi name="plus-circle" class="lead nms-circle"></bi>
-      </a>
+    <div class="d-flex justify-content-center text-end mb-5">
+      <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addNewBenefitForm()">Add benefit</div>
     </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary rounded-pill w-100 mt-3" [disabled]="editBenefitsForm.invalid" type="submit">Save</button>
+  <div class="modal-footer d-flex justify-content-center text-end">
+    <button class="btn btn-primary rounded-pill mt-3 w-50" [disabled]="editBenefitsForm.invalid" type="submit">Save</button>
   </div>
 </form>
