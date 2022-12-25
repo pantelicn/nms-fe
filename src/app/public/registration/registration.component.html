@@ -1,16 +1,19 @@
 <div class="d-flex flex-column align-items-center">
-  <h1 *ngIf="registrationFinished" class="my-5">Please check your email to finish registration process.</h1>
+  <h1 *ngIf="registrationFinished && !userAlreadyExists" class="my-5">Please check your email to finish registration process.</h1>
   <div *ngIf="!registrationFinished && !showSpinner" class="bg-white border p-4 rounded form-width">
     <form [ngClass]="step !== 'FIRST' ? 'd-none' : ''" [formGroup]="registrationForm" novalidate>
       <div class="form-group">
         <label class="text-secondary" for="username"><small>Email address</small></label>
         <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
-          [class]="(username?.invalid && (username?.dirty || username?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+          [class]="(username?.invalid && (username?.dirty || username?.touched || nextStepClicked)) || userAlreadyExists ? 'is-invalid' : ''">
         <div *ngIf="username?.errors?.['required']" class="invalid-feedback">
           Please enter an email.
         </div>
         <div *ngIf="username?.errors?.['email']" class="invalid-feedback">
           Please enter a valid email.
+        </div>
+        <div *ngIf="userAlreadyExists" class="invalid-feedback">
+          Someone already has that username. Please try another !
         </div>
       </div>
       <div class="form-group">
@@ -40,7 +43,7 @@
         </div>
       </div>
       <button class="btn btn-outline-primary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('TALENT')">Join as Talent</button>
-      <button class="btn btn-outline-secondary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('COMPANY')">Join as Company</button>
+      <button class="btn btn-outline-primary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('COMPANY')">Join as Company</button>
       <hr>
       <div class="d-flex flex-column align-items-center">
         <span class="mt-2 mr-2">Already registered?</span>

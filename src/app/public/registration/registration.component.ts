@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +13,7 @@ import { RegistrationService } from '..';
 export class RegistrationComponent {
 
   registrationFinished: boolean = false;
+  userAlreadyExists: boolean = false;
   showSpinner = false;
 
   constructor(
@@ -55,10 +57,19 @@ export class RegistrationComponent {
       ...companyDetails
     }
     this.showSpinner = true;
-    this.registrationService.registerCompany(formData).subscribe(() => {
-      this.showSpinner = false;
-        this.onRegistrationSuccess();
-      });
+    this.registrationService.registerCompany(formData).subscribe({
+      next: () => {
+        this.showSpinner = false;
+          this.onRegistrationSuccess();
+        },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          this.userAlreadyExists = true;
+          this.step = 'FIRST';
+        }
+        this.showSpinner = false;
+      }
+    });
   }
 
   onTalentRegistered(talentDetails: AbstractControl): void {
@@ -69,9 +80,18 @@ export class RegistrationComponent {
       ...talentDetails
     }
     this.showSpinner = true;
-    this.registrationService.registerTalent(formData).subscribe(() => {
-      this.showSpinner = false;
-      this.onRegistrationSuccess();
+    this.registrationService.registerTalent(formData).subscribe({
+      next: () => {
+        this.showSpinner = false;
+          this.onRegistrationSuccess();
+        },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          this.userAlreadyExists = true;
+          this.step = 'FIRST';
+        }
+        this.showSpinner = false;
+      }
     });
   }
 
