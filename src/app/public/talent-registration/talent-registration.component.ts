@@ -19,11 +19,6 @@ export class TalentRegistrationComponent {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     dateOfBirth: new FormControl('', Validators.required),
-    location: new FormGroup({
-      countryCode: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required)
-    })
   });
 
   constructor(private countryService: CountryService) { }
@@ -62,18 +57,6 @@ export class TalentRegistrationComponent {
 
   get dateOfBirth() {
     return this.talentDetailsForm.get('dateOfBirth');
-  }
-
-  get countryCode() {
-    return this.talentDetailsForm.get('location')?.get('countryCode');
-  }
-
-  get city() {
-    return this.talentDetailsForm.get('location')?.get('city');
-  }
-
-  get address() {
-    return this.talentDetailsForm.get('location')?.get('address');
   }
 
 }
