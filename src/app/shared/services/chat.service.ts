@@ -27,10 +27,11 @@ export class ChatService {
   private readonly chatUrl = environment.api.backend + 'messaging';
   private readonly talentsApi = environment.api.backend + 'talents/';
   private readonly companiesApi = environment.api.backend + 'companies/';
-  private readonly chatsApi: string;
+  private chatsApi: string = '';
   private readonly chatsSuffix = '/chats';
   private page = 1;
   private timestamp = new Date();
+  private websocket: any;
 
   public lastMessages: LastMessage[] = [];
   public stompClient: any;
@@ -40,7 +41,9 @@ export class ChatService {
   public to = '';
   public toName = '';
 
-  constructor(private authService: AuthService, private http: HttpClient) {
+  constructor(private authService: AuthService, private http: HttpClient) {}
+
+  init(): void {
     this.connect();
     this.sentMessagesSubject.subscribe(message => this.handleSentMessage(message));
     this.receivedMessagesSubject.subscribe(message => this.handleReceivedMessage(message));
@@ -50,10 +53,10 @@ export class ChatService {
   }
 
   private connect() {
-    const webSocket = new SockJS(this.chatUrl);
-    this.stompClient = Stomp.over(webSocket);
+    this.websocket = new SockJS(this.chatUrl);
+    this.stompClient = Stomp.over(this.websocket);
     // TODO: Uncomment line bellow to remove websocket logs
-    // this.stompClient.debug = null;
+    this.stompClient.debug = null;
     this.stompClient.connect({token: this.authService.currentUser?.idToken}, () => {
       this.stompClient.subscribe('/user/queue/messages', (message: MessageReceived) => {
         if (message) {
@@ -61,6 +64,11 @@ export class ChatService {
         }
       });
     });
+  }
+
+  disconnect(): void {
+    this.stompClient.disconnect();
+    this.websocket.close();
   }
 
   sendMessage(message: MessageSend): void {

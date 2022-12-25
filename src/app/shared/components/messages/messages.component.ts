@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AvailableChat, Message } from '../../model';
 import { LastMessage } from '../../model/last-message.model';
@@ -9,7 +9,7 @@ import { ChatService } from '../../services/chat.service';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements AfterViewInit, OnDestroy {
 
   selectedMessage!: Message;
   availableChats: AvailableChat[] = [];
@@ -19,11 +19,16 @@ export class MessagesComponent implements OnInit {
 
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.init();
   }
 
+  ngOnDestroy(): void {
+    this.chatService.disconnect();
+  }
+
   init(): void {
+    this.chatService.init();
     this.chatService.getLastMessages().subscribe(() => 
       this.getAvailableChats()
     );
