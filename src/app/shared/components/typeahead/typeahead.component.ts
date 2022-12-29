@@ -16,7 +16,7 @@ export class TypeaheadComponent {
 
   constructor() {
     this.selectItem$.subscribe((data) => {
-      this.hidden = true;
+      //this.hidden = true;
       this.selectItem.emit(this.data.find(item => item.searchTerm === data.item)?.object);
     });
   }

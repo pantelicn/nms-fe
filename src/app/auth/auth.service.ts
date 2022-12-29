@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    return (this.expDate !== undefined || this.expDate !== undefined) && this.expDate?.getTime() > new Date().getTime()
+    return this.expDate !== undefined && this.expDate !== null && this.expDate.getTime() > new Date().getTime()
   }
 
   login(loginRequest: LoginRequest) {
@@ -68,6 +68,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.expDate = undefined;
     this.authenticated = false;
     this.user = undefined;
     this.router.navigate(['/login']);
