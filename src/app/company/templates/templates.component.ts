@@ -1,13 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Code } from "ng-bootstrap-icons/icons";
-import { Skill } from "src/app/shared/model";
+import { City, Country, Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "./position/position.service";
 import { SkillService } from "../../shared/services/skill.service";
 import { Facet, TemplateService, TemplateView } from "./templates.service";
 import { TermService, TermView } from "./term/term.service";
+import { AvailableLocationSearch } from "../talents/talents.service";
+import { LocationService } from "src/app/shared/services/location.service";
+import { Searchable, TypeaheadComponent } from "src/app/shared/components/typeahead/typeahead.component";
 
 export interface Code {
   name: string,
@@ -25,6 +28,7 @@ export class TemplatesComponent implements OnInit {
   addTemplateForm: FormGroup = this.fb.group({
     name: new FormControl('', [Validators.required]),
     facets: new FormArray([]),
+    experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
   });;
 
   termTypes = [{
@@ -65,6 +69,13 @@ export class TemplatesComponent implements OnInit {
 
   selectedTemplateIndex: number = -1;
 
+  availableLocations: AvailableLocationSearch[] = [];
+  countries: Country[] = [];
+  cities: City[] = [];
+  selectedCountry: Country | null = null;
+  selectedCities: City[] = [];
+  @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
+
   private modalRef?: NgbModalRef;
 
   modalOptions: NgbModalOptions = {
@@ -78,7 +89,8 @@ export class TemplatesComponent implements OnInit {
               private templateService: TemplateService,
               private toastService: ToastService,
               private termService: TermService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private locationService: LocationService) {
   }
 
   ngOnInit(): void {
@@ -91,12 +103,14 @@ export class TemplatesComponent implements OnInit {
     this.initPositions();
     this.initTerms();
     this.findAll();
+    this.initCountries();
   }
 
   private initForm() {
     this.addTemplateForm = this.fb.group({
       name: new FormControl('', [Validators.required]),
       facets: new FormArray([]),
+      experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
     });
     this.addFacet();
   }
@@ -164,13 +178,18 @@ export class TemplatesComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    this.addLocation();
+    const data = {
+      ...this.addTemplateForm.value,
+      availableLocations: this.availableLocations
+    };
     if (this.addTemplateForm.valid && this.facets.length > 0) {
       if (this.id === null) {
-        this.templateService.addTemplate(this.addTemplateForm.value).subscribe(newTemplate => {
+        this.templateService.addTemplate(data).subscribe(newTemplate => {
           this.onTemplateAddSuccess(newTemplate);
         });
       } else {
-        this.templateService.editTemplate(this.addTemplateForm.value).subscribe(modifiedTemplate => {
+        this.templateService.editTemplate(data).subscribe(modifiedTemplate => {
           this.onTemplateEditSuccess(modifiedTemplate);
         }); 
       }
@@ -183,7 +202,9 @@ export class TemplatesComponent implements OnInit {
       id: new FormControl(selectedTemplate.id, [Validators.required]),
       name: new FormControl(selectedTemplate.name, [Validators.required]),
       facets: new FormArray([]),
+      experienceYears: new FormControl(selectedTemplate.experienceYears, [Validators.min(0), Validators.max(99)])
     });
+    this.availableLocations = selectedTemplate.availableLocations;
     for (let i = 0; i < selectedTemplate.facets.length ; i++) {
       let facet = selectedTemplate.facets[i];
       let facetGroup = this.existingFacet(facet);
@@ -198,6 +219,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   clearSelected() {
+    this.availableLocations = [];
     this.selectedTemplateIndex = -1;
     this.addTemplateForm.reset();
     this.facets.clear();
@@ -205,6 +227,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   private onTemplateAddSuccess(newTemplate: TemplateView) {
+    this.availableLocations = [];
     this.templates.push(newTemplate);
     this.addTemplateForm.reset();
     this.facets.clear();
@@ -301,6 +324,67 @@ export class TemplatesComponent implements OnInit {
     } else {
       return 'Select skill';
     }
+  }
+
+  initCountries(): void {
+    this.locationService.getCountries().subscribe(countries => this.countries = countries);
+  }
+
+  onSelectCountry(country: any): void {
+    this.selectedCountry = country;
+    this.locationService.getCities(country.id).subscribe(cities => this.cities = cities);
+  }
+
+  onSelectCity(city: any): void {
+    this.selectedCities.push(city);
+    this.cities.splice(this.cities.findIndex(c => city.name === c.name), 1);
+    this.typeahead.reset();
+  }
+  
+  clearCountry(): void {
+    this.selectedCities = [];
+    this.selectedCountry = null;
+  }
+  
+  addLocation(): void {
+    if (this.selectedCountry) {
+      this.countries.splice(this.countries.findIndex(c => c.name === this.selectedCountry?.name), 1);
+      this.availableLocations.push({
+        country: this.selectedCountry.name,
+        cities: this.selectedCities.map(city => city.name)
+      });
+      this.clearCountry();
+    }
+  }
+
+  removeLocation(availableLocation: AvailableLocationSearch): void {
+      this.availableLocations.splice(this.availableLocations.findIndex(location => availableLocation.country === location.country));
+      this.clearCountry();
+      this.initCountries();
+  }
+
+  clearCity(city: City): void {
+    this.selectedCities.splice(this.selectedCities.findIndex(c => c.name === city.name));
+  }
+
+  get searchableCountries(): Searchable[] {
+    return this.countries
+      .filter(country => !this.availableLocations.map(availableLocation => availableLocation.country).includes(country.name))
+      .map(country => {
+        return {
+          searchTerm: country.name,
+          object: country
+        }
+      });
+  }
+
+  get searchableCities(): Searchable[] {
+    return this.cities.map(city => {
+      return {
+        searchTerm: city.name,
+        object: city
+      }
+    });
   }
 
 }

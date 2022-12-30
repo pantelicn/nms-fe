@@ -163,7 +163,6 @@ export class TalentsComponent implements OnInit {
       this.terms.forEach((term => {
         codes.push(this.newCode(term.name, term.code, term.type));
       }));
-      //this.addValueAndOperatorTypeControlls(index);
     }
 
     this.codes.set(index, codes);
@@ -218,6 +217,7 @@ export class TalentsComponent implements OnInit {
   }
 
   search(page: number) {
+    this.addLocation();
     if (page === 0) {
       this.foundTalents = [];
     }

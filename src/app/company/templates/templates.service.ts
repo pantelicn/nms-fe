@@ -2,12 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
+import { AvailableLocation } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
 
 
 export interface AddTemplate {
   name: string,
-  facets: Facet[]
+  facets: Facet[],
+  experienceYears: number,
+  availableLocations: AvailableLocation[]
 }
 
 export interface Facet {
@@ -22,14 +25,17 @@ export interface Facet {
 export interface EditTemplate {
   id: number,
   name: string,
-  facets: Facet[]
+  facets: Facet[],
+  experienceYears: number,
+  availableLocations: AvailableLocation[]
 }
 
 export interface TemplateView {
   id: number,
   name: string,
   facets: FacetView[]
-  experienceYears: number
+  experienceYears: number,
+  availableLocations: AvailableLocation[]
 }
 
 export interface FacetView {
