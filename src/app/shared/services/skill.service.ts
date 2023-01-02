@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
-import { Skill } from "src/app/shared/model";
+import { Page, Skill } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -16,7 +16,7 @@ export class SkillService {
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   findAll(): Observable<Skill[]> {
-    return this.httpClient.get<Skill[]>(this.skillsApi); 
+    return this.httpClient.get<Page<Skill>>(this.skillsApi).pipe(map(skillsPage => skillsPage.content)); 
   }
 
   add(code: string): Observable<Skill> {
