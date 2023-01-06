@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   api: {
-    root: 'http://api.nullhire.com/',
-    backend: 'http://nullhire.com/v1/'
+    root: 'https://api.nullhire.com/',
+    backend: 'https://nullhire.com/v1/'
   }
 };
