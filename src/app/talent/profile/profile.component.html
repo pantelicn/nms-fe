@@ -15,62 +15,54 @@
             <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
           </a>
         </div>
-        <div class="mb-2"><b>Full name</b>: {{talent?.firstName}} {{talent?.lastName}}</div>
-        <div class="mb-2"><b>Username</b>: {{talent?.user?.username}}</div>
-        <div class="mb-2"><b>Years of experience</b>: {{talent?.experienceYears}}</div>
+        <div class="mb-2">{{talent?.firstName}} {{talent?.lastName}}</div>
+        <div class="mb-2">{{talent?.user?.username}}</div>
+        <div class="mb-2">Years of experience {{talent?.experienceYears}}</div>
       </div>
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-md-10">
-            <h3>Available locations</h3>
-            <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
-              <div class="col">
-                <div class="d-flex align-items-center">
-                  <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
-                  {{availableLocation.country}}
-                </div>
+      <div class="pl-2 p-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between">
+          <h3>Available locations</h3>
+          <a class="text-secondary text-decoration-none nms-cursor">
+            <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editAvailableLocationsDialog)"></bi>
+          </a>
+        </div>
+        <div>
+          <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
+            <div class="col">
+              <div class="d-flex align-items-center">
+                <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
+                {{availableLocation.country}}
               </div>
-              <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
             </div>
-          </div>
-          <div class="col-md-2">
-            <a class="text-secondary text-decoration-none nms-cursor">
-              <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editAvailableLocationsDialog)"></bi>
-            </a>
+            <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
           </div>
         </div>
       </div>
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-10">
-            <h3>Terms</h3>
-            <div class="mb-2" *ngFor="let talentTerm of talentTerms">
-              <span>{{talentTerm.term.name}}</span>
-              <span class="float-right mx-1">{{talentTerm.negotiable ? 'Negotiable' : 'Non-negotiable'}}</span>
-              <span class="float-right">{{talentTerm.value}} {{talentTerm.unitOfMeasure}}</span>
-              <div class="text-secondary">{{talentTerm.term.description}}</div>
-            </div>
-          </div>
-          <div class="col-2">
-            <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editTalentTermsDialog)">
-              <bi name="pencil-square" class="lead nms-pencil-square"></bi>
-            </a>
+      <div class="pl-2 p-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between">
+          <h3>Terms</h3>
+          <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editTalentTermsDialog)">
+            <bi name="pencil-square" class="lead nms-pencil-square"></bi>
+          </a>
+        </div>
+        <div>
+          <div class="mb-2" *ngFor="let talentTerm of talentTerms">
+            <span>{{talentTerm.term.name}}</span>
+            <span class="float-right mx-1">{{talentTerm.negotiable ? 'Negotiable' : 'Non-negotiable'}}</span>
+            <span class="float-right">{{talentTerm.value}} {{talentTerm.unitOfMeasure}}</span>
+            <div class="text-secondary">{{talentTerm.term.description}}</div>
           </div>
         </div>
       </div>
-      <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="col-md-8">
-            <h3>Skills</h3>
-            <div class="mb-2" *ngFor="let talentSkill of talentSkills">
-              <span>{{talentSkill.name}}</span>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editTalentSkillsDialog)">
-              <bi name="pencil-square" class="lead nms-pencil-square"></bi>
-            </a>
-          </div>
+      <div class="pl-2 p-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between">
+          <h3>Skills</h3>
+          <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editTalentSkillsDialog)">
+            <bi name="pencil-square" class="lead nms-pencil-square"></bi>
+          </a>
+        </div>
+        <div class="mb-2" *ngFor="let talentSkill of talentSkills">
+          <span>{{talentSkill.name}}</span>
         </div>
       </div>
       <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
