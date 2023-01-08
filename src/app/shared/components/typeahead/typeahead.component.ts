@@ -5,6 +5,7 @@ import { debounceTime, distinctUntilChanged, filter, map, merge, Observable, Ope
 export interface Searchable {
   searchTerm: string;
   object: any;
+  id?: number;
 }
 
 @Component({
@@ -16,7 +17,9 @@ export class TypeaheadComponent {
 
   constructor() {
     this.selectItem$.subscribe((data) => {
-      //this.hidden = true;
+      if (!this.data) {
+        this.data = [];
+      }
       this.selectItem.emit(this.data.find(item => item.searchTerm === data.item)?.object);
     });
   }
@@ -28,7 +31,7 @@ export class TypeaheadComponent {
   hidden = false;
 
   @Input()
-  data: Searchable[] = [];
+  data?: Searchable[] = [];
 
 	@ViewChild(NgbTypeahead)instance!: NgbTypeahead;
 	focus$ = new Subject<string>();
@@ -43,9 +46,12 @@ export class TypeaheadComponent {
 		const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
 		const inputFocus$ = this.focus$;
 		return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-			map((term) => 
-				(term === '' ? this.data.map(item => item.searchTerm) : this.data.map(item => item.searchTerm).filter((item) => item.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10),
-			)
+			map((term) => {
+        if (!this.data) {
+          this.data = [];
+        }
+				return (term === '' ? this.data.map(item => item.searchTerm) : this.data.map(item => item.searchTerm).filter((item) => item.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10);
+			})
 		);
 	};
 

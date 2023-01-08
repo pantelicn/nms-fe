@@ -72,6 +72,13 @@ export interface AvailableLocationSearch {
   cities: string[];
 }
 
+export interface AvailableLocationView {
+  id: number,
+  country: string,
+  cities: string[],
+  countryId: number
+}
+
 @Injectable({
   providedIn: 'any'
 })
@@ -98,12 +105,12 @@ export class TalentService {
     return this.httpClient.post<SearchPageResponse>(this.talentsApi + "find", data, {params: params});
   }
 
-  addAvailableLocation(country: string, cities: string[]): Observable<Talent> {
+  addAvailableLocation(country: string, countryId: number): Observable<AvailableLocationView> {
     const data = {
-      country,
-      cities
+      country: country,
+      countryId: countryId
     };
-    return this.httpClient.post<Talent>(
+    return this.httpClient.post<AvailableLocationView>(
       this.talentsApi + this.authService.currentUser?.username + '/available-locations',
       data
     );
@@ -117,6 +124,22 @@ export class TalentService {
 
   updateBasicInfo(basicInfo: TalentBasicInfoDto): Observable<Talent> {
     return this.httpClient.put<Talent>(this.talentsApi + this.authService.currentUser?.username, basicInfo);
+  }
+
+  removeAvailableCity(cityName: string, availableLocationId: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      this.talentsApi + this.authService.currentUser?.username + '/available-locations/' + availableLocationId + '/cities/' + cityName
+    );
+  }
+
+  addAvailableCity(cityName: string, availableLocationId: number): Observable<void> {
+    const data = {
+      city: cityName
+    };
+    return this.httpClient.patch<void>(
+      this.talentsApi + this.authService.currentUser?.username + '/available-locations/' + availableLocationId,
+      data
+    );
   }
 
 }

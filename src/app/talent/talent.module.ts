@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HomeComponent } from './home/home.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { EditAvailableLocationsComponent } from './profile/edit-available-locations/edit-available-locations.component';
 
 
 
@@ -30,7 +31,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     EditContactsComponent,
     EditDetailsComponent,
     NotificationsComponent,
-    HomeComponent
+    HomeComponent,
+    EditAvailableLocationsComponent
   ],
   imports: [
     CommonModule,

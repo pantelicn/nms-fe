@@ -8,28 +8,34 @@
       </div>
     </div>
     <div class="col-lg-8 col-md-7">
+      <div class="pl-2 p-4 mt-1 bg-white border rounded">
+        <div class="d-flex justify-content-between">
+          <h3>Details</h3>
+          <a class="text-secondary text-decoration-none nms-cursor">
+            <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
+          </a>
+        </div>
+        <div class="mb-2"><b>Full name</b>: {{talent?.firstName}} {{talent?.lastName}}</div>
+        <div class="mb-2"><b>Username</b>: {{talent?.user?.username}}</div>
+        <div class="mb-2"><b>Years of experience</b>: {{talent?.experienceYears}}</div>
+      </div>
       <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
         <div class="d-flex justify-content-between align-items-start">
           <div class="col-md-10">
-            <h3>Details</h3>
-            <div class="mb-2 h4">{{talent?.firstName}} {{talent?.lastName}}</div>
-            <div class="h5 text-secondary font-weight-light">{{talent?.user?.username}}</div>
-            <div class="text-secondary">Years of experience: {{talent?.experienceYears}}</div>
-            <div>
-              <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
-                <div class="col">
-                  <div class="d-flex align-items-center">
-                    <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
-                    {{availableLocation.country}}
-                  </div>
+            <h3>Available locations</h3>
+            <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
+              <div class="col">
+                <div class="d-flex align-items-center">
+                  <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
+                  {{availableLocation.country}}
                 </div>
-                <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
               </div>
+              <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
             </div>
           </div>
           <div class="col-md-2">
             <a class="text-secondary text-decoration-none nms-cursor">
-              <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
+              <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editAvailableLocationsDialog)"></bi>
             </a>
           </div>
         </div>
@@ -78,8 +84,6 @@
           </div>
         </div>
       </div>
-      
-      
     </div>
   </div>
 </div>
@@ -88,13 +92,18 @@
   <edit-details [talent]="talent"></edit-details>
 </ng-template>
 
+<ng-template #editAvailableLocationsDialog let-modal>
+  <edit-available-locations [talent]="talent"></edit-available-locations>
+</ng-template>
+
 <ng-template #editTalentTermsDialog let-modal>
   <edit-talent-terms [talentTerms]="talentTerms"
                 (talentTermsChanged)="talentTerms=$event"></edit-talent-terms>
 </ng-template>
 
-
 <ng-template #editTalentSkillsDialog let-modal>
   <edit-talent-skills [talentSkills]="talentSkills"
                  (talentSkillsChanged)="onTalentSkillsChange($event)"></edit-talent-skills>
 </ng-template>
+
+

@@ -5,70 +5,41 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <form *ngIf="nameForm" [formGroup]="nameForm" novalidate (submit)="onUpdateName()">
   <div class="modal-body">
-    <form *ngIf="nameForm" [formGroup]="nameForm" novalidate (submit)="onUpdateName()">
-      <div class="row mb-2">
-        <div class="col-auto">
-          <label for="first-name" class="text-secondary">First name</label>
-          <input id='first-name' class="form-control" type="text" formControlName="firstName">
+      <div class="form-group">
+        <small for="firstName" class="text-secondary">First name</small>
+        <input type="text" 
+                  class="form-control shadow-none rounded-0" 
+                  formControlName="firstName" 
+                  id="firstName" 
+                  placeholder="Firstname" 
+                  [class]="(firstName?.invalid && (firstName?.dirty || firstName?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="firstName?.errors?.['required']" class="invalid-feedback">
+          Please enter first name.
         </div>
-        <div class="col-auto">
-          <label for="last-name" class="text-secondary">Last name</label>
-          <input id="last-name" class="form-control" type="text" formControlName="lastName">
+      </div>
+      <div class="form-group">
+        <small for="lastName" class="text-secondary">Last name</small>
+        <input type="text" 
+                  class="form-control shadow-none rounded-0" 
+                  formControlName="lastName" 
+                  id="lastName" 
+                  placeholder="Lastname" 
+                  [class]="(lastName?.invalid && (lastName?.dirty || lastName?.touched)) ? 'is-invalid' : ''" />
+        <div *ngIf="lastName?.errors?.['required']" class="invalid-feedback">
+          Please enter last name.
         </div>
       </div>
       <div class="row mb-2">
         <div class="col-auto">
-          <label for="experience-years" class="text-secondary">Years of experience</label>
+          <small for="lastName" class="text-secondary">Years of experience</small>
           <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
         </div>
       </div>
-      <button class="btn btn-primary rounded-pill mr-3" [disabled]="nameForm.invalid || nameForm.pristine" type="submit">Save</button>
-    </form>
-    <hr>
-    <div class="mb-3">Locations you are available to work at:</div>
-    <div>
-      <div *ngFor="let availableLocation of talent?.availableLocations" class="row mb-2">
-        <div class="col">
-          <div class="d-flex align-items-center">
-            <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
-            {{availableLocation.country}}
-          </div>
-        </div>
-        <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
-        <div class="col-2">
-          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="removeLocation(availableLocation)">
-            <bi name="x-circle" class="nms-icon"></bi>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="row">
-        <div class="col">
-          <typeahead *ngIf="!selectedCountry" [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
-          <div *ngIf="selectedCountry" class="d-flex justify-content-between align-items-center">
-            {{selectedCountry.name}}
-            <a class="ml-auto text-secondary text-decoration-none nms-cursor">
-              <bi name="x-circle" class="nms-icon" (click)="clearCountry()"></bi>
-            </a>
-          </div>
-        </div>
-        <div class="col" >
-          <div *ngFor="let selectedCity of selectedCities" class="d-flex justify-content-between align-items-center mb-2">
-            {{selectedCity.name}}
-            <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCity(selectedCity)">
-              <bi name="x-circle" class="nms-icon"></bi>
-            </a>
-          </div>
-          <typeahead *ngIf="selectedCountry" [data]="searchableCities" placeholder="Optionally select city" (selectItem)="onSelectCity($event)"></typeahead>
-        </div>
-        <div class="col-2">
-          <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="addLocation()">
-            <bi name="plus-circle" class="nms-icon"></bi>
-          </a>
-        </div>
-      </div>
-    </div>
   </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary rounded-pill w-100 mt-3" [disabled]="nameForm.invalid" type="submit">Save</button>
+  </div>
+  </form>
 </div>
