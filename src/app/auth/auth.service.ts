@@ -30,7 +30,7 @@ export class AuthService {
   private user?: User;
   private authenticated = false;
   private expDate?: Date;
-  private readonly loginApi = 'http://localhost:8080/api/login';
+  private readonly loginApi = environment.api.root + 'api/login';
 
   constructor(private router: Router, 
               private toastService: ToastService,
