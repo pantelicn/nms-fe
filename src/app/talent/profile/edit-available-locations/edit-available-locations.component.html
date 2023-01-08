@@ -15,7 +15,6 @@
             {{availableLocation.country}}
             <bi name="trash" (click)="removeLocation(availableLocation)" class="nms-icon ml-2"></bi>
           </div>
-          <typeahead [data]="selectedCountryCitiesMap.get(availableLocation.country)" placeholder="Optionally select city" (selectItem)="onSelectCity($event, availableLocation)"></typeahead>
         </div>
         <div class="col">
           <div class="d-flex flex-wrap">
@@ -26,6 +25,7 @@
               </button>
             </div>
           </div>
+          <typeahead [data]="selectedCountryCitiesMap.get(availableLocation.country)" [placeholder]="'Select city from ' + availableLocation.country" (selectItem)="onSelectCity($event, availableLocation)"></typeahead>
         </div>
       </div>
     </div>
