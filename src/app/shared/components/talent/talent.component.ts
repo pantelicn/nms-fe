@@ -17,8 +17,7 @@ export class TalentComponent {
 
   get locations(): string {
     let locations = '';
-    let i;
-    for (i = 0; i < this.talent.availableLocations.length && i < this.MAX_LOCATIONS; i++) {
+    for (let i = 0; i < this.talent.availableLocations.length && i < this.MAX_LOCATIONS; i++) {
       locations += this.talent.availableLocations[i].country + ', ';
     }
     locations = locations.slice(0, -2);
@@ -26,6 +25,14 @@ export class TalentComponent {
       locations += '...';
     }
     return locations;
+  }
+
+  get skills(): string[] {
+    return this.talent.skills.map(skill => skill.name);
+  }
+
+  get positions(): string[] {
+    return this.talent.positions.map(position => position.name);
   }
 
 }

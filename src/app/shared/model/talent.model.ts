@@ -1,13 +1,11 @@
-import { AvailableLocation, User } from ".";
-import { Location } from "./location.model";
+import { AvailableLocation, Position, Skill, User } from ".";
 
 export interface Talent {
 
   firstName: string;
   lastName: string;
-  skills: string[];
-  positions: string[];
-  location: Location;
+  skills: Skill[];
+  positions: Position[];
   availableLocations: AvailableLocation[];
   user: User;
   likedPosts: number[];
