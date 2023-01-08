@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { debounceTime, Subject, Subscription } from 'rxjs';
+import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Message } from 'src/app/shared/model';
 import { ChatService } from 'src/app/shared/services/chat.service';
 
@@ -9,25 +8,16 @@ import { ChatService } from 'src/app/shared/services/chat.service';
   templateUrl: './messages-chat.component.html',
   styleUrls: ['./messages-chat.component.scss']
 })
-export class MessagesChatComponent implements OnInit, OnDestroy {
-
-  search = new FormControl('');
-  private subscription!: Subscription;
+export class MessagesChatComponent implements AfterViewChecked {
 
   @Input()
   to!: string;
 
   @Input()
-  searchingUser = false;
-
-  @Input()
   newChatOpened!: Subject<Message[]>;
 
   @Output()
-  onSearch = new EventEmitter<string>();
-
-  @Output()
-  onStartSearch = new EventEmitter<void>();
+  openChats = new EventEmitter<void>();
 
   constructor(private cdr: ChangeDetectorRef, private chatService: ChatService) { }
 
@@ -35,29 +25,16 @@ export class MessagesChatComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
-    this.subscription = this.search.valueChanges.pipe(debounceTime(500)).subscribe(
-      data => this.onSearch.emit(data)
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   onScrollUp(): void {
     this.chatService.getNextPage(this.to);
   }
 
-  startSearch(): void {
-    this.search.setValue('');
-    this.onStartSearch.emit();
-  }
-
   get messages(): Message[] {
     return this.chatService.messages;
+  }
+
+  onOpenChats(): void {
+    this.openChats.emit();
   }
 
 }

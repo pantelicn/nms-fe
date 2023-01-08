@@ -15,9 +15,6 @@ export class MessagesChatInputComponent {
   @Input()
   to!: string;
 
-  @Output()
-  onSent = new EventEmitter<MessageSend>();
-
   get maxRows(): number {
     return this.chatInput.split('\n').length;
   }
@@ -37,7 +34,6 @@ export class MessagesChatInputComponent {
       content: this.chatInput,
     }
     this.chatService.sendMessage(message);
-    this.onSent.emit(message);
     this.chatInput = '';
   }
 

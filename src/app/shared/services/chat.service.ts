@@ -41,12 +41,13 @@ export class ChatService {
   public to = '';
   public toName = '';
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient) {
+    this.sentMessagesSubject.subscribe(message => this.handleSentMessage(message));
+    this.receivedMessagesSubject.subscribe(message => this.handleReceivedMessage(message));
+  }
 
   init(): void {
     this.connect();
-    this.sentMessagesSubject.subscribe(message => this.handleSentMessage(message));
-    this.receivedMessagesSubject.subscribe(message => this.handleReceivedMessage(message));
     this.chatsApi = (this.role === 'TALENT' ? this.talentsApi : this.companiesApi)
       + this.username
       + this.chatsSuffix;
@@ -69,6 +70,7 @@ export class ChatService {
   disconnect(): void {
     this.stompClient.disconnect();
     this.websocket.close();
+    this.messages = [];
   }
 
   sendMessage(message: MessageSend): void {
@@ -135,6 +137,7 @@ export class ChatService {
   }
 
   handleSentMessage(message: MessageSend): void {
+    console.log(message);
     let talentUsername;
     let companyUsername;
     if (this.authService.currentUser?.role === 'COMPANY') {

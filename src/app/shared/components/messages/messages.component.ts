@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AvailableChat, Message } from '../../model';
 import { LastMessage } from '../../model/last-message.model';
@@ -11,20 +13,29 @@ import { ChatService } from '../../services/chat.service';
 })
 export class MessagesComponent implements AfterViewInit, OnDestroy {
 
+  private subscription!: Subscription;
   selectedMessage!: Message;
   availableChats: AvailableChat[] = [];
   to!: string;
   searchingUser = false;
   searchString = '';
+  search = new FormControl('');
+  usersView = true;
 
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngAfterViewInit(): void {
     this.init();
+    this.subscription = this.search.valueChanges.pipe(debounceTime(500)).subscribe(
+      data => this.onSearch(data)
+    );
   }
 
   ngOnDestroy(): void {
     this.chatService.disconnect();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   init(): void {
@@ -51,7 +62,8 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onStartSearch(): void {
+  startSearch(): void {
+    this.search.setValue('');
     this.searchString = '';
     this.searchingUser = true;
   }
@@ -62,6 +74,7 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
   }
 
   startChat(availableChat: AvailableChat): void {
+    this.usersView = false;
     this.onStopSearch();
     this.to = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentUsername : availableChat.companyUsername;
     const toName = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentName : availableChat.companyName;
@@ -70,6 +83,7 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
   }
 
   openChat(lastMessage: LastMessage): void {
+    this.usersView = false;
     this.onStopSearch();
     this.selectedMessage = lastMessage.message;
     this.to = (this.authService.currentUser?.role === 'COMPANY' ? lastMessage.message.talentUsername : lastMessage.message.companyUsername) ?? '';
@@ -89,6 +103,10 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
 
   get currentRole(): 'COMPANY' | 'TALENT' {
     return this.authService.currentUser?.role === 'COMPANY' ? 'COMPANY' : 'TALENT';
+  }
+
+  onOpenChats(): void {
+    this.usersView = true;
   }
 
 }

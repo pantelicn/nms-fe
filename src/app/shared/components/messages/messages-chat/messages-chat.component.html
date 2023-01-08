@@ -1,14 +1,11 @@
 <div class="d-flex flex-column chat-window bg-white border border-gray rounded p-2">
-  <div *ngIf="searchingUser">
-    <input class="form-control form-control-sm" id="search" type="text" [formControl]="search" placeholder="Search">
-  </div>
-  <div *ngIf="!searchingUser" class="d-flex justify-content-between border-bottom border-gray pb-2">
+  <div class="d-flex border-bottom border-gray pb-2">
+    <button type="button" class="btn btn-outline-primary mr-3 d-md-none d-block" (click)="onOpenChats()">
+      <bi name="arrow-left" class="icon"></bi>
+    </button>
     <span *ngIf="to">{{to}}</span>
-    <div>
-      <button class="btn btn-outline-secondary" type="button" (click)="startSearch()"><bi name="search" class="icon"></bi></button>
-    </div>
+    <div *ngIf="!to" class="d-flex justify-content-center mx-auto">Select a user to chat with.</div>
   </div>
-  <div *ngIf="!to" class="d-flex justify-content-center">Select a user to chat with.</div>
   <div class="h-100 chat-view" #chatViewContainer [scrollTop]="chatViewContainer.scrollHeight" infinite-scroll (scrolledUp)="onScrollUp()" [scrollWindow]="false">
     <nms-messages-chat-view></nms-messages-chat-view>
   </div>
