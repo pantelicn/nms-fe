@@ -34,13 +34,24 @@ export class EditTalentTermsComponent implements OnInit {
   talentTermsChanged = new EventEmitter<TalentTerm[]>()
 
   terms: Term[] = [];
+  selectedTermsMap = new Map<string, Term>();
 
   constructor(private modalService: NgbModal, private termService: TermService, private talentTermService: TalentTermService, private toastService: ToastService) {
   }
 
   ngOnInit(): void {
-    this.talentTerms.forEach(talentTerm => this.pushToTalentTermsFormArray(talentTerm));
-    this.termService.findAvailableForSearch().subscribe(terms => this.terms = terms);
+    this.talentTerms.forEach(talentTerm => {
+      this.pushToTalentTermsFormArray(talentTerm);
+      this.selectedTermsMap.set(talentTerm.term.code, talentTerm.term);
+      this.termService.findAvailableForSearch().subscribe(terms => {
+        this.terms = terms.filter(term => !this.selectedTermsMap.has(term.code));
+      });
+    });
+    if (this.talentTerms.length === 0) {
+      this.termService.findAvailableForSearch().subscribe(terms => {
+        this.terms = terms;
+      });
+    }
     this.editTalentTermsForm.valueChanges.subscribe(() => this.showSaveButton = true);
   }
 
@@ -53,6 +64,10 @@ export class EditTalentTermsComponent implements OnInit {
   }
 
   add(newTalentTerm: TalentTermAdd) {
+    const term = this.terms.find(term => term.code === newTalentTerm.code);
+    if (term?.type === 'BOOLEAN') {
+      newTalentTerm.value = 'true';
+    }
     this.talentTermService.add([newTalentTerm]).subscribe({
       next: result => {
         this.talentTerms.push(result[0]);
@@ -61,6 +76,10 @@ export class EditTalentTermsComponent implements OnInit {
         this.newTalentTermForm.reset({code: '', value: '', negotiable: true});
         this.showAddNewTalentTermForm = false;
         this.toastService.show('', 'Added term.');
+        if (term) {
+          this.selectedTermsMap.set(newTalentTerm.code, term);
+        }
+        this.terms = this.terms.filter(t => t.code !== newTalentTerm.code);
       },
       error: error => this.toastService.error("", error.error.message)
     });
@@ -93,6 +112,12 @@ export class EditTalentTermsComponent implements OnInit {
     this.talentTermService.remove(id).subscribe(() => {
       this.talentTermsFormArray.removeAt(index);
       this.showSaveButton = false;
+      const code = this.talentTerms[index].term.code;
+      let term = this.selectedTermsMap.get(code);
+      if (term) {
+        this.terms.push(term);
+        this.selectedTermsMap.delete(code);
+      }
       this.talentTerms.splice(index, 1);
       this.talentTermsChanged.emit(this.talentTerms);
       this.toastService.show('', 'Removed term.');
@@ -101,6 +126,14 @@ export class EditTalentTermsComponent implements OnInit {
 
   getTermType(code: string): TermType | undefined {
     return this.terms.find(term => term.code === code)?.type;
+  }
+
+  selectTerm(event: any) {
+    const code = event.value;
+    const termType = this.getTermType(code);
+    if (termType === 'BOOLEAN') {
+      this.newTalentTermForm.controls['value']?.setValue(true);
+    }
   }
 
   get talentTermsFormArray(): FormArray {

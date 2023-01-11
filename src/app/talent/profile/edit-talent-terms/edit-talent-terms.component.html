@@ -14,7 +14,7 @@
             {{talentTerms[i].term.name}}
             <div class="d-flex">
               <div class="form-group mx-1">
-                <input type="text" 
+                <input [type]="talentTerms[i].term.type === 'BOOLEAN' ? 'hidden' : 'text'" 
                       class="form-control border-top-0 border-left-0 border-right-0 shadow-none rounded-0" 
                       formControlName="value" 
                       placeholder="Value" 
@@ -50,6 +50,7 @@
         <div class="form-group">
           <select formControlName="code" 
                   class="form-control" 
+                  (change)="selectTerm(newTalentTermForm.get('code'))"
                   [class]="(newTalentTermForm.get('code')?.invalid && (newTalentTermForm.get('code')?.dirty || newTalentTermForm.get('code')?.touched)) ? 'is-invalid' : ''">
             <option value="" selected disabled hidden>Select term</option>
             <option *ngFor="let term of terms" [value]="term.code">{{term.name}}</option>
@@ -72,23 +73,13 @@
                   formControlName="value" 
                   placeholder="Value" 
                   [class]="(newTalentTermForm.get('value')?.invalid && (newTalentTermForm.get('value')?.dirty || newTalentTermForm.get('value')?.touched)) ? 'is-invalid' : ''" />
-            <fieldset *ngIf="getTermType(newTalentTermForm.get('code')?.value) === 'BOOLEAN'">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="'true-value-radio" formControlName="value" [value]="true" [checked]="newTalentTermForm.get('value')?.value === true">
-                <label class="form-check-label" for="true-value-radio">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="false-value-radio" formControlName="value" [value]="false" [checked]="newTalentTermForm.get('value')?.value === false">
-                <label class="form-check-label" for="false-value-radio" >No</label>
-              </div>
-            </fieldset>
             <div *ngIf="newTalentTermForm.get('value')?.errors?.['required']" class="invalid-feedback">
               Please enter value!
             </div>
           </div>
           <fieldset class="form-group mx-1 d-flex align-items-end">
             <div class="custom-control custom-radio custom-control-inline">
-              <input class="custom-control-input" type="radio" id="'negotiable-radio" formControlName="negotiable" [value]="true" [checked]="newTalentTermForm.get('negotiable')?.value === true">
+              <input class="custom-control-input" type="radio" id="negotiable-radio" formControlName="negotiable" [value]="true" [checked]="newTalentTermForm.get('negotiable')?.value === true">
               <label class="custom-control-label" for="negotiable-radio">Negotiable</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
