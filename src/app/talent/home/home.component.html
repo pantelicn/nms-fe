@@ -8,20 +8,20 @@
       </div>
     </div>
     <div class="col-lg-8 col-md-7">
-      <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
+      <a class="btn btn-outline-primary mr-2 posts-selector" 
         (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
         [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global posts</a>
-      <a class="btn w-30 mr-2 posts-selector" 
+      <a class="btn mr-2 posts-selector" 
         (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
         [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following posts</a>
-      <a class="btn btn-outline-primary w-30 mr-2 posts-selector" 
+      <a class="btn btn-outline-primary mr-2 posts-selector" 
       (click)="setPostsType(postsType.COUNTRY)"
         [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country posts</a>
       <select *ngIf="selectedPostsType === 'COUNTRY'" (change)="selectCountry($event)" class="form-control form-control-sm" id="company-country">
         <option [value]="undefined">Select country</option>
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
-      <hr/>
+      <hr>
       <nms-company-feed [posts]="posts" 
                         [isLastPage]="isLastPage" 
                         (scrollChange)="getNextPosts()" 

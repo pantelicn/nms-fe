@@ -39,7 +39,8 @@ import {
   Plus,
   Dash,
   HandThumbsDown,
-  Trash
+  Trash,
+  List
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -82,7 +83,8 @@ const icons = {
   Plus,
   Dash,
   HandThumbsDown,
-  Trash
+  Trash,
+  List
 };
 
 @NgModule({
