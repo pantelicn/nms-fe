@@ -1,26 +1,25 @@
 <nav *ngIf="router.url !== '/activation'" ngbNav #nav="ngbNav" class="navbar navbar-light bg-light d-flex justify-content-center">
-    <a class="navbar-brand" href="#">
-        <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
-    </a>
-    <div class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
+    <div class="col-lg-4 col-md-3 col-sm">
+        <a class="navbar-brand float-md-right d-flex justify-content-center" href="#">
+            <img src="../../../assets/icons/nullhire.svg" alt="" class="nullhire-logo">
+        </a>
+    </div>
+    <div class="col-lg-4 col-md-6 search-input">
         <div class="input-group">
-            <div class="d-none d-sm-block input-group-prepend">
-                <div class="input-group-text">Companies</div>
-            </div>
             <input id="typeahead-template"
                 type="text"
-                class="form-control col"
+                class="form-control"
                 [(ngModel)]="companyStartsWith"
                 [ngbTypeahead]="search"
                 [resultTemplate]="rt"
                 [inputFormatter]="formatter" 
-                type="text" class="form-control" placeholder="Search">
+                type="text" class="form-control" placeholder="Find companies">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
             </div>
         </div>
     </div>
-    <div class="d-none d-md-block">
+    <div class="d-none d-md-block col-lg-4 col-md-3">
         <button class="btn btn-outline-primary rounded-pill mr-2 my-2 my-sm-0" type="button" routerLink="/register">Join now</button>
         <button class="btn btn-primary my-2 my-sm-0 mr-2 rounded-pill" type="button" routerLink="/login">Sign in</button>
         <button *ngIf="isAuthenticated" class="btn btn-secondary rounded-pill my-2 my-sm-0" type="button" (click)="onLogout()">Log out</button>
