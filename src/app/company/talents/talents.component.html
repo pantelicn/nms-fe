@@ -85,6 +85,20 @@
             <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
           </div>
           <div class="hr">
+            <span class="text-secondary">Skills</span>
+          </div>
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let selectedSkill of selectedSkills; let i=index" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
+                <span>{{selectedSkill.name}}</span>
+                <button type="button" (click)="removeSkill(i)" class="close ml-2" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center my-1">
+            <typeahead [data]="searchableSkills" placeholder="Add skill" (selectItem)="addSkill($event)"></typeahead>
+          </div>
+          <div class="hr">
             <span class="text-secondary">Details (optional)</span>
           </div>
           <div class="row mb-3">

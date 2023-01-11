@@ -6,9 +6,9 @@ import { City, Country, Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "./position/position.service";
 import { SkillService } from "../../shared/services/skill.service";
-import { Facet, TemplateService, TemplateView } from "./templates.service";
+import { AddTemplate, EditTemplate, Facet, TemplateService, TemplateView } from "./templates.service";
 import { TermService, TermView } from "./term/term.service";
-import { AvailableLocationSearch } from "../talents/talents.service";
+import { AvailableLocationSearch, FacetSpecifierDto } from "../talents/talents.service";
 import { LocationService } from "src/app/shared/services/location.service";
 import { Searchable, TypeaheadComponent } from "src/app/shared/components/typeahead/typeahead.component";
 
@@ -34,10 +34,6 @@ export class TemplatesComponent implements OnInit {
   termTypes = [{
       "name": "Position",
       "value": "POSITION"
-    },
-    {
-      "name": "Skill",
-      "value": "SKILL"
     }, 
     {
       "name": "Term",
@@ -74,6 +70,8 @@ export class TemplatesComponent implements OnInit {
   cities: City[] = [];
   selectedCountry: Country | null = null;
   selectedCities: City[] = [];
+  selectedSkills: Skill[] = [];
+  searchableSkills: Searchable[] = [];
   @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
 
   private modalRef?: NgbModalRef;
@@ -122,8 +120,15 @@ export class TemplatesComponent implements OnInit {
   }
 
   private initSkills() {
+    const selectedSkillsMap = new Map();
     this.skillService.findAll().subscribe(skills => {
       this.skills = skills;
+      this.searchableSkills = skills.filter(skill => selectedSkillsMap.get(skill.code) === undefined).map(skill => {
+        return {
+          searchTerm: skill.name,
+          object: skill
+        }
+      });
     });
   }
 
@@ -179,16 +184,31 @@ export class TemplatesComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     this.addLocation();
-    const data = {
-      ...this.addTemplateForm.value,
-      availableLocations: this.availableLocations
-    };
+    let selectedSkills: FacetSpecifierDto[] = []; 
+    this.selectedSkills.forEach(selectedSkill => selectedSkills.push({
+      code: selectedSkill.code,
+      operatorType: 'EQ',
+      type: 'SKILL',
+      value: selectedSkill.code
+    }));
+    
+    
     if (this.addTemplateForm.valid && this.facets.length > 0) {
       if (this.id === null) {
+        let data: AddTemplate = {
+          ...this.addTemplateForm.value,
+          availableLocations: this.availableLocations
+        };
+        data.facets = [...data.facets, ...selectedSkills];
         this.templateService.addTemplate(data).subscribe(newTemplate => {
           this.onTemplateAddSuccess(newTemplate);
         });
       } else {
+        let data: EditTemplate = {
+          ...this.addTemplateForm.value,
+          availableLocations: this.availableLocations
+        };
+        data.facets = [...data.facets, ...selectedSkills];
         this.templateService.editTemplate(data).subscribe(modifiedTemplate => {
           this.onTemplateEditSuccess(modifiedTemplate);
         }); 
@@ -365,6 +385,19 @@ export class TemplatesComponent implements OnInit {
 
   clearCity(city: City): void {
     this.selectedCities.splice(this.selectedCities.findIndex(c => c.name === city.name));
+  }
+
+  removeSkill(index: number): void {
+    this.searchableSkills.push({
+      searchTerm: this.selectedSkills[index].name,
+      object: this.selectedSkills[index]
+    });
+    this.selectedSkills.splice(index, 1);
+  }
+
+  addSkill(skill: Skill): void {
+    this.selectedSkills.push(skill);
+    this.searchableSkills = this.searchableSkills.filter(searchableSkill => searchableSkill.searchTerm !== skill.name);
   }
 
   get searchableCountries(): Searchable[] {

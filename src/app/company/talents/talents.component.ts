@@ -7,7 +7,7 @@ import { SkillService } from "../../shared/services/skill.service";
 import { Code } from "../templates/templates.component";
 import { Facet, TemplateService, TemplateView } from "../templates/templates.service";
 import { TermService, TermView } from "../templates/term/term.service";
-import { AvailableLocationSearch, SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
+import { AvailableLocationSearch, FacetSpecifierDto, SearchPageResponse, TalentService, TalentTermViewDto, TalentViewSearchDto } from "./talents.service";
 import { Searchable, TypeaheadComponent } from "src/app/shared/components/typeahead/typeahead.component";
 import { LocationService } from "src/app/shared/services/location.service";
 
@@ -50,14 +50,12 @@ export class TalentsComponent implements OnInit {
   noFoundTalents: boolean = false;
   foundTalents: TalentViewSearchDto[] = [];
   selectedTalentIndex: number = -1;
+  selectedSkills: Skill[] = [];
+  searchableSkills: Searchable[] = [];
   termTypes = [{
     "name": "Position",
     "value": "POSITION"
   },
-  {
-    "name": "Skill",
-    "value": "SKILL"
-  }, 
   {
     "name": "Term",
     "value": "TERM"
@@ -99,6 +97,12 @@ export class TalentsComponent implements OnInit {
   private initSkills() {
     this.skillService.findAll().subscribe(skills => {
       this.skills = skills;
+      this.searchableSkills = skills.map(skill => {
+        return {
+          searchTerm: skill.name,
+          object: skill
+        }
+      });
     });
   }
 
@@ -121,14 +125,32 @@ export class TalentsComponent implements OnInit {
     });
     for (let i = 0; i < template.facets.length ; i++) {
       let facet = template.facets[i];
-      let facetGroup = this.existingFacet(facet);
-      this.facets.push(facetGroup);
-      this.setCodes(facetGroup.get('type'), i);
-      if (facetGroup.get('type')?.value === 'TERM') {
-        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      if (facet.type !== 'SKILL') {
+        let facetGroup = this.existingFacet(facet);
+        this.facets.push(facetGroup);
+        this.setCodes(facetGroup.get('type'), i);
+        if (facetGroup.get('type')?.value === 'TERM') {
+          const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+          (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+        }
       }
     }
+    const talentSkillsMap = new Map(template.facets
+      .filter(facet => facet.type === 'SKILL')
+      .map((obj) => [obj.code, obj.code]));
+    this.searchableSkills = this.skills.filter(skill => {
+      if (talentSkillsMap.get(skill.code) === undefined) {
+        return true;
+      } else {
+        this.selectedSkills.push(skill);
+        return false;
+      }
+      }).map(skill => {
+        return {
+          searchTerm: skill.name,
+          object: skill
+        }
+      });
     this.selectedTemplate = template;
   }
 
@@ -152,11 +174,6 @@ export class TalentsComponent implements OnInit {
     if (value.value === 'POSITION') {
       this.positions.forEach((position => {
         codes.push(this.newCode(position.name, position.code));
-      }));
-      this.removeValueAndOperatorTypeControlls(index);
-    } else if (value.value === 'SKILL') {
-      this.skills.forEach((skill => {
-        codes.push(this.newCode(skill.name, skill.code));
       }));
       this.removeValueAndOperatorTypeControlls(index);
     } else if (value.value === 'TERM') {
@@ -221,8 +238,17 @@ export class TalentsComponent implements OnInit {
     if (page === 0) {
       this.foundTalents = [];
     }
-    const formValue = this.searchTalentsForm.value;
-    this.talentService.find(formValue.facets, formValue.experienceYears, this.availableLocations, page).subscribe({
+
+    let selectedSkills: FacetSpecifierDto[] = []; 
+    this.selectedSkills.forEach(selectedSkill => selectedSkills.push({
+      code: selectedSkill.code,
+      operatorType: 'EQ',
+      type: 'SKILL',
+      value: selectedSkill.code
+    }));
+    let formValue = this.searchTalentsForm.value;
+    const facets = [...formValue.facets, ...selectedSkills];
+    this.talentService.find(facets, formValue.experienceYears, this.availableLocations, page).subscribe({
       next: response => {
         this.searchResult = response;
         this.foundTalents.push(...response.content);
@@ -291,10 +317,8 @@ export class TalentsComponent implements OnInit {
   getPlaceholderText(termTypeValue: string): string {
     if (termTypeValue === 'POSITION') {
       return 'Select position';
-    } else if (termTypeValue === 'TERM') {
-      return 'Select term';
     } else {
-      return 'Select skill';
+      return 'Select term';
     }
   }
 
@@ -337,6 +361,19 @@ export class TalentsComponent implements OnInit {
 
   clearCity(city: City): void {
     this.selectedCities.splice(this.selectedCities.findIndex(c => c.name === city.name));
+  }
+
+  addSkill(skill: Skill): void {
+      this.selectedSkills.push(skill);
+      this.searchableSkills = this.searchableSkills.filter(searchableSkill => searchableSkill.searchTerm !== skill.name);
+  }
+
+  removeSkill(index: number): void {
+      this.searchableSkills.push({
+        searchTerm: this.selectedSkills[index].name,
+        object: this.selectedSkills[index]
+      });
+      this.selectedSkills.splice(index, 1);
   }
 
   get foundFilteredTalents(): TalentViewSearchDto[] {
