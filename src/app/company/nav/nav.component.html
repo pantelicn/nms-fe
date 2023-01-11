@@ -1,23 +1,31 @@
-<nav ngbNav #nav="ngbNav" class="navbar navbar-light bg-white d-flex justify-content-center">
+<nav ngbNav #nav="ngbNav" class="navbar fixed-top navbar-light bg-white d-flex justify-content-center">
   <a class="navbar-brand d-none d-md-block" href="#">
     <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
   </a>
   <div class="mr-2 col-lg-4 col-md-5 col-sm-7 search-input">
-      <div class="input-group">
-          <input id="typeahead-template"
-                type="text"
-                class="form-control col"
-                [(ngModel)]="companyStartsWith"
-                [ngbTypeahead]="search"
-                [resultTemplate]="rt"
-                [inputFormatter]="formatter" 
-                type="text" class="form-control" 
-                placeholder="Search">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
-        </div>
+    <div class="input-group">
+        <input id="typeahead-template"
+              type="text"
+              class="form-control col"
+              [(ngModel)]="companyStartsWith"
+              [ngbTypeahead]="search"
+              [resultTemplate]="rt"
+              [inputFormatter]="formatter" 
+              type="text" class="form-control" 
+              placeholder="Find companies">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button"><bi name="search" class="icon"></bi></button>
       </div>
     </div>
+  </div>
+  <div class="dropdown show d-lg-none">
+    <a class="text-primary text-decoration-none mr-2 d-flex flex-column align-items-center" id="dropdown-menu" role="button" data-toggle="dropdown" aria-haspopup="true">
+      <bi name="list" class="menu-icon lead"></bi>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-menu">
+      <a class="dropdown-item btn-outline-primary" role="button" (click)="onLogout()">Sign out</a>
+    </div>
+  </div>
   <div class="d-none d-lg-flex">
     <a routerLink="/company" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="house-door-fill" class="icon lead"></bi>
@@ -97,7 +105,6 @@
     <bi name="person-circle" class="icon lead"></bi>
     <small>My profile</small>
   </a>
-  <a class="btn btn-outline-primary rounded-pill shadow-none ml-2" (click)="onLogout()">Sign Out</a>
 </div>
 
 <ng-template #rt let-r="result" let-t="term">
