@@ -120,10 +120,9 @@ export class TemplatesComponent implements OnInit {
   }
 
   private initSkills() {
-    const selectedSkillsMap = new Map();
     this.skillService.findAll().subscribe(skills => {
       this.skills = skills;
-      this.searchableSkills = skills.filter(skill => selectedSkillsMap.get(skill.code) === undefined).map(skill => {
+      this.searchableSkills = skills.map(skill => {
         return {
           searchTerm: skill.name,
           object: skill
@@ -226,20 +225,47 @@ export class TemplatesComponent implements OnInit {
     });
     this.availableLocations = selectedTemplate.availableLocations;
     for (let i = 0; i < selectedTemplate.facets.length ; i++) {
-      let facet = selectedTemplate.facets[i];
-      let facetGroup = this.existingFacet(facet);
-      this.facets.push(facetGroup);
-      this.setCodes(facetGroup.get('type'), i);
-      if (facetGroup.get('type')?.value === 'TERM') {
-        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      if (selectedTemplate.facets[i].type !== 'SKILL') {
+        let facet = selectedTemplate.facets[i];
+        let facetGroup = this.existingFacet(facet);
+        this.facets.push(facetGroup);
+        this.setCodes(facetGroup.get('type'), i);
+        if (facetGroup.get('type')?.value === 'TERM') {
+          const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+          (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+        }
       }
+      
     }
+    const talentSkillsMap = new Map(this.templates[index].facets
+      .filter(facet => facet.type === 'SKILL')
+      .map((obj) => [obj.code, obj.code]));
+    this.selectedSkills = [];
+    this.searchableSkills = this.skills.filter(skill => {
+      if (talentSkillsMap.get(skill.code) === undefined) {
+        return true;
+      } else {
+        this.selectedSkills.push(skill);
+        return false;
+      }
+      }).map(skill => {
+        return {
+          searchTerm: skill.name,
+          object: skill
+        }
+    });
     this.selectedTemplateIndex = index;
   }
 
   clearSelected() {
     this.availableLocations = [];
+    this.selectedSkills.forEach(selectedSkill => {
+      this.searchableSkills.push({
+          searchTerm: selectedSkill.name,
+          object: selectedSkill
+      })
+    })
+    this.selectedSkills = [];
     this.selectedTemplateIndex = -1;
     this.addTemplateForm.reset();
     this.facets.clear();
@@ -252,12 +278,26 @@ export class TemplatesComponent implements OnInit {
     this.addTemplateForm.reset();
     this.facets.clear();
     this.initForm();
+    this.selectedSkills.forEach(selectedSkill => {
+      this.searchableSkills.push({
+          searchTerm: selectedSkill.name,
+          object: selectedSkill
+      })
+    })
+    this.selectedSkills = [];
     this.toastService.show('', 'New template has been added.');
   }
 
   private onTemplateEditSuccess(modifiedTemplate: TemplateView) {
     this.templates[this.selectedTemplateIndex] = modifiedTemplate;
     this.clearSelected();
+    this.selectedSkills.forEach(selectedSkill => {
+      this.searchableSkills.push({
+          searchTerm: selectedSkill.name,
+          object: selectedSkill
+      })
+    })
+    this.selectedSkills = [];
     this.toastService.show('', 'New template has been added.');
   }
 
@@ -268,12 +308,7 @@ export class TemplatesComponent implements OnInit {
         codes.push(this.newCode(position.name, position.code));
       }));
       this.removeValueAndOperatorTypeControlls(index);
-    } else if (value.value === 'SKILL') {
-      this.skills.forEach((skill => {
-        codes.push(this.newCode(skill.name, skill.code));
-      }));
-      this.removeValueAndOperatorTypeControlls(index);
-    } else if (value.value === 'TERM') {
+    } else {
       this.terms.forEach((term => {
         codes.push(this.newCode(term.name, term.code, term.type));
       }));
@@ -339,10 +374,8 @@ export class TemplatesComponent implements OnInit {
   getPlaceholderText(termTypeValue: string): string {
     if (termTypeValue === 'POSITION') {
       return 'Select position';
-    } else if (termTypeValue === 'TERM') {
-      return 'Select term';
     } else {
-      return 'Select skill';
+      return 'Select term';
     }
   }
 

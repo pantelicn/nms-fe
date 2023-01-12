@@ -138,6 +138,7 @@ export class TalentsComponent implements OnInit {
     const talentSkillsMap = new Map(template.facets
       .filter(facet => facet.type === 'SKILL')
       .map((obj) => [obj.code, obj.code]));
+    this.selectedSkills = [];
     this.searchableSkills = this.skills.filter(skill => {
       if (talentSkillsMap.get(skill.code) === undefined) {
         return true;
@@ -230,6 +231,13 @@ export class TalentsComponent implements OnInit {
     this.selectedTemplate = undefined;
     this.searchTalentsForm.reset();
     this.facets.clear();
+    this.selectedSkills.forEach(selectedSkill => {
+      this.searchableSkills.push({
+          searchTerm: selectedSkill.name,
+          object: selectedSkill
+      })
+    })
+    this.selectedSkills = [];
     this.initForm();
   }
 
