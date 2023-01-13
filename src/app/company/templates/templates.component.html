@@ -113,6 +113,20 @@
             <typeahead [data]="searchableSkills" placeholder="Add skill" (selectItem)="addSkill($event)"></typeahead>
           </div>
           <div class="hr">
+            <span class="text-secondary">Positions</span>
+          </div>
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let selectedPosition of selectedPositions; let i=index" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
+                <span>{{selectedPosition.name}}</span>
+                <button type="button" (click)="removePosition(i)" class="close ml-2" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center my-1">
+            <typeahead [data]="searchablePositions" placeholder="Add position" (selectItem)="addPosition($event)"></typeahead>
+          </div>
+          <div class="hr">
             <span class="text-secondary">Details (optional)</span>
           </div>
           <div class="row mb-3">

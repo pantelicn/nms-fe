@@ -4,7 +4,7 @@ import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstr
 import { Code } from "ng-bootstrap-icons/icons";
 import { City, Country, Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
-import { PositionService, PositionView } from "./position/position.service";
+import { PositionService, PositionView } from "../../shared/services/position.service";
 import { SkillService } from "../../shared/services/skill.service";
 import { AddTemplate, EditTemplate, Facet, TemplateService, TemplateView } from "./templates.service";
 import { TermService, TermView } from "./term/term.service";
@@ -31,10 +31,7 @@ export class TemplatesComponent implements OnInit {
     experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
   });;
 
-  termTypes = [{
-      "name": "Position",
-      "value": "POSITION"
-    }, 
+  termTypes = [
     {
       "name": "Term",
       "value": "TERM"
@@ -72,6 +69,9 @@ export class TemplatesComponent implements OnInit {
   selectedCities: City[] = [];
   selectedSkills: Skill[] = [];
   searchableSkills: Searchable[] = [];
+  selectedPositions: PositionView[] = [];
+  searchablePositions: Searchable[] = [];
+
   @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
 
   private modalRef?: NgbModalRef;
@@ -133,7 +133,14 @@ export class TemplatesComponent implements OnInit {
 
   private initPositions() {
     this.positionService.findAll().subscribe(positions => {
+      console.log(positions);
       this.positions = positions;
+      this.searchablePositions = positions.map(position => {
+        return {
+          searchTerm: position.name,
+          object: position
+        }
+      });
     })
   }
 
@@ -191,6 +198,13 @@ export class TemplatesComponent implements OnInit {
       value: selectedSkill.code
     }));
     
+    let selectedPositions: FacetSpecifierDto[] = []; 
+    this.selectedPositions.forEach(selectedPosition => selectedPositions.push({
+      code: selectedPosition.code,
+      operatorType: 'EQ',
+      type: 'POSITION',
+      value: selectedPosition.code
+    }));
     
     if (this.addTemplateForm.valid && this.facets.length > 0) {
       if (this.id === null) {
@@ -198,7 +212,7 @@ export class TemplatesComponent implements OnInit {
           ...this.addTemplateForm.value,
           availableLocations: this.availableLocations
         };
-        data.facets = [...data.facets, ...selectedSkills];
+        data.facets = [...data.facets, ...selectedSkills, ...selectedPositions];
         this.templateService.addTemplate(data).subscribe(newTemplate => {
           this.onTemplateAddSuccess(newTemplate);
         });
@@ -225,15 +239,13 @@ export class TemplatesComponent implements OnInit {
     });
     this.availableLocations = selectedTemplate.availableLocations;
     for (let i = 0; i < selectedTemplate.facets.length ; i++) {
-      if (selectedTemplate.facets[i].type !== 'SKILL') {
+      if (selectedTemplate.facets[i].type === 'TERM') {
         let facet = selectedTemplate.facets[i];
         let facetGroup = this.existingFacet(facet);
         this.facets.push(facetGroup);
         this.setCodes(facetGroup.get('type'), i);
-        if (facetGroup.get('type')?.value === 'TERM') {
-          const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-          (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
-        }
+        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
       }
       
     }
@@ -254,6 +266,24 @@ export class TemplatesComponent implements OnInit {
           object: skill
         }
     });
+
+    const talentPositionsMap = new Map(this.templates[index].facets
+      .filter(facet => facet.type === 'POSITION')
+      .map((obj) => [obj.code, obj.code]));
+    this.selectedPositions = [];
+    this.searchablePositions = this.positions.filter(position => {
+      if (talentPositionsMap.get(position.code) === undefined) {
+        return true;
+      } else {
+        this.selectedPositions.push(position);
+        return false;
+      }
+      }).map(position => {
+        return {
+          searchTerm: position.name,
+          object: position
+        }
+    });
     this.selectedTemplateIndex = index;
   }
 
@@ -264,8 +294,15 @@ export class TemplatesComponent implements OnInit {
           searchTerm: selectedSkill.name,
           object: selectedSkill
       })
-    })
+    });
     this.selectedSkills = [];
+    this.selectedPositions.forEach(selectedPosition => {
+      this.searchablePositions.push({
+          searchTerm: selectedPosition.name,
+          object: selectedPosition
+      })
+    });
+    this.selectedPositions = [];
     this.selectedTemplateIndex = -1;
     this.addTemplateForm.reset();
     this.facets.clear();
@@ -285,6 +322,13 @@ export class TemplatesComponent implements OnInit {
       })
     })
     this.selectedSkills = [];
+    this.selectedPositions.forEach(selectedPosition => {
+      this.searchablePositions.push({
+          searchTerm: selectedPosition.name,
+          object: selectedPosition
+      })
+    })
+    this.selectedPositions = [];
     this.toastService.show('', 'New template has been added.');
   }
 
@@ -298,6 +342,13 @@ export class TemplatesComponent implements OnInit {
       })
     })
     this.selectedSkills = [];
+    this.selectedPositions.forEach(selectedPosition => {
+      this.searchablePositions.push({
+          searchTerm: selectedPosition.name,
+          object: selectedPosition
+      })
+    })
+    this.selectedPositions = [];
     this.toastService.show('', 'New template has been added.');
   }
 
@@ -372,11 +423,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   getPlaceholderText(termTypeValue: string): string {
-    if (termTypeValue === 'POSITION') {
-      return 'Select position';
-    } else {
-      return 'Select term';
-    }
+    return 'Select term';
   }
 
   initCountries(): void {
@@ -428,9 +475,22 @@ export class TemplatesComponent implements OnInit {
     this.selectedSkills.splice(index, 1);
   }
 
+  removePosition(index: number): void {
+    this.searchablePositions.push({
+      searchTerm: this.selectedPositions[index].name,
+      object: this.selectedPositions[index]
+    });
+    this.selectedPositions.splice(index, 1);
+  }
+
   addSkill(skill: Skill): void {
     this.selectedSkills.push(skill);
     this.searchableSkills = this.searchableSkills.filter(searchableSkill => searchableSkill.searchTerm !== skill.name);
+  }
+
+  addPosition(position: PositionView): void {
+    this.selectedPositions.push(position);
+    this.searchablePositions = this.searchablePositions.filter(searchablePosition => searchablePosition.searchTerm !== position.name);
   }
 
   get searchableCountries(): Searchable[] {

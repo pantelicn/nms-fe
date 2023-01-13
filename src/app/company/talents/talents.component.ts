@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { City, Country, Skill } from "src/app/shared/model";
-import { PositionService, PositionView } from "../templates/position/position.service";
+import { PositionService, PositionView } from "../../shared/services/position.service";
 import { SkillService } from "../../shared/services/skill.service";
 import { Code } from "../templates/templates.component";
 import { Facet, TemplateService, TemplateView } from "../templates/templates.service";

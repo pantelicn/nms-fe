@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
+import { Page } from "src/app/shared/model/page.model";
 import { environment } from "src/environments/environment";
 
 
@@ -21,7 +22,7 @@ export class PositionService {
   constructor(private httpClient: HttpClient) {}
 
   findAll(): Observable<PositionView[]> {
-    return this.httpClient.get<PositionView[]>(this.positionsApi);
+    return this.httpClient.get<Page<PositionView>>(this.positionsApi).pipe(map(positionsPage => positionsPage.content));
   }
 
 }
