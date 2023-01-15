@@ -110,7 +110,6 @@ export class TemplatesComponent implements OnInit {
       facets: new FormArray([]),
       experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
     });
-    this.addFacet();
   }
 
   findAll() {
@@ -133,7 +132,6 @@ export class TemplatesComponent implements OnInit {
 
   private initPositions() {
     this.positionService.findAll().subscribe(positions => {
-      console.log(positions);
       this.positions = positions;
       this.searchablePositions = positions.map(position => {
         return {
@@ -152,7 +150,7 @@ export class TemplatesComponent implements OnInit {
 
   newFacet(): FormGroup {
     return new FormGroup({
-      type: new FormControl('', [Validators.required]),
+      type: new FormControl('TERM', [Validators.required]),
       code: new FormControl('', [Validators.required])
     })
   }
@@ -172,8 +170,9 @@ export class TemplatesComponent implements OnInit {
     return formGroup; 
   }
 
-  addFacet() {
+  addTerm() {
     this.facets.push(this.newFacet());
+    this.setCodes(this.facets.length - 1);
   }
 
   removeFacet(index:number) {
@@ -243,7 +242,7 @@ export class TemplatesComponent implements OnInit {
         let facet = selectedTemplate.facets[i];
         let facetGroup = this.existingFacet(facet);
         this.facets.push(facetGroup);
-        this.setCodes(facetGroup.get('type'), i);
+        this.setCodes(i);
         const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
         (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
       }
@@ -352,18 +351,11 @@ export class TemplatesComponent implements OnInit {
     this.toastService.show('', 'New template has been added.');
   }
 
-  setCodes(value: any, index: number) {
+  setCodes(index: number) {
     const codes:Code[] = [];
-    if (value.value === 'POSITION') {
-      this.positions.forEach((position => {
-        codes.push(this.newCode(position.name, position.code));
-      }));
-      this.removeValueAndOperatorTypeControlls(index);
-    } else {
-      this.terms.forEach((term => {
-        codes.push(this.newCode(term.name, term.code, term.type));
-      }));
-    }
+    this.terms.forEach((term => {
+      codes.push(this.newCode(term.name, term.code, term.type));
+    }));
 
     this.codes.set(index, codes);
   }

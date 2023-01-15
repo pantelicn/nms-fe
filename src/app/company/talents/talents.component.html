@@ -25,19 +25,6 @@
           </div>
           <div formArrayName="facets">
               <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
-                <div class="col">
-                  <select formControlName="type" 
-                          class="form-control" 
-                          (change)="setCodes(facets.controls[i].get('type'), i)" 
-                          aria-label="Select term type"
-                          [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched)) ? 'is-invalid' : ''">
-                    <option value="" disabled selected>Select type</option>
-                    <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
-                  </select>
-                  <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
-                    Please select type.
-                  </div>
-                </div>
                 <div *ngIf="facets.controls[i].get('type')?.value !== ''" class="col">
                   <select formControlName="code" 
                           (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
@@ -48,7 +35,7 @@
                     <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
-                    Please select skill.
+                    Please select term.
                   </div>
                 </div>
                 <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
@@ -82,7 +69,7 @@
               
           </div>
           <div class="d-flex justify-content-center text-end mb-5">
-            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
+            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addTerm()">Add term</div>
           </div>
           <div class="hr">
             <span class="text-secondary">Skills</span>
@@ -97,6 +84,20 @@
           </div>
           <div class="d-flex justify-content-between align-items-center my-1">
             <typeahead [data]="searchableSkills" placeholder="Add skill" (selectItem)="addSkill($event)"></typeahead>
+          </div>
+          <div class="hr">
+            <span class="text-secondary">Positions</span>
+          </div>
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let selectedPosition of selectedPositions; let i=index" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
+                <span>{{selectedPosition.name}}</span>
+                <button type="button" (click)="removePosition(i)" class="close ml-2" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center my-1">
+            <typeahead [data]="searchablePositions" placeholder="Add position" (selectItem)="addPosition($event)"></typeahead>
           </div>
           <div class="hr">
             <span class="text-secondary">Details (optional)</span>

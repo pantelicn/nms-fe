@@ -36,34 +36,18 @@
             </div>
           </div>
           <div formArrayName="facets">
-              <div *ngIf="facets.length == 0" class="invalid-number-of-facets">
-                Please add facets.
-              </div>
               <div [formGroupName]="i" class="row nms-row d-flex align-items-center" *ngFor="let facet of facets.controls; let i=index">
-                <div class="col">
-                  <select formControlName="type" 
-                          class="form-control" 
-                          (change)="setCodes(facets.controls[i].get('type'), i)" 
-                          aria-label="Select term type" 
-                          [class]="(facets.controls[i].get('type')?.invalid && (facets.controls[i].get('type')?.dirty || facets.controls[i].get('type')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option value="" selected disabled>Select type</option>
-                    <option *ngFor="let termType of termTypes" [value]="termType.value">{{termType.name}}</option>
-                  </select>
-                  <div *ngIf="facets.controls[i].get('type')?.errors?.['required']" class="invalid-feedback">
-                    Please select type.
-                  </div>
-                </div>
                 <div *ngIf="facets.controls[i].get('type')?.value !== ''" class="col">
-                  <select formControlName="code"
+                  <select formControlName="code" 
                           (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
-                          class="form-control"
+                          class="form-control" 
                           aria-label="Select skill"
-                          [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option value="" selected disabled>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
+                          [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched)) ? 'is-invalid' : ''">
+                    <option value="" disabled selected>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
                     <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
                   </select>
                   <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
-                    Please select skill.
+                    Please select term.
                   </div>
                 </div>
                 <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
@@ -96,7 +80,7 @@
               </div>
           </div>
           <div class="d-flex justify-content-center text-end mb-5">
-            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addFacet()">Add term</div>
+            <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addTerm()">Add term</div>
           </div>
           <div class="hr">
             <span class="text-secondary">Skills</span>

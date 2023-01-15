@@ -52,10 +52,9 @@ export class TalentsComponent implements OnInit {
   selectedTalentIndex: number = -1;
   selectedSkills: Skill[] = [];
   searchableSkills: Searchable[] = [];
-  termTypes = [{
-    "name": "Position",
-    "value": "POSITION"
-  },
+  selectedPositions: PositionView[] = [];
+  searchablePositions: Searchable[] = [];
+  termTypes = [
   {
     "name": "Term",
     "value": "TERM"
@@ -109,7 +108,13 @@ export class TalentsComponent implements OnInit {
   private initPositions() {
     this.positionService.findAll().subscribe(positions => {
       this.positions = positions;
-    })
+      this.searchablePositions = positions.map(position => {
+        return {
+          searchTerm: position.name,
+          object: position
+        }
+      });
+    });
   }
 
   private initTerms() {
@@ -123,21 +128,26 @@ export class TalentsComponent implements OnInit {
       facets: new FormArray([]),
       experienceYears: new FormControl(template.experienceYears, [Validators.min(0), Validators.max(99)])
     });
+    let talentSkillsMap = new Map();
+    let talentPositionsMap = new Map();
+      
     for (let i = 0; i < template.facets.length ; i++) {
       let facet = template.facets[i];
-      if (facet.type !== 'SKILL') {
+      if (facet.type === 'TERM') {
         let facetGroup = this.existingFacet(facet);
         this.facets.push(facetGroup);
-        this.setCodes(facetGroup.get('type'), i);
+        this.setCodes(i);
         if (facetGroup.get('type')?.value === 'TERM') {
           const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
           (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
         }
+      } else if (facet.type === 'TERM') {
+        talentSkillsMap.set(template.facets[i].code, template.facets[i].code);
+      } else {
+        talentPositionsMap.set(template.facets[i].code, template.facets[i].code);
       }
     }
-    const talentSkillsMap = new Map(template.facets
-      .filter(facet => facet.type === 'SKILL')
-      .map((obj) => [obj.code, obj.code]));
+    
     this.selectedSkills = [];
     this.searchableSkills = this.skills.filter(skill => {
       if (talentSkillsMap.get(skill.code) === undefined) {
@@ -151,7 +161,23 @@ export class TalentsComponent implements OnInit {
           searchTerm: skill.name,
           object: skill
         }
-      });
+    });
+
+    this.selectedPositions = [];
+    this.searchablePositions = this.positions.filter(position => {
+      if (talentPositionsMap.get(position.code) === undefined) {
+        return true;
+      } else {
+        this.selectedPositions.push(position);
+        return false;
+      }
+      }).map(position => {
+        return {
+          searchTerm: position.name,
+          object: position
+        }
+    });
+
     this.selectedTemplate = template;
   }
 
@@ -170,18 +196,11 @@ export class TalentsComponent implements OnInit {
     return formGroup; 
   }
 
-  setCodes(value: any, index: number) {
+  setCodes(index: number) {
     const codes:Code[] = [];
-    if (value.value === 'POSITION') {
-      this.positions.forEach((position => {
-        codes.push(this.newCode(position.name, position.code));
-      }));
-      this.removeValueAndOperatorTypeControlls(index);
-    } else if (value.value === 'TERM') {
-      this.terms.forEach((term => {
-        codes.push(this.newCode(term.name, term.code, term.type));
-      }));
-    }
+    this.terms.forEach((term => {
+      codes.push(this.newCode(term.name, term.code, term.type));
+    }));
 
     this.codes.set(index, codes);
   }
@@ -216,13 +235,14 @@ export class TalentsComponent implements OnInit {
     }
   }
 
-  addFacet() {
+  addTerm() {
     this.facets.push(this.newFacet());
+    this.setCodes(this.facets.length - 1);
   }
 
   newFacet(): FormGroup {
     return new FormGroup({
-      type: new FormControl('', [Validators.required]),
+      type: new FormControl('TERM', [Validators.required]),
       code: new FormControl('', [Validators.required])
     })
   }
@@ -238,6 +258,7 @@ export class TalentsComponent implements OnInit {
       })
     })
     this.selectedSkills = [];
+    this.selectedPositions = [];
     this.initForm();
   }
 
@@ -254,8 +275,15 @@ export class TalentsComponent implements OnInit {
       type: 'SKILL',
       value: selectedSkill.code
     }));
+    let selectedPositions: FacetSpecifierDto[] = []; 
+    this.selectedPositions.forEach(selectedPosition => selectedPositions.push({
+      code: selectedPosition.code,
+      operatorType: 'EQ',
+      type: 'POSITION',
+      value: selectedPosition.code
+    }));
     let formValue = this.searchTalentsForm.value;
-    const facets = [...formValue.facets, ...selectedSkills];
+    const facets = [...formValue.facets, ...selectedSkills, ...selectedPositions];
     this.talentService.find(facets, formValue.experienceYears, this.availableLocations, page).subscribe({
       next: response => {
         this.searchResult = response;
@@ -319,15 +347,10 @@ export class TalentsComponent implements OnInit {
       facets: new FormArray([]),
       experienceYears: new FormControl(0, [Validators.min(0), Validators.max(99)])
     });
-    this.addFacet();
   }
 
   getPlaceholderText(termTypeValue: string): string {
-    if (termTypeValue === 'POSITION') {
-      return 'Select position';
-    } else {
-      return 'Select term';
-    }
+    return 'Select term';
   }
 
   initCountries(): void {
@@ -376,12 +399,25 @@ export class TalentsComponent implements OnInit {
       this.searchableSkills = this.searchableSkills.filter(searchableSkill => searchableSkill.searchTerm !== skill.name);
   }
 
+  addPosition(position: PositionView): void {
+    this.selectedPositions.push(position);
+    this.searchablePositions = this.searchablePositions.filter(searchablePosition => searchablePosition.searchTerm !== position.name);
+  }
+
   removeSkill(index: number): void {
       this.searchableSkills.push({
         searchTerm: this.selectedSkills[index].name,
         object: this.selectedSkills[index]
       });
       this.selectedSkills.splice(index, 1);
+  }
+
+  removePosition(index: number): void {
+    this.searchablePositions.push({
+      searchTerm: this.selectedPositions[index].name,
+      object: this.selectedPositions[index]
+    });
+    this.selectedPositions.splice(index, 1);
   }
 
   get foundFilteredTalents(): TalentViewSearchDto[] {
