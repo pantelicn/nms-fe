@@ -2,6 +2,7 @@
   [ngClass]="{'bg-danger' :toast.color === 'error', 
             'bg-primary' : toast.color === 'primary', 
             'bg-warning' : toast.color === 'warning',
+            'bg-secondary' : toast.color === 'secondary',
             'text-light' : toast.color}"
   [header]="toast.header" [autohide]="true" [delay]="5000" (hide)="removeToast(toast)">
   {{toast.body}}

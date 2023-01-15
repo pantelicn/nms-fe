@@ -19,7 +19,7 @@ export class ToastService {
   }
 
   warning(header: string, body: string): void {
-    this.toasts.push({header, body, color: 'warning'});
+    this.toasts.push({header, body, color: 'secondary'});
   }
 
   remove(toast: Toast): void {

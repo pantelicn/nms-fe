@@ -5,6 +5,9 @@
         <bi name="person-circle" class="p-1 w-100 text-secondary"></bi>
         <div class="h2">{{talent?.firstName}} {{talent?.lastName}}</div>
         <div class="h4 text-secondary font-weight-light"><small>{{talent?.user?.username}}</small></div>
+        <hr>
+        <button *ngIf="!talent.available" class="btn btn-primary rounded-pill w-100" (click)="onSetAvailable()">Set as available</button>
+        <button *ngIf="talent.available" class="btn btn-outline-secondary rounded-pill w-100" (click)="onSetUnavailable()">Set as unavailable</button>
       </div>
     </div>
     <div class="col-lg-8 col-md-7">

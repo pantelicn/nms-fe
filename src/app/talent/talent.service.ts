@@ -30,4 +30,8 @@ export class TalentService {
     return this.httpClient.get<Skill[]>(this.talentsApi + this.authService.currentUser?.username + '/skills');
   }
 
+  updateAvailability(available: boolean): Observable<void> {
+    return this.httpClient.patch<void>(this.talentsApi + this.authService.currentUser?.username + '/available', { available });
+  }
+
 }

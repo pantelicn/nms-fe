@@ -9,6 +9,7 @@ export interface Talent {
   availableLocations: AvailableLocation[];
   user: User;
   likedPosts: number[];
-  experienceYears: number
+  experienceYears: number;
+  available: boolean;
 
 }
