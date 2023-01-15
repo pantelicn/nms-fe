@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSetUnavailable(): void {
-    this.talentService.updateAvailability(true).subscribe(() => {
+    this.talentService.updateAvailability(false).subscribe(() => {
       this.talent.available = false;
       this.toastService.warning('You are unavailable.', 'You can no longer be found in talent search results.');
     });
