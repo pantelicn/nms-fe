@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Code } from "ng-bootstrap-icons/icons";
-import { City, Country, Skill } from "src/app/shared/model";
+import { AvailableLocation, City, Country, Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "../../shared/services/position.service";
 import { SkillService } from "../../shared/services/skill.service";
@@ -71,6 +71,9 @@ export class TemplatesComponent implements OnInit {
   searchableSkills: Searchable[] = [];
   selectedPositions: PositionView[] = [];
   searchablePositions: Searchable[] = [];
+  searchableCountries: Searchable[] = [];
+  availableLocationMap = new Map<string, AvailableLocationSearch>();
+  selectedCountryCitiesMap = new Map<string, Searchable[]>(); 
 
   @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
 
@@ -101,7 +104,7 @@ export class TemplatesComponent implements OnInit {
     this.initPositions();
     this.initTerms();
     this.findAll();
-    this.initCountries();
+    this.getCountries();
   }
 
   private initForm() {
@@ -188,7 +191,6 @@ export class TemplatesComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    this.addLocation();
     let selectedSkills: FacetSpecifierDto[] = []; 
     this.selectedSkills.forEach(selectedSkill => selectedSkills.push({
       code: selectedSkill.code,
@@ -237,6 +239,10 @@ export class TemplatesComponent implements OnInit {
       experienceYears: new FormControl(selectedTemplate.experienceYears, [Validators.min(0), Validators.max(99)])
     });
     this.availableLocations = selectedTemplate.availableLocations;
+    console.log(this.availableLocations);
+    this.availableLocations.filter(availableLocation => {
+      this.availableLocationMap.set(availableLocation.country, availableLocation);
+    })
     for (let i = 0; i < selectedTemplate.facets.length ; i++) {
       if (selectedTemplate.facets[i].type === 'TERM') {
         let facet = selectedTemplate.facets[i];
@@ -283,6 +289,9 @@ export class TemplatesComponent implements OnInit {
           object: position
         }
     });
+
+    this.setSelectedCountriesWithCities();
+
     this.selectedTemplateIndex = index;
   }
 
@@ -418,47 +427,6 @@ export class TemplatesComponent implements OnInit {
     return 'Select term';
   }
 
-  initCountries(): void {
-    this.locationService.getCountries().subscribe(countries => this.countries = countries);
-  }
-
-  onSelectCountry(country: any): void {
-    this.selectedCountry = country;
-    this.locationService.getCities(country.id).subscribe(cities => this.cities = cities);
-  }
-
-  onSelectCity(city: any): void {
-    this.selectedCities.push(city);
-    this.cities.splice(this.cities.findIndex(c => city.name === c.name), 1);
-    this.typeahead.reset();
-  }
-  
-  clearCountry(): void {
-    this.selectedCities = [];
-    this.selectedCountry = null;
-  }
-  
-  addLocation(): void {
-    if (this.selectedCountry) {
-      this.countries.splice(this.countries.findIndex(c => c.name === this.selectedCountry?.name), 1);
-      this.availableLocations.push({
-        country: this.selectedCountry.name,
-        cities: this.selectedCities.map(city => city.name)
-      });
-      this.clearCountry();
-    }
-  }
-
-  removeLocation(availableLocation: AvailableLocationSearch): void {
-      this.availableLocations.splice(this.availableLocations.findIndex(location => availableLocation.country === location.country));
-      this.clearCountry();
-      this.initCountries();
-  }
-
-  clearCity(city: City): void {
-    this.selectedCities.splice(this.selectedCities.findIndex(c => c.name === city.name));
-  }
-
   removeSkill(index: number): void {
     this.searchableSkills.push({
       searchTerm: this.selectedSkills[index].name,
@@ -485,24 +453,107 @@ export class TemplatesComponent implements OnInit {
     this.searchablePositions = this.searchablePositions.filter(searchablePosition => searchablePosition.searchTerm !== position.name);
   }
 
-  get searchableCountries(): Searchable[] {
-    return this.countries
-      .filter(country => !this.availableLocations.map(availableLocation => availableLocation.country).includes(country.name))
+  private getCountries() {
+    this.locationService.getCountries().subscribe({
+      next: response => {
+        this.countries = response;
+        this.initSearchableCountries();
+      },
+      error: error => {
+
+      }
+    })
+  }
+
+  initSearchableCountries() {
+    this.searchableCountries = this.countries.filter(country => !this.availableLocationMap.has(country.name))
       .map(country => {
         return {
           searchTerm: country.name,
-          object: country
+          object: country,
+          id: country.id
         }
-      });
+    });
   }
 
-  get searchableCities(): Searchable[] {
-    return this.cities.map(city => {
-      return {
-        searchTerm: city.name,
-        object: city
+  onSelectCountry(country: any): void {
+    this.searchableCountries = this.searchableCountries.filter(sc => sc.searchTerm !== country.name);
+    if (!this.availableLocations) {
+      this.availableLocations = [];
+    }
+    this.availableLocations.push({
+      country: country.name,
+      cities: [],
+      id: country.id
+    })
+    this.getCities(country.id, country.name); 
+  }
+
+  getCities(countryId: number, countryName: string, availableCities?: string[]) {
+    this.locationService.getCities(countryId).subscribe(cities => {
+      if (availableCities) {
+        let searchableCitities = cities.filter(c => !availableCities.includes(c.name)).map(city => {
+          return {
+            searchTerm: city.name,
+            object: city.name
+          }
+        });
+        this.selectedCountryCitiesMap.set(countryName, searchableCitities);
+      } else {
+        let searchableCitities = cities.map(city => {
+          return {
+            searchTerm: city.name,
+            object: city.name
+          }
+        });
+        this.selectedCountryCitiesMap.set(countryName, searchableCitities);
       }
     });
+  }
+
+  onSelectCity(city: any, availableLocation: AvailableLocationSearch): void {
+    availableLocation.cities.push(city);
+
+    let found = this.selectedCountryCitiesMap.get(availableLocation.country);
+    if (found) {
+      found = found.filter(c => {
+        return c.searchTerm !== city;
+      });
+      this.selectedCountryCitiesMap.set(availableLocation.country, found);
+    }
+  }
+
+  removeAvailableCity(cityName: string, availableLocation: AvailableLocationSearch) {
+    let availableCities = this.selectedCountryCitiesMap.get(availableLocation.country);
+    if (availableCities) {
+      availableCities.push({
+        searchTerm: cityName,
+        object: cityName
+      })
+    }
+    availableLocation.cities = availableLocation.cities.filter(city => city !== cityName);
+  }
+
+  removeLocation(availableLocation: AvailableLocationSearch): void {
+    this.availableLocations = this.availableLocations.filter(location => location.country !== availableLocation.country);
+    this.searchableCountries.push({
+      searchTerm: availableLocation.country,
+      object: {
+        name: availableLocation.country,
+        id: availableLocation.id
+      },
+      id: availableLocation.id
+    })   
+  }
+
+  setSelectedCountriesWithCities() {
+    this.countries.filter(country => {
+      let availableLocation = this.availableLocationMap.get(country.name);
+      if (availableLocation && country.id) {
+        availableLocation.id = country.id;
+        this.getCities(country.id, country.name, availableLocation.cities);
+      }
+    })
   }
 
 }

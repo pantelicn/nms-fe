@@ -70,6 +70,7 @@ export interface TalentBasicInfoDto {
 export interface AvailableLocationSearch {
   country: string;
   cities: string[];
+  id?: number;
 }
 
 export interface AvailableLocationView {
