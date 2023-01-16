@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NgbPopover } from "@ng-bootstrap/ng-bootstrap";
 import { Country, Post, Talent } from "src/app/shared/model";
 import { PostsType } from "src/app/shared/model/posts-type.enum";
 import { LocationService } from "src/app/shared/services/location.service";
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   isLastPage: boolean = false;
   selectedCountry?: number;
   retrievingInProcess: boolean = false;
+  @ViewChild(NgbPopover) popover!: NgbPopover;
 
   constructor(private talentService: TalentService,
               private postService: PostService,
@@ -108,6 +110,9 @@ export class HomeComponent implements OnInit {
     this.talentService.getTalent().subscribe({
       next: response => {
         this.talent = response;
+        if (!this.talent.available) {
+          this.popover.open();
+        }
       },
       error: error => {
 

@@ -19,10 +19,11 @@ export class RequestComponent implements OnInit, OnDestroy {
   showRefreshBtn: boolean = false;
   intervalId?: any;
   
-  constructor(private fb:FormBuilder, 
+  constructor(
     private requestService: RequestService,
     private modalService: NgbModal,
-    private toastService: ToastService) {}
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.findAllActiveRequests();
