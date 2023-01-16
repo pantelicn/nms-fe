@@ -103,3 +103,11 @@
 #experience-years {
   width: 5em;
 }
+
+.nms-x-circle {
+  height: 1em;
+}
+
+.nms-x-circle:hover {
+  color: theme-color("danger");
+}

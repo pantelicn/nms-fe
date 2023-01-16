@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModalRef, NgbModalOptions, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Code } from "ng-bootstrap-icons/icons";
-import { AvailableLocation, City, Country, Skill } from "src/app/shared/model";
+import { City, Country, Skill } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { PositionService, PositionView } from "../../shared/services/position.service";
 import { SkillService } from "../../shared/services/skill.service";
@@ -207,7 +207,7 @@ export class TemplatesComponent implements OnInit {
       value: selectedPosition.code
     }));
     
-    if (this.addTemplateForm.valid && this.facets.length > 0) {
+    if (this.addTemplateForm.valid) {
       if (this.id === null) {
         let data: AddTemplate = {
           ...this.addTemplateForm.value,
@@ -239,10 +239,11 @@ export class TemplatesComponent implements OnInit {
       experienceYears: new FormControl(selectedTemplate.experienceYears, [Validators.min(0), Validators.max(99)])
     });
     this.availableLocations = selectedTemplate.availableLocations;
-    console.log(this.availableLocations);
+    this.availableLocationMap = new Map();
     this.availableLocations.filter(availableLocation => {
       this.availableLocationMap.set(availableLocation.country, availableLocation);
-    })
+    });
+    this.getCountries();
     for (let i = 0; i < selectedTemplate.facets.length ; i++) {
       if (selectedTemplate.facets[i].type === 'TERM') {
         let facet = selectedTemplate.facets[i];
@@ -297,6 +298,8 @@ export class TemplatesComponent implements OnInit {
 
   clearSelected() {
     this.availableLocations = [];
+    this.availableLocationMap = new Map();
+    this.getCountries();
     this.selectedSkills.forEach(selectedSkill => {
       this.searchableSkills.push({
           searchTerm: selectedSkill.name,
@@ -337,6 +340,7 @@ export class TemplatesComponent implements OnInit {
       })
     })
     this.selectedPositions = [];
+    this.getCountries();
     this.toastService.show('', 'New template has been added.');
   }
 
@@ -357,6 +361,7 @@ export class TemplatesComponent implements OnInit {
       })
     })
     this.selectedPositions = [];
+    this.getCountries();
     this.toastService.show('', 'New template has been added.');
   }
 
@@ -385,11 +390,6 @@ export class TemplatesComponent implements OnInit {
   private addValueAndOperatorTypeControlls(index: number) {
     (this.facets.at(index) as FormGroup).addControl('value', new FormControl('', [Validators.required]));
     (this.facets.at(index) as FormGroup).addControl('operatorType', new FormControl('', [Validators.required]));
-  }
-
-  private removeValueAndOperatorTypeControlls(index: number) {
-    (this.facets.at(index) as FormGroup).removeControl('value');
-    (this.facets.at(index) as FormGroup).removeControl('operatorType');
   }
 
   newCode(name: string, code: string, type?: string) {

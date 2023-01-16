@@ -110,44 +110,30 @@
           </div>
           <div class="mb-3">
             <label class="text-secondary">Talent's available locations:</label>
-            <div *ngFor="let availableLocation of availableLocations" class="row mb-2">
-              <div class="col">
-                <div class="d-flex align-items-center">
-                  <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
-                  {{availableLocation.country}}
+            <div>
+              <div *ngFor="let availableLocation of availableLocations" class="row mb-2">
+                <div class="col">
+                  <div class="d-flex align-items-center mb-2">
+                    <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
+                    {{availableLocation.country}}
+                    <bi name="trash" (click)="removeLocation(availableLocation)" class="nms-x-circle nms-cursor ml-2"></bi>
+                  </div>
                 </div>
-              </div>
-              <div class="col"><div *ngFor="let city of availableLocation.cities">{{city}}</div></div>
-              <div class="col-2">
-                <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="removeLocation(availableLocation)">
-                  <bi name="x-circle" class="nms-x-circle"></bi>
-                </a>
+                <div class="col">
+                  <div class="d-flex flex-wrap">
+                    <div *ngFor="let city of availableLocation.cities" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
+                      <span>{{city}}</span>
+                      <button type="button" (click)="removeAvailableCity(city, availableLocation)" class="close ml-2" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <typeahead [data]="selectedCountryCitiesMap.get(availableLocation.country)" [placeholder]="'Select city from ' + availableLocation.country" (selectItem)="onSelectCity($event, availableLocation)"></typeahead>
+                </div>
               </div>
             </div>
-            <div class="row" *ngIf="searchableCountries.length">
-              <div class="col">
-                <typeahead *ngIf="!selectedCountry" [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
-                <div *ngIf="selectedCountry" class="d-flex justify-content-between align-items-center">
-                  {{selectedCountry.name}}
-                  <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCountry()">
-                    <bi name="x-circle" class="nms-x-circle"></bi>
-                  </a>
-                </div>
-              </div>
-              <div class="col" >
-                <div *ngFor="let selectedCity of selectedCities" class="d-flex justify-content-between align-items-center mb-2">
-                  {{selectedCity.name}}
-                  <a class="ml-auto text-secondary text-decoration-none nms-cursor" (click)="clearCity(selectedCity)">
-                    <bi name="x-circle" class="nms-x-circle"></bi>
-                  </a>
-                </div>
-                <typeahead *ngIf="selectedCountry && searchableCities.length" [data]="searchableCities" placeholder="Optionally select city" (selectItem)="onSelectCity($event)"></typeahead>
-              </div>
-              <div class="col-2">
-                <a class="ml-auto text-secondary text-decoration-none nms-cursor float-right" (click)="addLocation()">
-                  <bi name="plus-circle" class="nms-plus-circle"></bi>
-                </a>
-              </div>
+            <div class="d-flex justify-content-between align-items-center my-1 mt-3">
+              <typeahead [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
             </div>
           </div>
           <hr>
