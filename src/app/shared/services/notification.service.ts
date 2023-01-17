@@ -50,7 +50,8 @@ export interface NotificationView {
 }
 
 export enum NotificationInfoType {
-  REQUEST = 'REQUEST'
+  REQUEST = 'REQUEST',
+  ACTIVATION = 'ACTIVATION'
 }
 
 export enum NotificationType {

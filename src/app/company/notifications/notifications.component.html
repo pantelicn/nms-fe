@@ -3,8 +3,6 @@
     <div class="col-lg-8 col-md-7">
       <div class="my-2">
         <div class="bg-white border rounded">
-          <div class="p-3">Notifications</div>
-          <hr class="mt-0"/>
           <div infinite-scroll 
               [immediateCheck]="true"
               [infiniteScrollDistance]="2"
@@ -14,11 +12,13 @@
               *ngFor="let notification of notifications">
             <div class="d-flex">
               <div class="d-flex flex-column">
-                <div class="m-0 d-flex">
-                  <bi *ngIf="notification.type === 'REQUEST'" name="person-bounding-box" class="icon lead mr-3"></bi>{{notification.message}}
+                <div class="mb-2">
+                  <span *ngIf="notification.type === 'REQUEST'"><strong>Request </strong></span>
+                  <span *ngIf="notification.type === 'ACTIVATION'"><strong>Activation </strong></span> 
+                  <span class="text-secondary"><small> {{notification.createdOn | date: 'dd/MM/YYYY HH:mm'}}</small></span>
                 </div>
-                <div class="font-weight-light text-secondary mt-1 text-date">
-                  {{notification.createdOn | date: 'dd/MM/YYYY HH:mm'}}
+                <div class="m-0 d-flex text-secondary">
+                  {{notification.message}}
                 </div>
               </div>
             </div>
