@@ -1,4 +1,4 @@
-<div class="container mb-5" *ngIf="talent">
+<div class="container mb-5">
   <div class="row">
     <div class="col-lg-4 col-md-5 d-md-block d-none">
       <div class="py-3 px-3 sticky-top top-gap bg-white border rounded">
@@ -6,10 +6,10 @@
         <div class="h2">{{talent?.firstName}} {{talent?.lastName}}</div>
         <div class="h4 text-secondary font-weight-light"><small>{{talent?.user?.username}}</small></div>
         <hr>
-        <a [routerLink]="['profile']" class="btn btn-sm btn-outline-primary rounded-pill w-100" role="button">Edit profile</a>
+        <button [routerLink]="['profile']" class="btn btn-sm btn-outline-primary rounded-pill w-100" type="button" ngbPopover="Set up your profile and showcase your skills and experience in order to appear in company searches." [autoClose]="true" triggers="manual" #popover="ngbPopover" placement="bottom" popoverTitle="Welcome!" popoverClass="text-primary">Edit profile</button>
       </div>
     </div>
-    <div class="col-lg-8 col-md-7">
+    <div *ngIf="talent" class="col-lg-8 col-md-7">
       <a class="btn btn-outline-primary mr-2 posts-selector" 
         (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
         [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global posts</a>

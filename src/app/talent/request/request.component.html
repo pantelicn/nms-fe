@@ -18,6 +18,7 @@
         </div>
       </div>
     </div>
+    <div *ngIf="!selectedRequest" class="col-lg-9 col-md-7 border-left border-grey text-secondary d-flex justify-content-center">Select a request from the list.</div>
     <div *ngIf="selectedRequest" class="col-lg-9 col-md-7 border-left border-grey">
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
