@@ -23,18 +23,18 @@
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4>Request from {{selectedRequest?.company}}</h4>
+          <h4>Request from {{companyName}}</h4>
           <a *ngIf="showRefreshBtn && selectedRequest" class="text-secondary text-decoration-none nms-cursor">
             <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
           </a>
         </div>
         <hr />
-        <h5>Benefits</h5>
+        <h5>Benefits working at {{companyName}}</h5>
         <ul>
-          <li *ngFor="let benefit of selectedRequest.benefits">
+          <li *ngFor="let benefit of companyBenefits">
             <b>{{benefit.name}}</b>
             <ul>
-              <li>{{benefit.description}}</li>
+              <li class="text-secondary">{{benefit.description}}</li>
             </ul>
           </li>
         </ul>

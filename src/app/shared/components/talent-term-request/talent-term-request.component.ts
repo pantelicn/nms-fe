@@ -7,7 +7,7 @@ import { TalentTermRequestViewDto, RequestDetailView } from "src/app/company/req
 import { TalentTermRequestService } from "src/app/shared/services/talent-term-request.service";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { TalentRequestDetailView } from "src/app/talent/request/request.service";
-import { User } from "../../model";
+import { TermType, User } from "../../model";
 
 @Component({
   selector: 'talent-term-request',
@@ -32,6 +32,7 @@ export class TalentTermRequestComponent implements OnInit {
     backdropClass: 'customBackdrop'
   };
   user?: User;
+  termType = TermType;
 
   constructor(private modalService: NgbModal, 
               private talentTermRequestService: TalentTermRequestService,
@@ -162,6 +163,16 @@ export class TalentTermRequestComponent implements OnInit {
 
   get newValue() {
     return this.counterOfferForm.get('newValue');
+  }
+
+  getOfferDescription(): string {
+    if (this.talentTermRequest?.status === 'COUNTER_OFFER_COMPANY') {
+      return ' is offered';
+    } else if (this.talentTermRequest?.status === 'COUNTER_OFFER_TALENT') {
+      return ' is requested'
+    } else {
+      return '';
+    }
   }
 
 }
