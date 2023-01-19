@@ -1,8 +1,10 @@
-<div class="d-flex align-items-center justify-content-between row">
-  <div class="d-flex align-items-center col-12 col-md-8">
+<div class="d-flex align-items-center justify-content-between row nh-alert alert" 
+    [ngClass]="{'alert-success' : talentTermRequest?.status === 'ACCEPTED', 'alert-warning' : talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' || talentTermRequest?.status === 'COUNTER_OFFER_TALENT', 'alert-danger' : talentTermRequest?.status === 'REJECTED'}">
+  <div class="d-flex align-items-center col-12 col-md-12">
     <bi *ngIf="talentTermRequest?.status === 'ACCEPTED' && !talentTermRequest?.counterOffer" name="check-all" class="icon lead nms-talent-term-icon text-primary"></bi>
     <bi *ngIf="talentTermRequest?.status === 'ACCEPTED' && talentTermRequest?.counterOffer" name="check" class="icon lead nms-talent-term-icon text-primary"></bi>
-    
+    <bi *ngIf="talentTermRequest?.status === 'REJECTED'" name="x" class="icon nh-x lead nms-talent-term-icon"></bi>
+
     <bi *ngIf="user?.role === 'COMPANY' && (talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' || talentTermRequest?.status === 'COUNTER_OFFER_TALENT')" class="bg-light rounded-circle avatar" name="person"></bi>
     <img *ngIf="user?.role === 'TALENT' && (talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' || talentTermRequest?.status === 'COUNTER_OFFER_TALENT')" class="bg-light rounded-circle text-white p-1 avatar" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
     
@@ -11,9 +13,9 @@
     
     <img *ngIf="user?.role === 'COMPANY' && (talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' || talentTermRequest?.status === 'COUNTER_OFFER_TALENT')" class="bg-light rounded-circle text-white p-1 avatar" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
     <bi *ngIf="user?.role === 'TALENT' && (talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' || talentTermRequest?.status === 'COUNTER_OFFER_TALENT')" class="bg-light rounded-circle avatar" name="person"></bi>
-    <span class="text-secondary">{{talentTermRequest?.name}} <strong class="offered-value">{{talentTermRequest?.status === 'ACCEPTED' && talentTermRequest?.counterOffer === undefined && talentTermRequest?.termType !== termType.Boolean ? talentTermRequest?.value : talentTermRequest?.counterOffer}}</strong> {{getOfferDescription()}}</span>     
+    <span class="text-secondary">{{talentTermRequest?.name}} <strong class="offered-value">{{!talentTermRequest?.counterOffer && talentTermRequest?.termType !== termType.Boolean ? talentTermRequest?.value : talentTermRequest?.counterOffer}}</strong> {{getOfferDescription()}}</span>     
   </div> 
-  <div class="col-12 col-md-4">
+  <div class="col-12 col-md-12 d-flex justify-content-around">
     <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' && user?.role === 'COMPANY'" (click)="openEditCounterOfferDialog(editCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Edit sent counter offer</a>
     <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_TALENT' && user?.role === 'COMPANY'" (click)="openEditCounterOfferDialog(sendCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Send counter offer</a>
     <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' && user?.role === 'TALENT'" (click)="openEditCounterOfferDialog(sendCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Send counter offer</a>

@@ -28,8 +28,9 @@
             <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
           </a>
         </div>
-        <hr />
-        <h5>Benefits working at {{companyName}}</h5>
+        <div class="hr mb-2">
+          <span class="text-secondary">Benefits working at {{companyName}}</span>
+        </div>
         <ul>
           <li *ngFor="let benefit of companyBenefits">
             <b>{{benefit.name}}</b>
@@ -38,8 +39,9 @@
             </ul>
           </li>
         </ul>
-        <hr />
-        <h5>Terms</h5>
+        <div class="hr mb-2">
+          <span class="text-secondary">Terms</span>
+        </div>
         <div class="nms-row" *ngFor="let talentTermRequest of selectedRequest.talentTermRequests; let i=index">
           <talent-term-request [talentTermRequest]="talentTermRequest" 
                                 [requestId]="selectedRequest.id" 

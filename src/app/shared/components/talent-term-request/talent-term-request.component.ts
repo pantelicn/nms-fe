@@ -170,6 +170,10 @@ export class TalentTermRequestComponent implements OnInit {
       return ' is offered';
     } else if (this.talentTermRequest?.status === 'COUNTER_OFFER_TALENT') {
       return ' is requested'
+    } else  if (this.talentTermRequest?.status === 'ACCEPTED') {
+      return ' is accepted';
+    } else if (this.talentTermRequest?.status === 'REJECTED') {
+      return ' is rejected';
     } else {
       return '';
     }
