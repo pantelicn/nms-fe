@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-9 col-md-7 border-left border-grey">
+    <div class="col-lg-9 col-md-7">
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
         <div class="d-flex justify-content-between mb-3">
@@ -24,7 +24,7 @@
             (click)="openRemoveTemplateDialog(removeTemplateDialog)"></bi>
         </div>
         <form [formGroup]="addTemplateForm" (ngSubmit)="onSubmit()" novalidate>
-          <div class="form-group">
+          <div class="form-group p-2">
             <input type="text" 
                   class="form-control shadow-none rounded-0" 
                   formControlName="name" 
@@ -35,44 +35,50 @@
               Please enter template name.
             </div>
           </div>
-          <div formArrayName="facets">
-              <div [formGroupName]="i" class="row nms-row d-flex align-items-center" *ngFor="let facet of facets.controls; let i=index">
-                <div *ngIf="facets.controls[i].get('type')?.value !== ''" class="col">
-                  <select formControlName="code" 
-                          (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
-                          class="form-control" 
-                          aria-label="Select skill"
-                          [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched)) ? 'is-invalid' : ''">
-                    <option value="" disabled selected>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
-                    <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
-                  </select>
-                  <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
-                    Please select term.
+          <div formArrayName="facets" class="p-2">
+              <div [formGroupName]="i" class="row" *ngFor="let facet of facets.controls; let i=index">
+                <div class="row nms-row col-11">
+                  <div *ngIf="facets.controls[i].get('type')?.value !== ''" 
+                      [ngClass]="{'col-md-4' : facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'}"
+                      class="col-12">
+                    <select formControlName="code" 
+                            (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
+                            class="form-control" 
+                            aria-label="Select skill"
+                            [class]="(facets.controls[i].get('code')?.invalid && (facets.controls[i].get('code')?.dirty || facets.controls[i].get('code')?.touched)) ? 'is-invalid' : ''">
+                      <option value="" disabled selected>{{ getPlaceholderText(facets.controls[i].get('type')?.value) }}</option>
+                      <option *ngFor="let code of codes.get(i)" [ngValue]="code.code">{{code.name}}</option>
+                    </select>
+                    <div *ngIf="facets.controls[i].get('code')?.errors?.['required']" class="invalid-feedback">
+                      Please select term.
+                    </div>
+                  </div>
+                  <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" 
+                      class="col-12 col-md-4">
+                    <input formControlName="value" 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Value" 
+                    [class]="(facets.controls[i].get('value')?.invalid && (facets.controls[i].get('value')?.dirty || facets.controls[i].get('value')?.touched || submitted)) ? 'is-invalid' : ''">
+                    <div *ngIf="facets.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
+                      Please enter value.
+                    </div>
+                  </div>
+                  <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" 
+                      class="col-12 col-md-4">
+                    <select formControlName="operatorType" 
+                            class="form-control" 
+                            aria-label="Select operator"
+                            [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched || submitted)) ? 'is-invalid' : ''">
+                      <option value="" selected disabled>Select operator</option>
+                      <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
+                    </select>
+                    <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">
+                      Please select operator type.
+                    </div>
                   </div>
                 </div>
-                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
-                  <input formControlName="value" 
-                  type="text" 
-                  class="form-control" 
-                  placeholder="Value" 
-                  [class]="(facets.controls[i].get('value')?.invalid && (facets.controls[i].get('value')?.dirty || facets.controls[i].get('value')?.touched || submitted)) ? 'is-invalid' : ''">
-                  <div *ngIf="facets.controls[i].get('value')?.errors?.['required']" class="invalid-feedback">
-                    Please enter value.
-                  </div>
-                </div>
-                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
-                  <select formControlName="operatorType" 
-                          class="form-control" 
-                          aria-label="Select operator"
-                          [class]="(facets.controls[i].get('operatorType')?.invalid && (facets.controls[i].get('operatorType')?.dirty || facets.controls[i].get('operatorType')?.touched || submitted)) ? 'is-invalid' : ''">
-                    <option value="" selected disabled>Select operator</option>
-                    <option *ngFor="let ot of operatorTypes" [ngValue]="ot.value">{{ot.name}}</option>
-                  </select>
-                  <div *ngIf="facets.controls[i].get('operatorType')?.errors?.['required']" class="invalid-feedback">
-                    Please select operator type.
-                  </div>
-                </div>
-                <div class="pr-3">
+                <div class="d-flex align-items-center justify-content-center col-1 pb-2">
                   <a (click)="removeFacet(i)" class="text-secondary text-decoration-none nms-cursor">
                     <bi name="x-circle" class="icon lead fa-lg nms-x-circle"></bi>
                   </a>
@@ -85,7 +91,7 @@
           <div class="hr">
             <span class="text-secondary">Skills</span>
           </div>
-          <div class="d-flex flex-wrap">
+          <div *ngIf="selectedSkills && selectedSkills.length > 0" class="d-flex flex-wrap p-2">
             <div *ngFor="let selectedSkill of selectedSkills; let i=index" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
                 <span>{{selectedSkill.name}}</span>
                 <button type="button" (click)="removeSkill(i)" class="close ml-2" aria-label="Close">
@@ -93,13 +99,13 @@
                 </button>
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-center my-1">
+          <div class="d-flex justify-content-between align-items-center my-1 pl-2 mb-3">
             <typeahead [data]="searchableSkills" placeholder="Add skill" (selectItem)="addSkill($event)"></typeahead>
           </div>
           <div class="hr">
             <span class="text-secondary">Positions</span>
           </div>
-          <div class="d-flex flex-wrap">
+          <div *ngIf="selectedPositions && selectedPositions.length > 0" class="d-flex flex-wrap p-2">
             <div *ngFor="let selectedPosition of selectedPositions; let i=index" class="border pl-2 pr-2 pb-1 pt-1 mr-2 mb-2 rounded-pill">
                 <span>{{selectedPosition.name}}</span>
                 <button type="button" (click)="removePosition(i)" class="close ml-2" aria-label="Close">
@@ -107,22 +113,22 @@
                 </button>
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-center my-1">
+          <div class="d-flex justify-content-between align-items-center my-1 pl-2 mb-3">
             <typeahead [data]="searchablePositions" placeholder="Add position" (selectItem)="addPosition($event)"></typeahead>
           </div>
           <div class="hr">
-            <span class="text-secondary">Details (optional)</span>
+            <span class="text-secondary">Details</span>
           </div>
-          <div class="row mb-3">
+          <div class="row mb-3 pl-2">
             <div class="col-auto">
               <label for="experience-years" class="text-secondary">Minimum years of experience:</label>
               <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
             </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-3 pl-2 pr-2">
             <label class="text-secondary">Talent's available locations:</label>
             <div>
-              <div *ngFor="let availableLocation of availableLocations" class="row mb-2">
+              <div *ngFor="let availableLocation of availableLocations" class="row" [ngClass]="{'mb-2' : availableLocations && availableLocations.length > 0}">
                 <div class="col">
                   <div class="d-flex align-items-center mb-2">
                     <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>

@@ -24,8 +24,11 @@
             <span class="text-secondary">Terms</span>
           </div>
           <div formArrayName="facets" class="p-2">
-              <div [formGroupName]="i" class="row nms-row" *ngFor="let facet of facets.controls; let i=index">
-                <div *ngIf="facets.controls[i].get('type')?.value !== ''" class="col">
+            <div [formGroupName]="i" *ngFor="let facet of facets.controls; let i=index" class="row">
+              <div class="row nms-row col-11">
+                <div *ngIf="facets.controls[i].get('type')?.value !== ''" 
+                      [ngClass]="{'col-md-4' : facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'}" 
+                      class="col-12">
                   <select formControlName="code" 
                           (change)="setCodeType(facets.controls[i].get('type'), facets.controls[i].get('code'), i)"
                           class="form-control" 
@@ -38,7 +41,8 @@
                     Please select term.
                   </div>
                 </div>
-                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
+                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" 
+                    class="col-12 col-md-4">
                   <input formControlName="value" 
                   type="text" 
                   class="form-control" 
@@ -48,7 +52,8 @@
                     Please enter value.
                   </div>
                 </div>
-                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" class="col">
+                <div *ngIf="facet.value.type === 'TERM' && facets.controls[i].get('code')?.value !== '' && facets.controls[i].get('codeType')?.value !== 'BOOLEAN'" 
+                    class="col-12 col-md-4">
                   <select formControlName="operatorType" 
                           class="form-control" 
                           aria-label="Select operator"
@@ -60,13 +65,13 @@
                     Please select operator type.
                   </div>
                 </div>
-                <div class="pr-3 d-flex align-items-center">
-                  <a (click)="removeFacet(i)" class="text-secondary text-decoration-none nms-cursor">
-                    <bi name="x-circle" class="icon lead fa-lg nms-x-circle"></bi>
-                  </a>
-                </div>
               </div>
-              
+              <div class="d-flex align-items-center justify-content-center col-1 pb-2">
+                <a (click)="removeFacet(i)" class="text-secondary text-decoration-none nms-cursor">
+                  <bi name="x-circle" class="icon lead fa-lg nms-x-circle"></bi>
+                </a>
+              </div>
+            </div>
           </div>
           <div class="d-flex justify-content-center text-end mb-5">
             <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="addTerm()">Add term</div>
@@ -108,10 +113,10 @@
               <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
             </div>
           </div>
-          <div class="mb-3 pl-2">
+          <div class="mb-3 pl-2 pr-2">
             <label class="text-secondary">Talent's available locations:</label>
             <div>
-              <div *ngFor="let availableLocation of availableLocations" class="row" ngClass="{'mb-2' : availableLocations && availableLocations.length > 0}">
+              <div *ngFor="let availableLocation of availableLocations" class="row" [ngClass]="{'mb-2' : availableLocations && availableLocations.length > 0}">
                 <div class="col">
                   <div class="d-flex align-items-center mb-2">
                     <bi name="geo-alt-fill" class="nms-small-icon mr-1"></bi>
@@ -132,7 +137,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center my-1">
+            <div class="d-flex justify-content-between align-items-center my-1 mt-3">
               <typeahead [data]="searchableCountries" placeholder="Select country" (selectItem)="onSelectCountry($event)"></typeahead>
             </div>
           </div>
