@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationDialog } from "src/app/shared/dialogs/confirmation/confirmation.component";
+import { BenefitView } from "src/app/shared/services/benefits.service";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { TalentRequestDetailView, RequestService, RequestView } from "./request.service";
 
@@ -18,6 +18,8 @@ export class RequestComponent implements OnInit, OnDestroy {
   selectedRequest?: TalentRequestDetailView;
   showRefreshBtn: boolean = false;
   intervalId?: any;
+  companyBenefits: BenefitView[] = [];
+  companyName: string = '';
   
   constructor(
     private requestService: RequestService,
@@ -44,8 +46,9 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   setSelectedRequest(selectedRequest: RequestView) {
     this.requestService.get(selectedRequest.id).subscribe(data => {
-      console.log(data);
       this.selectedRequest = data;
+      this.companyBenefits = [...this.selectedRequest.benefits];
+      this.companyName = data.company;
       selectedRequest.seenByTalent = true;
     });
   }

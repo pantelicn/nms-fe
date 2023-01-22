@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
+import { TermType } from "src/app/shared/model";
 import { BenefitView } from "src/app/shared/services/benefits.service";
 import { environment } from "src/environments/environment";
 
@@ -32,7 +33,8 @@ export interface TalentTermRequestViewDto {
   status: string
   name: string,
   unitOfMeasure: string,
-  value: string
+  value: string,
+  termType: TermType
 }
 
 export interface TalentRequestDetailView {

@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
+import { TermType } from "src/app/shared/model";
 import { environment } from "src/environments/environment";
 import { PositionViewDto, SkillViewDto } from "../talents/talents.service";
 
@@ -36,7 +37,8 @@ export interface TalentTermRequestViewDto {
   status: string
   name: string,
   unitOfMeasure: string,
-  value: string
+  value: string,
+  termType: TermType
 }
 
 export interface RequestDetailView {
