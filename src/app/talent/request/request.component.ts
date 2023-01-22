@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationDialog } from "src/app/shared/dialogs/confirmation/confirmation.component";
 import { BenefitView } from "src/app/shared/services/benefits.service";
@@ -24,11 +25,25 @@ export class RequestComponent implements OnInit, OnDestroy {
   constructor(
     private requestService: RequestService,
     private modalService: NgbModal,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.findAllActiveRequests();
+    this.route.queryParams
+      .subscribe(params => {
+        const id = params['id'];
+        if (id) {
+          this.requestService.getAllActiveRequests().subscribe(data => {
+            this.activeRequests = data.content;
+            let selectedReqeust = this.activeRequests.filter(activeRequest => activeRequest.id == id);
+            this.setSelectedRequest(selectedReqeust[0]);
+          });
+        } else {
+          this.findAllActiveRequests();
+        }
+      }
+    );
     this.intervalId = setInterval(()=> { this.findAllActiveRequests() }, this.TIME_INTERVAL_IN_SECONDS);
   }
 

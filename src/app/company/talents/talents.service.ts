@@ -22,7 +22,8 @@ export interface TalentViewSearchDto {
   skills: SkillViewDto[],
   positions: PositionViewDto[],
   previousRequest: RequestView;
-  requestSent: boolean
+  requestSent: boolean,
+  experienceYears: number
 }
 
 export interface PositionViewDto {

@@ -38,7 +38,7 @@
         {{notificationStatus.unseenMessages}}
       </span>
     </a>
-    <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: true}" (click)="setRequestsToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+    <a [routerLink]="['requests']" [routerLinkActiveOptions]="{exact: false}" (click)="setRequestsToSeen()" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
       <bi name="person-bounding-box" class="icon lead"></bi>
       <small>Requests</small>
       <span *ngIf="notificationStatus && notificationStatus.unseenRequests > 0" class="nms-notification position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ml-4">
