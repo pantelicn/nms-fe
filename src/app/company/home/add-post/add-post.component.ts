@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
-import { Post } from "src/app/shared/model";
+import { Company, Post } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
+import { environment } from "src/environments/environment";
 import { AddPostService } from "./add-post.service";
 
 @Component({
@@ -18,6 +19,7 @@ export class AddPostComponent {
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
   });
+  @Input() company!: Company;
   @Output() postAddedChange = new EventEmitter<Post>();
 
   constructor(private modalService: NgbModal, 
@@ -63,6 +65,10 @@ export class AddPostComponent {
 
   get content() {
     return this.addPostForm.get('content');
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }
