@@ -99,7 +99,6 @@ export class ChatService {
     this.to = to;
     this.toName = toName;
     this.http.get<Page<Message>>(this.chatsApi + '/' + to).subscribe(data => {
-      console.log(toName);
       this.messages = this.addNameToMessages(data.content, toName);
       this.resetPage();
     });;
@@ -137,7 +136,6 @@ export class ChatService {
   }
 
   handleSentMessage(message: MessageSend): void {
-    console.log(message);
     let talentUsername;
     let companyUsername;
     if (this.authService.currentUser?.role === 'COMPANY') {
@@ -170,9 +168,6 @@ export class ChatService {
     let talentUsername;
     let companyUsername;
     if (this.authService.currentUser?.role === 'TALENT') {
-      console.log('message start___');
-      console.log(message);
-      console.log('message end___');
       talentUsername = this.to;
     } else {
       companyUsername = this.to

@@ -79,7 +79,6 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
     this.to = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentUsername : availableChat.companyUsername;
     const toName = this.authService.currentUser?.role === 'COMPANY' ? availableChat.talentName : availableChat.companyName;
     this.chatService.getChatMessages(this.to, toName);
-    this.init();
   }
 
   openChat(lastMessage: LastMessage): void {
@@ -89,7 +88,6 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
     this.to = (this.authService.currentUser?.role === 'COMPANY' ? lastMessage.message.talentUsername : lastMessage.message.companyUsername) ?? '';
     const toName = (this.authService.currentUser?.role === 'COMPANY' ? lastMessage.talentName : lastMessage.companyName) ?? '';
     this.chatService.getChatMessages(this.to, toName);
-    this.init();
   }
 
   getAvailableChats(): void {
