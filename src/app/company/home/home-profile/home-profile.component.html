@@ -1,5 +1,5 @@
 <div class="py-3 px-3 sticky-top top-gap bg-white border rounded" *ngIf="company">
-  <img *ngIf="company.profileImage" class="bg-light rounded-circle p-1 w-100" [src]="company.profileImage">
+  <img *ngIf="company.profileImage" class="bg-light rounded-circle p-1 w-100" [src]="getImageUrl(company.profileImage)">
   <bi *ngIf="!company.profileImage" class="bg-light text-secondary rounded-circle p-1 w-100" name="person-circle"></bi>
   <div class="h2">{{company.name}}</div>
   <div class="mt-4">{{company.description}}</div>

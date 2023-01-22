@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { Post } from '../../model/post.model';
 import { FollowerService } from '../../services/follower.service';
 import { ReactionService } from '../../services/reaction.service';
@@ -112,6 +113,10 @@ export class PostComponent implements OnInit {
 
       }
     });
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }

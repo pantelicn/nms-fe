@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from 'src/app/shared/model';
 import { ProductUsageService } from 'src/app/shared/services/product-usage.service';
+import { environment } from 'src/environments/environment';
 import { CompanyService } from '../../company.service';
 
 @Component({
@@ -30,6 +31,10 @@ export class HomeProfileComponent implements OnInit {
 
   get username(): string | undefined {
     return this.authService.currentUser?.username;
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
   
 }

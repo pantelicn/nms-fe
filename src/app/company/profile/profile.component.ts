@@ -7,6 +7,7 @@ import { ProductUsageService, ProductUsageView } from "src/app/shared/services/p
 import { SubscriptionService, SubscriptionView } from "src/app/shared/services/subscription.service";
 import { CompanyService } from "../company.service";
 import { BenefitService, BenefitView } from "../../shared/services/benefits.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'profile',
@@ -71,6 +72,10 @@ export class ProfileComponent {
 
   get username(): string | undefined {
     return this.authService.currentUser?.username;
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }

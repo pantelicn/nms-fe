@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   api: {
     root: 'http://localhost:8080/',
-    backend: 'http://localhost:8080/api/v1/'
+    backend: 'http://localhost:8080/api/v1/',
+    images: 'http://localhost:8080/images'
   }
 };
 
