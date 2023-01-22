@@ -66,7 +66,6 @@ export class ProfileComponent {
   }
 
   profileImageChanged(profileImagePath: any) {
-    console.log(profileImagePath);
     this.company.profileImage = profileImagePath;
   }
 
