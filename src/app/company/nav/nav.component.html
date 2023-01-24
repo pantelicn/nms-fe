@@ -2,6 +2,10 @@
   <a class="navbar-brand d-none d-md-block" href="#">
     <img src="../../../assets/icons/nullhire.svg" alt="" class="d-inline-block nullhire-logo">
   </a>
+  <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex d-md-none flex-column align-items-center">
+    <bi name="person-circle" class="icon lead"></bi>
+    <small>My profile</small>
+  </a>
   <div class="mr-2 col-lg-4 col-md-5 col-7 search-input">
     <div class="input-group">
         <input id="typeahead-template"
@@ -101,7 +105,7 @@
       {{notificationStatus.unseenInfoNotifications}}
     </span>
   </a>
-  <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-flex flex-column align-items-center">
+  <a [routerLink]="['profile']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="nms-active" class="text-secondary text-decoration-none mr-2 d-md-flex d-none flex-column align-items-center">
     <bi name="person-circle" class="icon lead"></bi>
     <small>My profile</small>
   </a>
