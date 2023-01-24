@@ -7,18 +7,28 @@
         (remainingPostsChange)="setRemainingPosts($event)"></nms-home-profile>
     </div>
     <div class="col-lg-8 col-md-7">
-      <a class="btn btn-outline-primary mr-2 posts-selector" 
-        (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
-        [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global posts</a>
-      <a class="btn mr-2 posts-selector" 
-        (click)="setPostsType(postsType.COMPANY);getMyPosts(0);"
-        [ngClass]="selectedPostsType === 'COMPANY' ? 'btn-outline-primary' : 'btn-outline-secondary'">My posts</a>
-      <a class="btn mr-2 posts-selector" 
-        (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
-        [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following posts</a>
-      <a class="btn btn-outline-primary mr-2 posts-selector" 
-      (click)="setPostsType(postsType.COUNTRY)"
-        [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country posts</a>
+      <div class="row">
+        <div class="col-6 col-md-3 post-type">
+          <a class="btn btn-outline-primary mr-2 posts-selector" 
+          (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
+          [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global</a>
+        </div>
+        <div class="col-6 col-md-3 post-type">
+          <a class="btn mr-2 posts-selector" 
+          (click)="setPostsType(postsType.COMPANY);getMyPosts(0);"
+          [ngClass]="selectedPostsType === 'COMPANY' ? 'btn-outline-primary' : 'btn-outline-secondary'">My posts</a>
+        </div>
+        <div class="col-6 col-md-3 post-type">
+          <a class="btn mr-2 posts-selector" 
+          (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
+          [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following</a>
+        </div>
+        <div class="col-6 col-md-3 post-type">
+          <a class="btn btn-outline-primary mr-2 posts-selector" 
+          (click)="setPostsType(postsType.COUNTRY)"
+            [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country</a>
+        </div>
+      </div>
       <select *ngIf="selectedPostsType === 'COUNTRY'" (change)="selectCountry($event)" class="form-control form-control-sm" id="company-country">
         <option [value]="undefined">Select country</option>
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
