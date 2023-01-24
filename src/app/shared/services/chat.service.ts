@@ -167,7 +167,7 @@ export class ChatService {
   handleReceivedMessage(message: MessageReceived): void {
     let talentUsername;
     let companyUsername;
-    if (this.authService.currentUser?.role === 'TALENT') {
+    if (this.authService.currentUser?.role === 'COMPANY') {
       talentUsername = this.to;
     } else {
       companyUsername = this.to
