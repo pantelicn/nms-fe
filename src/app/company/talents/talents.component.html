@@ -192,7 +192,7 @@
               <span>{{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}}</span>
               <span>{{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}</span>
             </div>
-            <div class="mt-2">
+            <div *ngIf="talent.projects.length > 0" class="mt-2">
               Work experience
             </div>
             <div class="font-weight-light text-secondary m-0 text-date" *ngFor="let project of talent?.projects">

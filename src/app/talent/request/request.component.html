@@ -28,6 +28,12 @@
             <bi name="arrow-clockwise" class="icon lead nms-pencil-square text-warning" (click)="refreshSelected(selectedRequest.id)"></bi>
           </a>
         </div>
+        <div *ngIf="selectedRequest.jobDescription" class="hr mb-2">
+          <span class="text-secondary">Job description</span>
+        </div>
+        <div *ngIf="selectedRequest.jobDescription" class="mb-2 p-2">
+          <span class="text-secondary">{{selectedRequest.jobDescription}}</span>
+        </div>
         <div class="hr mb-2">
           <span class="text-secondary">Benefits working at {{companyName}}</span>
         </div>

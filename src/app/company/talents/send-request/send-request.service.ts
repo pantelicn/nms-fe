@@ -8,7 +8,8 @@ import { RequestDetailView } from "../../request/request.service";
 export interface RequestCreate {
   talentId?: string,
   note: string,
-  terms: TermCreate[]
+  terms: TermCreate[],
+  jobDescription: string
 }
 
 export interface TermCreate {

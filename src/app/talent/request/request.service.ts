@@ -44,7 +44,8 @@ export interface TalentRequestDetailView {
   modifiedOn: Date,
   seenByTalent: boolean,
   talentTermRequests: TalentTermRequestViewDto[],
-  benefits: BenefitView[]
+  benefits: BenefitView[],
+  jobDescription?: string
 }
 
 @Injectable({

@@ -25,7 +25,7 @@
                     class="form-control shadow-none rounded-0" 
                     formControlName="technologiesUsed" 
                     id="technologiesUsed" 
-                    placeholder="technologiesUsed" 
+                    placeholder="Technologies used" 
                     [class]="(technologiesUsed?.invalid && (technologiesUsed?.dirty || technologiesUsed?.touched)) ? 'is-invalid' : ''" />
           <div *ngIf="technologiesUsed?.errors?.['required']" class="invalid-feedback">
             Please add technologies that are used on project.
@@ -38,7 +38,7 @@
                       class="form-control shadow-none rounded-0" 
                       formControlName="myRole" 
                       id="myRole" 
-                      placeholder="myRole" 
+                      placeholder="My role" 
                       [class]="(myRole?.invalid && (myRole?.dirty || myRole?.touched)) ? 'is-invalid' : ''" />
             <div *ngIf="myRole?.errors?.['required']" class="invalid-feedback">
               Please describe your role on project.

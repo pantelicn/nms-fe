@@ -61,6 +61,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   setSelectedRequest(selectedRequest: RequestView) {
     this.requestService.get(selectedRequest.id).subscribe(data => {
+      console.log(data);
       this.selectedRequest = data;
       this.companyBenefits = [...this.selectedRequest.benefits];
       this.companyName = data.company;

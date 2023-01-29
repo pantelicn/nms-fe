@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { TermType } from "src/app/shared/model";
+import { ProjectView } from "src/app/talent/profile/project.service";
 import { environment } from "src/environments/environment";
 import { PositionViewDto, SkillViewDto } from "../talents/talents.service";
 
@@ -50,7 +51,8 @@ export interface RequestDetailView {
   seenByTalent: boolean,
   talentTermRequests: TalentTermRequestViewDto[],
   skills: SkillViewDto[],
-  positions: PositionViewDto[]
+  positions: PositionViewDto[],
+  projects: ProjectView[]
 }
 
 @Injectable({

@@ -20,7 +20,8 @@ export class SendRequestComponent implements OnInit {
     note: new FormControl('', [Validators.required]),
     talentId: new FormControl('', [Validators.required]),
     negotiableTermsForm: new FormArray([]),
-    nonNegotiableTermsForm: new FormArray([])
+    nonNegotiableTermsForm: new FormArray([]),
+    jobDescription: new FormControl('')
   });
   nonNegotiablesAreChecked: boolean = false;
 
@@ -34,7 +35,8 @@ export class SendRequestComponent implements OnInit {
       note: new FormControl('', [Validators.required]),
       talentId: new FormControl(this.talentId, [Validators.required]),
       negotiableTermsForm: new FormArray([]),
-      nonNegotiableTermsForm: new FormArray([])
+      nonNegotiableTermsForm: new FormArray([]),
+      jobDescription: new FormControl('')
     });
     this.nonNegotiableTerms.forEach(term => {
       this.nonNegotiableTermsForm.push(this.createTermForm(term));
@@ -57,13 +59,19 @@ export class SendRequestComponent implements OnInit {
     const request = {
       'talentId': this.talentId,
       'note': this.note?.value,
-      'terms': [...this.negotiableTermsForm.value, ...this.nonNegotiableTermsForm.value]
+      'terms': [...this.negotiableTermsForm.value, ...this.nonNegotiableTermsForm.value],
+      'jobDescription': this.jobDescription?.value
     }
-    this.sendRequestService.sendRequest(request).subscribe(response => {
-      this.modalService.dismissAll();
-      this.toastService.show('', 'Request has been sent.');
-      this.requestSentChange.emit();
-    });
+    this.sendRequestService.sendRequest(request).subscribe({
+      next: response => {
+        this.modalService.dismissAll();
+        this.toastService.show('', 'Request has been sent.');
+        this.requestSentChange.emit();
+      },
+      error: error => {
+        this.toastService.error('', 'We are unable to send request to this talent. Please try later.');
+      }
+    })
   }
 
   private createTermForm(term: TalentTermViewDto) {
@@ -95,6 +103,10 @@ export class SendRequestComponent implements OnInit {
 
   get nonNegotiableTermsForm() {
     return this.sendRequestForm.get('nonNegotiableTermsForm') as FormArray;
+  }
+
+  get jobDescription() {
+    return this.sendRequestForm.get('jobDescription')
   }
 
 }
