@@ -17,6 +17,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { HomeComponent } from './home/home.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EditAvailableLocationsComponent } from './profile/edit-available-locations/edit-available-locations.component';
+import { AddProjectComponent } from './profile/add-project/add-project.component';
+import { EditProjectComponent } from './profile/edit-project/edit-project.component';
 
 
 
@@ -32,7 +34,9 @@ import { EditAvailableLocationsComponent } from './profile/edit-available-locati
     EditDetailsComponent,
     NotificationsComponent,
     HomeComponent,
-    EditAvailableLocationsComponent
+    EditAvailableLocationsComponent,
+    AddProjectComponent,
+    EditProjectComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,4 @@
+import { ProjectView } from "src/app/talent/profile/project.service";
 import { AvailableLocation, Position, Skill, User } from ".";
 
 export interface Talent {
@@ -11,5 +12,6 @@ export interface Talent {
   likedPosts: number[];
   experienceYears: number;
   available: boolean;
+  projects: ProjectView[];
 
 }

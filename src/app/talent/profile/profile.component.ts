@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmationDialog } from "src/app/shared/dialogs/confirmation/confirmation.component";
 import { Position, Skill, Talent, TalentTerm } from "src/app/shared/model";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { TalentService } from "../talent.service";
+import { ProjectService, ProjectView } from "./project.service";
 
 @Component({
   selector: 'profile',
@@ -15,6 +17,7 @@ export class ProfileComponent implements OnInit {
   talentTerms: TalentTerm[] = []; 
   talentPositions: Position[] = [];
   talentSkills: Skill[] = [];
+  selectedProject!: ProjectView;
 
   private readonly modalOptions: NgbModalOptions = {
     backdrop: true,
@@ -22,7 +25,10 @@ export class ProfileComponent implements OnInit {
     size: 'lg'
   };
 
-  constructor(private talentService: TalentService, private modalService: NgbModal, private toastService: ToastService) {}
+  constructor(private talentService: TalentService, 
+              private modalService: NgbModal, 
+              private toastService: ToastService,
+              private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.talentService.getTalent().subscribe(talent => this.talent = talent);
@@ -52,6 +58,32 @@ export class ProfileComponent implements OnInit {
       this.talent.available = false;
       this.toastService.warning('You are unavailable.', 'You can no longer be found in talent search results.');
     });
+  }
+
+  removeProject(projectId: number) {
+    const modalRef = this.modalService.open(ConfirmationDialog);
+    modalRef.componentInstance.message = 'Please confirm that you want to remove project from your work experience ?';
+    modalRef.result.then(res => {
+      if (!res) {
+        return;
+      }
+      this.projectService.remove(projectId).subscribe({
+        next: response => {
+          this.talent.projects = this.talent.projects.filter(project => project.id !== projectId);
+          this.toastService.show('', 'Project has been removed from your work experience!');
+        },
+        error: error => {
+
+        }
+      });
+    }, dismiss => {
+      
+    });
+  }
+
+  editProject(project: ProjectView, dialogContent: any) {
+    this.selectedProject = project;
+    this.openDialog(dialogContent);
   }
 
 }

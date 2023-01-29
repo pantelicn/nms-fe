@@ -1,0 +1,53 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form *ngIf="editProjectForm" [formGroup]="editProjectForm" novalidate (submit)="edit()">
+    <div class="modal-body">
+        <div class="form-group">
+          <small for="description" class="text-secondary">Description</small>
+          <textarea type="text" 
+                    class="form-control shadow-none rounded-0" 
+                    formControlName="description" 
+                    id="description" 
+                    placeholder="Description" 
+                    [class]="(description?.invalid && (description?.dirty || description?.touched)) ? 'is-invalid' : ''"></textarea>
+          <div *ngIf="description?.errors?.['required']" class="invalid-feedback">
+            Please describe project.
+          </div>
+        </div>
+        <div class="form-group">
+          <small for="technologiesUsed" class="text-secondary">Technologies used</small>
+          <input type="technologiesUsed" 
+                    class="form-control shadow-none rounded-0" 
+                    formControlName="technologiesUsed" 
+                    id="technologiesUsed" 
+                    placeholder="technologiesUsed" 
+                    [class]="(technologiesUsed?.invalid && (technologiesUsed?.dirty || technologiesUsed?.touched)) ? 'is-invalid' : ''" />
+          <div *ngIf="technologiesUsed?.errors?.['required']" class="invalid-feedback">
+            Please add technologies that are used on project.
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-auto">
+            <small for="myRole" class="text-secondary">My role</small>
+            <input type="myRole" 
+                      class="form-control shadow-none rounded-0" 
+                      formControlName="myRole" 
+                      id="myRole" 
+                      placeholder="myRole" 
+                      [class]="(myRole?.invalid && (myRole?.dirty || myRole?.touched)) ? 'is-invalid' : ''" />
+            <div *ngIf="myRole?.errors?.['required']" class="invalid-feedback">
+              Please describe your role on project.
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary rounded-pill w-100 mt-3" [disabled]="editProjectForm.invalid" type="submit">Save</button>
+    </div>
+    </form>
+  </div>

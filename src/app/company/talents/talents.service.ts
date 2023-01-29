@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { Talent } from "src/app/shared/model";
+import { ProjectView } from "src/app/talent/profile/project.service";
 import { environment } from "src/environments/environment";
 import { Pageable, RequestView } from "../request/request.service";
 
@@ -21,9 +22,10 @@ export interface TalentViewSearchDto {
   terms: TalentTermViewDto[],
   skills: SkillViewDto[],
   positions: PositionViewDto[],
-  previousRequest: RequestView;
+  previousRequest: RequestView,
   requestSent: boolean,
-  experienceYears: number
+  experienceYears: number,
+  projects: ProjectView[]
 }
 
 export interface PositionViewDto {
