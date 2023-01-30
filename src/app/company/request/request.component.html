@@ -1,6 +1,6 @@
 <div class="container mb-5">
-  <div class="row">
-    <div class="col-lg-3 col-md-5 d-md-block d-none">
+  <div class="row col-sm">
+    <div class="col-lg-3 col-md-5 mb-2">
       <div class="card">
         <div class="card-header">
           Active requests
@@ -18,7 +18,8 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedRequest" class="col-lg-9 col-md-7 border-left border-grey">
+    <div *ngIf="!selectedRequest" class="col-lg-9 col-md-7 text-secondary d-flex justify-content-center">Select a request from the list.</div>
+    <div *ngIf="selectedRequest" class="col-lg-9 col-md-7">
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
         <div class="d-flex justify-content-between align-items-center mb-4">
