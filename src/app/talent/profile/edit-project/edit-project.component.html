@@ -16,7 +16,7 @@
                     placeholder="Description" 
                     [class]="(description?.invalid && (description?.dirty || description?.touched)) ? 'is-invalid' : ''"></textarea>
           <div *ngIf="description?.errors?.['required']" class="invalid-feedback">
-            Please describe project.
+            Please describe the project.
           </div>
         </div>
         <div class="form-group">
@@ -28,7 +28,7 @@
                     placeholder="Technologies used" 
                     [class]="(technologiesUsed?.invalid && (technologiesUsed?.dirty || technologiesUsed?.touched)) ? 'is-invalid' : ''" />
           <div *ngIf="technologiesUsed?.errors?.['required']" class="invalid-feedback">
-            Please add technologies that are used on project.
+            Please add technologies that are used on the project.
           </div>
         </div>
         <div class="row mb-2">
@@ -41,7 +41,7 @@
                       placeholder="My role" 
                       [class]="(myRole?.invalid && (myRole?.dirty || myRole?.touched)) ? 'is-invalid' : ''" />
             <div *ngIf="myRole?.errors?.['required']" class="invalid-feedback">
-              Please describe your role on project.
+              Please describe your role on the project.
             </div>
           </div>
         </div>
