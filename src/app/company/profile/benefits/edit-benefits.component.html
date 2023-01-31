@@ -32,9 +32,13 @@
               <small class="text-secondary">Description</small>
               <textarea type="text" 
                     class="form-control shadow-none rounded-0" 
+                    maxlength="500"
                     formControlName="description" 
                     placeholder="Description" 
                     [class]="(benefitsFormArray.controls[i].get('description')?.invalid && (benefitsFormArray.controls[i].get('description')?.dirty || benefitsFormArray.controls[i].get('description')?.touched)) ? 'is-invalid' : ''"></textarea>
+                    <div>
+                      <small class="text-secondary">{{500 - benefitsFormArray.controls[i].get('description')?.value?.length}}</small>
+                    </div>
               <div *ngIf="benefitsFormArray.controls[i].get('description')?.errors?.['required']" class="invalid-feedback">
                 Please eneter benefit description!
               </div>

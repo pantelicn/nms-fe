@@ -36,7 +36,7 @@ export class SendRequestComponent implements OnInit {
       talentId: new FormControl(this.talentId, [Validators.required]),
       negotiableTermsForm: new FormArray([]),
       nonNegotiableTermsForm: new FormArray([]),
-      jobDescription: new FormControl('')
+      jobDescription: new FormControl('', [Validators.maxLength(3000)])
     });
     this.nonNegotiableTerms.forEach(term => {
       this.nonNegotiableTermsForm.push(this.createTermForm(term));

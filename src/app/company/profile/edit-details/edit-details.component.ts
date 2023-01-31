@@ -15,7 +15,7 @@ export class EditDetailsComponent implements OnInit {
   
   editDetailsForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
   });
   @Input() company?: Company;
   @Output() detailsChange = new EventEmitter<Company>();
@@ -32,7 +32,7 @@ export class EditDetailsComponent implements OnInit {
     this.editDetailsForm = new FormGroup({
       id: new FormControl(this.company?.id, [Validators.required]),
       name: new FormControl(this.company?.name, [Validators.required]),
-      description: new FormControl(this.company?.description, [Validators.required]),
+      description: new FormControl(this.company?.description, [Validators.required, Validators.maxLength(1000)]),
       newLocation: new FormGroup({
         id: new FormControl(this.company?.location.id, [Validators.required]),
         countryId: new FormControl(this.company?.location.country.id, [Validators.required]),

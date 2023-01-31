@@ -21,7 +21,11 @@
       <textarea class="form-control" 
             formControlName="jobDescription" 
             id="jobDescription" 
+            maxlength="3000"
             [placeholder]="'Job description'" rows="5"></textarea>
+      <div>
+        <small class="text-secondary">{{1000 - description?.value?.length}}</small>
+      </div>
     </div>
     <div>
       Non-negotiable terms

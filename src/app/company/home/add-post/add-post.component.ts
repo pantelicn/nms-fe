@@ -17,7 +17,7 @@ export class AddPostComponent {
   modalOptions: NgbModalOptions;
   addPostForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    content: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
   });
   @Input() company!: Company;
   @Output() postAddedChange = new EventEmitter<Post>();

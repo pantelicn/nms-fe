@@ -51,16 +51,16 @@ export class EditBenefitsComponent implements OnInit {
 
   private addExistingBenefitForm(name: string, description: string): FormGroup {
     return new FormGroup({
-      name: new FormControl(name, [Validators.required]),
-      description: new FormControl(description, [Validators.required]),
-      isDefault: new FormControl(true, [Validators.required])
+      name: new FormControl(name, [Validators.required, Validators.maxLength(255)]),
+      description: new FormControl(description, [Validators.required, Validators.maxLength(500)]),
+      isDefault: new FormControl(true, [Validators.required, Validators.maxLength(255)])
     })
   }
 
   private newBenefitForm():FormGroup {
     return new FormGroup({
       name: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(500)]),
       isDefault: new FormControl(true, [Validators.required])
     })
   }

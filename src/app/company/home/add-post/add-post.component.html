@@ -29,8 +29,12 @@
                   id="postContent" 
                   formControlName="content" 
                   placeholder="Content" 
+                  maxlength="1000"
                   rows="3"
                   [class]="(content?.invalid && (content?.dirty || content?.touched)) ? 'is-invalid' : ''"></textarea>
+          <div>
+            <small class="text-secondary">{{1000 - content?.value?.length}}</small>
+          </div>
           <div *ngIf="content?.errors?.['required']" class="invalid-feedback">
             Please enter post content.
           </div>

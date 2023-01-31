@@ -14,7 +14,11 @@
                     formControlName="description" 
                     id="description" 
                     placeholder="Description" 
+                    maxlength="1000"
                     [class]="(description?.invalid && (description?.dirty || description?.touched)) ? 'is-invalid' : ''"></textarea>
+          <div>
+            <small class="text-secondary">{{1000 - description?.value?.length}}</small>
+          </div>
           <div *ngIf="description?.errors?.['required']" class="invalid-feedback">
             Please describe project.
           </div>

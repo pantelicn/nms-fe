@@ -1,5 +1,8 @@
 <div class="border-top">
-  <textarea [(ngModel)]="chatInput" [rows]="maxRows" class="nms-chat-input" placeholder="Type your message..."></textarea>
+  <textarea [(ngModel)]="chatInput" [rows]="maxRows" maxlength="1000" class="nms-chat-input" placeholder="Type your message..."></textarea>
+  <div>
+    <small class="text-secondary">{{chatInput ? 1000 - chatInput.length : 1000}}</small>
+  </div>
   <button class="btn btn-sm btn-outline-primary rounded float-right" (click)="onSubmit()">
     <bi class="button-send" name="send"></bi>
   </button>
