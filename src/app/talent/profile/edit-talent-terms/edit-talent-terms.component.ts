@@ -57,9 +57,10 @@ export class EditTalentTermsComponent implements OnInit {
 
   edit(newTalentTerms: TalentTermEdit[]) {
     newTalentTerms.forEach(talentTerm => talentTerm['code'] = this.terms.find(term => term.name === talentTerm.name)?.code ?? '');
-    this.talentTermService.edit(newTalentTerms).subscribe(() => {
+    this.talentTermService.edit(newTalentTerms).subscribe(talentTerms => {
       this.toastService.show("", "Terms updated.");
       this.showSaveButton = false;
+      this.talentTermsChanged.next(talentTerms);
     });
   }
 

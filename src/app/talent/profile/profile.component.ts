@@ -46,6 +46,10 @@ export class ProfileComponent implements OnInit {
     this.talentService.getTalentPositions().subscribe(talentPositions => this.talentPositions = talentPositions);
   }
 
+  onTalentTermsChange(event: TalentTerm[]) {
+    this.talentTerms = event;
+  }
+
   onSetAvailable(): void {
     this.talentService.updateAvailability(true).subscribe(() => {
       this.talent.available = true;

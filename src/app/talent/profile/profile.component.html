@@ -120,7 +120,7 @@
 
 <ng-template #editTalentTermsDialog let-modal>
   <edit-talent-terms [talentTerms]="talentTerms"
-                (talentTermsChanged)="talentTerms=$event"></edit-talent-terms>
+                (talentTermsChanged)="onTalentTermsChange($event)"></edit-talent-terms>
 </ng-template>
 
 <ng-template #editTalentSkillsDialog let-modal>
