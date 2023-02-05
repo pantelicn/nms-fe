@@ -4,7 +4,7 @@
       <bi name="arrow-left" class="icon"></bi>
     </button>
     <span *ngIf="to">{{to}}</span>
-    <div *ngIf="!to" class="d-flex justify-content-center mx-auto">Select a user to chat with.</div>
+    <div *ngIf="!to" class="d-flex justify-content-center mx-auto text-secondary">Select a user to chat with.</div>
   </div>
   <div class="h-100 chat-view" #chatViewContainer [scrollTop]="chatViewContainer.scrollHeight" infinite-scroll (scrolledUp)="onScrollUp()" [scrollWindow]="false">
     <nms-messages-chat-view></nms-messages-chat-view>
