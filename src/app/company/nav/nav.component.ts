@@ -4,6 +4,7 @@ import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, tap, 
 import { AuthService } from "src/app/auth/auth.service";
 import { NotificationResponse, NotificationService, NotificationType } from "src/app/shared/services/notification.service";
 import { PublicCompanyService, PublicCompanyView } from "src/app/shared/services/public-company.service";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'company-nav',
@@ -116,6 +117,10 @@ export class NavComponent {
   
         }
       })
+    }
+
+    getImageUrl(profileImage: string): string {
+      return environment.api.images + profileImage;
     }
 
 }

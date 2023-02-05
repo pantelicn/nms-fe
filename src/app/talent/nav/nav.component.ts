@@ -4,6 +4,7 @@ import { catchError, debounceTime, distinctUntilChanged, Observable, of, Operato
 import { AuthService } from 'src/app/auth/auth.service';
 import { NotificationResponse, NotificationService, NotificationType, NotificationView } from 'src/app/shared/services/notification.service';
 import { PublicCompanyService, PublicCompanyView } from 'src/app/shared/services/public-company.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'nms-nav',
@@ -118,6 +119,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
       }
     })
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }

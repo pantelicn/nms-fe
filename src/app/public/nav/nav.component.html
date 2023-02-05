@@ -30,9 +30,10 @@
 
 <ng-template #rt let-r="result" let-t="term">
     <div (click)="openCompanyProfile(r.id)">
-        <img [src]="'https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png'" 
+        <img *ngIf="r.profileImage" [src]="getImageUrl(r.profileImage)"
         class="mr-2 rounded-circle" 
         style="width: 2em" />
+        <bi *ngIf="!r.profileImage" class="bg-light rounded-circle text-secondary mr-2 d-inline-block" style="width: 2em" name="person-circle"></bi>
 	    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
     </div>
 </ng-template>
