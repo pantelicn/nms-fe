@@ -1,31 +1,32 @@
 <div class="container mb-5">
   <div class="row">
     <div class="col-lg-8 col-md-7">
-      <div class="my-2">
-        <div class="bg-white border rounded">
-          <div infinite-scroll 
-              [immediateCheck]="true"
-              [infiniteScrollDistance]="2"
-              [infiniteScrollThrottle]="1000"
-              (scrolled)="getNextNotifications()" 
-              class="p-3" 
-              *ngFor="let notification of notifications">
-            <div class="d-flex">
-              <div class="d-flex flex-column">
-                <div class="mb-2">
-                  <span *ngIf="notification.type === 'REQUEST'"><strong>Request </strong></span>
-                  <span *ngIf="notification.type === 'ACTIVATION'"><strong>Activation </strong></span> 
-                  <span class="text-secondary"><small> {{notification.createdOn | date: 'dd/MM/YYYY HH:mm'}}</small></span>
-                </div>
-                <div class="m-0 d-flex">
-                  {{notification.message}}
-                </div>
+      <div class="bg-white border rounded">
+        <div class="p-3">Notifications</div>
+        <hr class="mt-0"/>
+        <div class="text-secondary d-flex justify-content-center my-3" *ngIf="!notifications.length">Nothing to see here yet...</div>
+        <div infinite-scroll 
+            [immediateCheck]="true"
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="1000"
+            (scrolled)="getNextNotifications()" 
+            class="p-3" 
+            *ngFor="let notification of notifications">
+          <div class="d-flex">
+            <div class="d-flex flex-column">
+              <div class="mb-2">
+                <span *ngIf="notification.type === 'REQUEST'"><strong>Request </strong></span>
+                <span *ngIf="notification.type === 'ACTIVATION'"><strong>Activation </strong></span> 
+                <span class="text-secondary"><small> {{notification.createdOn | date: 'dd/MM/YYYY HH:mm'}}</small></span>
+              </div>
+              <div class="m-0 d-flex">
+                {{notification.message}}
               </div>
             </div>
-            <hr class="mb-0"/>
           </div>
-          <spinner *ngIf="showSpinnerNotifications"></spinner>
+          <hr class="mb-0"/>
         </div>
+        <spinner *ngIf="showSpinnerNotifications"></spinner>
       </div>
     </div>
   </div>

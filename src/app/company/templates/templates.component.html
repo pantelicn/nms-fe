@@ -16,8 +16,11 @@
       <div class="vr"></div>
       <div class="bg-white border rounded p-3">
         <div class="d-flex justify-content-between mb-3">
-          <h5 *ngIf="selectedTemplateIndex === -1">Create new template</h5>
-          <h5 *ngIf="selectedTemplateIndex > -1">Edit template</h5>
+          <div>
+            <h5 *ngIf="selectedTemplateIndex === -1">Create a new search template</h5>
+            <h5 *ngIf="selectedTemplateIndex > -1">Edit a search template</h5>
+            <small class="text-secondary">A search template can later be reused when searching for talents matching a certain profile.</small>
+          </div>
           <bi *ngIf="selectedTemplateIndex > -1" 
             name="trash" 
             class="icon lead fa-lg nms-x-circle nms-cursor" 

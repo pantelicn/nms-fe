@@ -18,7 +18,10 @@
     </div>
     <div class="col-lg-9 col-md-7">
       <div class="bg-white border rounded p-3">
-        <h5>Filters</h5>
+        <div class="mb-3">
+          <h5>Filters</h5>
+          <small class="text-secondary">Find talents matching selected criteria or select a template from the list of existing templates.</small>
+        </div>
         <form [formGroup]="searchTalentsForm" (ngSubmit)="search(0)" novalidate>
           <div class="hr mb-2">
             <span class="text-secondary">Terms</span>
@@ -146,9 +149,9 @@
           <div *ngIf="selectedTemplate" class="btn btn-outline-primary btn-block rounded-pill shadow-none" (click)="clearSelected()">Cancel</div>
         </form>
       </div>
-      <div *ngIf="noFoundTalents" 
-           class="bg-white p-3 my-2 border rounded d-flex justify-content-center">
-        <h4>No talents found</h4>
+      <div *ngIf="noFoundTalents" class="bg-white p-3 my-2 border rounded d-flex flex-column align-items-center">
+          <h4>No talents found</h4>
+          <small class="text-secondary">Try changing your search criteria or making it less specific.</small>
       </div>
       <div infinite-scroll 
           [immediateCheck]="true"

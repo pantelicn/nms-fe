@@ -33,12 +33,12 @@
         </div>
         <div class="row mb-2">
           <div class="col-auto">
-            <small for="myRole" class="text-secondary">My role</small>
+            <small for="myRole" class="text-secondary">Project role</small>
             <input type="myRole" 
                       class="form-control shadow-none rounded-0" 
                       formControlName="myRole" 
                       id="myRole" 
-                      placeholder="My role" 
+                      placeholder="Project role" 
                       [class]="(myRole?.invalid && (myRole?.dirty || myRole?.touched)) ? 'is-invalid' : ''" />
             <div *ngIf="myRole?.errors?.['required']" class="invalid-feedback">
               Please describe your role on the project.

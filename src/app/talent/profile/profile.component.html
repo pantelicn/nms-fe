@@ -13,10 +13,13 @@
     <div class="col-lg-8 col-md-7">
       <div class="pl-2 p-4 mt-1 bg-white border rounded">
         <div class="d-flex justify-content-between">
-          <h3>Details</h3>
+          <h3 class="mb-0">Personal details</h3>
           <a class="text-secondary text-decoration-none nms-cursor">
             <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
           </a>
+        </div>
+        <div class="mb-3">
+          <small class="text-secondary">Your name and email are private to you and are not visible to companies until you accept their request.</small>
         </div>
         <div class="mb-2">{{talent?.firstName}} {{talent?.lastName}}</div>
         <div class="mb-2">{{talent?.user?.username}}</div>
@@ -71,8 +74,9 @@
       <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
         <div class="d-flex justify-content-between align-items-start">
           <div class="col-md-8">
-            <h3>Positions</h3>
-            <div class="mb-2" *ngFor="let position of talentPositions">
+            <h3 class="mb-0">Positions</h3>
+            <small class="text-secondary">Positions are determined automatically based on your skills.</small>
+            <div class="my-2" *ngFor="let position of talentPositions">
               <div>{{position.name}}</div>
               <div class="text-secondary">{{position.description}}</div>
             </div>
