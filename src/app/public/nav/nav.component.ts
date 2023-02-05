@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OperatorFunction, Observable, debounceTime, catchError, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PublicCompanyService, PublicCompanyView } from 'src/app/shared/services/public-company.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'nms-nav',
@@ -49,6 +50,10 @@ export class NavComponent {
 
   onLogout(): void {
     this.authService.logout();
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }
