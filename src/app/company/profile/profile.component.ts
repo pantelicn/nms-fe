@@ -26,6 +26,8 @@ export class ProfileComponent {
     backdropClass: 'customBackdrop',
     size: 'lg'
   };
+  daysLeft: number = 0;
+  spentDaysPercentage: number = 0;
 
   constructor(private authService: AuthService, 
               private companyService: CompanyService,
@@ -48,6 +50,10 @@ export class ProfileComponent {
       });
       this.subscriptionService.get().subscribe(response => {
         this.subscription = response;
+        let differenceBetweenStartAndEndDate = Math.round((new Date(response.endDate).getTime() - new Date(response.startDate).getTime())/(1000 * 3600 * 24));
+        let differenceBetweenCurrentAndStartDate = Math.round((new Date().getTime() - new Date(response.startDate).getTime())/(1000 * 3600 * 24));
+        this.daysLeft = differenceBetweenStartAndEndDate - differenceBetweenCurrentAndStartDate;
+        this.spentDaysPercentage = 100*differenceBetweenCurrentAndStartDate/differenceBetweenStartAndEndDate;
       });
       this.productUsageService.getForCompany().subscribe(response => {
         this.productUsages = response;

@@ -11,7 +11,8 @@ export interface ProductUsageView {
   startDate: Date,
   endDate: Date, 
   period: any,
-  product: ProductView
+  product: ProductView,
+  total: number
 }
 
 export interface ProductView {
