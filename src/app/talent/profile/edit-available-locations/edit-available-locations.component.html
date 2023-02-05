@@ -27,6 +27,10 @@
             </div>
             <typeahead [data]="selectedCountryCitiesMap.get(availableLocation.country)" [placeholder]="'Select city from ' + availableLocation.country" (selectItem)="onSelectCity($event, availableLocation)"></typeahead>
           </div>
+          <div class="col-12">
+            <hr/>
+          </div>
+          
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center my-1 mt-3">
