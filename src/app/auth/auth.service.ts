@@ -37,16 +37,7 @@ export class AuthService {
               private httpClient: HttpClient) {
                 const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      const encodedPayload = jwt.split(".")[1];
-      const payload: JwtPayload = JSON.parse(atob(encodedPayload));
-      const roles = [];
-      this.expDate = new Date(payload.exp*1000);
-      roles.push(payload.roles);
-      if (roles.includes('ROLE_COMPANY')) {
-        this.user = { username: payload.sub, role: 'COMPANY', idToken: jwt };
-      } else {
-        this.user = { username: payload.sub, role: 'TALENT', idToken: jwt };
-      }
+      this.initAuthenticatedUserDetails(jwt);
     }
   }
 
@@ -84,7 +75,21 @@ export class AuthService {
       this.user = { username, role: 'COMPANY', idToken: token };
       this.router.navigate(['/company']);
     }
+    this.initAuthenticatedUserDetails(token);
     localStorage.setItem("jwt", token);
+  }
+
+  private initAuthenticatedUserDetails(jwt: string) {
+    const encodedPayload = jwt.split(".")[1];
+      const payload: JwtPayload = JSON.parse(atob(encodedPayload));
+      const roles = [];
+      this.expDate = new Date(payload.exp*1000);
+      roles.push(payload.roles);
+      if (roles.includes('ROLE_COMPANY')) {
+        this.user = { username: payload.sub, role: 'COMPANY', idToken: jwt };
+      } else {
+        this.user = { username: payload.sub, role: 'TALENT', idToken: jwt };
+      }
   }
 
 }
