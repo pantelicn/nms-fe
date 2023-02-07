@@ -16,7 +16,7 @@ export class SkillService {
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   findAll(): Observable<Skill[]> {
-    return this.httpClient.get<Page<Skill>>(this.skillsApi).pipe(map(skillsPage => skillsPage.content)); 
+    return this.httpClient.get<Skill[]>(this.skillsApi + '/approved'); 
   }
 
   add(code: string): Observable<Skill> {
