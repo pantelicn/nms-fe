@@ -41,7 +41,8 @@ import {
   HandThumbsDown,
   Trash,
   List,
-  InfoCircle
+  InfoCircle,
+  EnvelopeCheck
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -86,7 +87,8 @@ const icons = {
   HandThumbsDown,
   Trash,
   List,
-  InfoCircle
+  InfoCircle,
+  EnvelopeCheck
 };
 
 @NgModule({

@@ -1,5 +1,9 @@
 <div class="d-flex flex-column align-items-center">
-  <h1 *ngIf="registrationFinished && !userAlreadyExists" class="my-5">Please check your email to finish registration process.</h1>
+  <div *ngIf="registrationFinished && !userAlreadyExists">
+    <bi name="envelope-check" class="nms-envelope-check text-primary"></bi>
+    <h3 class="text-secondary text-center">Confirm your email address</h3>
+    <div class="text-secondary text-center">Confirmation email has been sent to <b>{{username?.value}}</b></div>
+  </div>
   <div *ngIf="!registrationFinished && !showSpinner" class="bg-white border p-4 rounded form-width">
     <form [ngClass]="step !== 'FIRST' ? 'd-none' : ''" [formGroup]="registrationForm" novalidate>
       <div class="form-group">
