@@ -7,6 +7,7 @@
         </div>
         <div class="card-body card-body-requests">
           <ul class="list-group requests-list">
+            <spinner *ngIf="showSpinnerActiveRequests"></spinner>
             <a [routerLink]="" *ngFor="let activeRequest of activeRequests"
               (click)="setSelectedRequest(activeRequest)" 
               [ngClass]="{ 'selected-request' : selectedRequest?.id === activeRequest.id}"

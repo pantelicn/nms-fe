@@ -11,6 +11,7 @@
           </span>
         </button>
       </div>
+      <spinner *ngIf="showSpinnerMessages"></spinner>
       <div *ngIf="!searchingUser && lastMessages.length">
         <div class="mb-1 message-item" *ngFor="let lastMessage of lastMessages">
           <nms-messages-user [lastMessage]="lastMessage" (click)="openChat(lastMessage)"></nms-messages-user>
@@ -29,7 +30,7 @@
         <span>No chats available.</span>
         <br>
         <span>
-          You will be able to chat with someone after a successful request.
+          You will be able to chat with someone after you accept a request.
         </span>
       </div>
     </div>

@@ -7,6 +7,7 @@
         </div>
         <div class="card-body card-body-templates">
           <ul class="list-group templates-list">
+            <spinner *ngIf="showSpinnerExistingTemplates"></spinner>
             <a [routerLink]="" [class.selected-template]="i === selectedTemplateIndex" *ngFor="let template of templates;let i = index" (click)="selectTemplate(template, i)" class="list-group-item list-group-item-action nms-cursor">{{template.name}}</a>
           </ul>
         </div>

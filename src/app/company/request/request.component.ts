@@ -30,6 +30,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   private modalRef?: NgbModalRef;
   private readonly TIME_INTERVAL_IN_SECONDS: number = 60000; // 60 seconds
   intervalId: any;
+  showSpinnerActiveRequests: boolean = true;
 
   constructor(private fb:FormBuilder, 
               private requestService: RequestService,
@@ -48,8 +49,14 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   findAllActiveRequests() {
-    this.requestService.getAllActiveRequests().subscribe(data => {
-      this.activeRequests = data;
+    this.requestService.getAllActiveRequests().subscribe({
+      next: response => {
+        this.activeRequests = response;
+        this.showSpinnerActiveRequests = false;
+      },
+      error: error => {
+        this.showSpinnerActiveRequests = false;
+      }
     });
   }
 

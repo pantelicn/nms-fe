@@ -34,9 +34,10 @@ export class HomeComponent implements OnInit {
     this.postService.findGlobal(0).subscribe({
       next: response => {
         this.posts = response.content;
+        this.showSpinnerPosts = false;
       },
       error: error => {
-
+        this.showSpinnerPosts = false;
       }
     });
     const username = this.authService.currentUser?.username;

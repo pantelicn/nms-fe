@@ -21,6 +21,7 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
   searchString = '';
   search = new FormControl('');
   usersView = true;
+  showSpinnerMessages: boolean = true;
 
   constructor(private chatService: ChatService, private authService: AuthService) { }
 

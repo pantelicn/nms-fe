@@ -73,7 +73,8 @@ export class TemplatesComponent implements OnInit {
   searchablePositions: Searchable[] = [];
   searchableCountries: Searchable[] = [];
   availableLocationMap = new Map<string, AvailableLocationSearch>();
-  selectedCountryCitiesMap = new Map<string, Searchable[]>(); 
+  selectedCountryCitiesMap = new Map<string, Searchable[]>();
+  showSpinnerExistingTemplates: boolean = true;
 
   @ViewChild(TypeaheadComponent) typeahead!: TypeaheadComponent;
 
@@ -116,8 +117,14 @@ export class TemplatesComponent implements OnInit {
   }
 
   findAll() {
-    this.templateService.findAll().subscribe(data => {
-      this.templates = data;
+    this.templateService.findAll().subscribe({
+      next: response => {
+        this.templates = response;
+        this.showSpinnerExistingTemplates = false;
+      },
+      error: error => {
+        this.showSpinnerExistingTemplates = false;
+      }
     });
   }
 

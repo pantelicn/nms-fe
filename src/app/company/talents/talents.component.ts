@@ -57,6 +57,7 @@ export class TalentsComponent implements OnInit {
   availableLocationMap = new Map<string, AvailableLocationSearch>();
   selectedCountryCitiesMap = new Map<string, Searchable[]>();
   availableLocations: AvailableLocationSearch[] = [];
+  showSpinnerExistingTemplates: boolean = true;
   termTypes = [
   {
     "name": "Term",
@@ -91,8 +92,14 @@ export class TalentsComponent implements OnInit {
   }
 
   findAll() {
-    this.templateService.findAll().subscribe(data => {
-      this.templates = data;
+    this.templateService.findAll().subscribe({
+      next: response => {
+        this.showSpinnerExistingTemplates = false;
+        this.templates = response;
+      },
+      error: error => {
+        this.showSpinnerExistingTemplates = false;
+      }
     });
   }
 
