@@ -11,7 +11,6 @@
           </span>
         </button>
       </div>
-      <spinner *ngIf="showSpinnerMessages"></spinner>
       <div *ngIf="!searchingUser && lastMessages.length">
         <div class="mb-1 message-item" *ngFor="let lastMessage of lastMessages">
           <nms-messages-user [lastMessage]="lastMessage" (click)="openChat(lastMessage)"></nms-messages-user>
@@ -26,7 +25,8 @@
           <nms-messages-new-user [availableChat]="availableChat" (click)="startChat(availableChat)"></nms-messages-new-user>
         </div>
       </div>
-      <div *ngIf="!availableChats.length && ! lastMessages.length" class="text-center">
+      <spinner *ngIf="showSpinnerMessages"></spinner>
+      <div *ngIf="!availableChats.length && !lastMessages.length && !showSpinnerMessages" class="text-center">
         <span>No chats available.</span>
         <br>
         <span>
