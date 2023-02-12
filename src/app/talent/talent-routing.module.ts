@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CompanyViewComponent } from '../shared/components/company-view/company-view.component';
 import { MessagesComponent } from '../shared/components/messages/messages.component';
+import { AuthGuardService } from './auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -12,6 +13,7 @@ const routes: Routes = [
   {
     path: '',
     component: TalentComponent,
+    canActivateChild: [AuthGuardService],
     children: [
       { path: '', component: HomeComponent },
       { path: 'messages', component: MessagesComponent },
