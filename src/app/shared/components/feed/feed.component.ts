@@ -64,8 +64,8 @@ export class FeedComponent implements OnInit {
     this.awardsGiven.push(postId);
   }
 
-  removeAwardFromPost(postId: number) {
-    this.awardsGiven = this.awardsGiven.filter(postId => postId !== postId);
+  removeAwardFromPost(removedAwardpostId: number) {
+    this.awardsGiven = this.awardsGiven.filter(postId => postId !== removedAwardpostId);
   }
 
   onScroll() {
