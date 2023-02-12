@@ -12,7 +12,7 @@ export class NotificationsComponent implements OnInit {
   isLastPage: boolean = false;
   retrievingInProcess: boolean = false;
   currentPage: number = 0;
-  showSpinnerNotifications: boolean = false;
+  showSpinnerNotifications: boolean = true;
 
   constructor(private notificationService: NotificationService) {}
   

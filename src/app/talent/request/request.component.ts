@@ -21,6 +21,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   intervalId?: any;
   companyBenefits: BenefitView[] = [];
   companyName: string = '';
+  showSpinnerActiveRequests: boolean = true;
   
   constructor(
     private requestService: RequestService,
@@ -34,10 +35,16 @@ export class RequestComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         const id = params['id'];
         if (id) {
-          this.requestService.getAllActiveRequests().subscribe(data => {
-            this.activeRequests = data.content;
-            let selectedReqeust = this.activeRequests.filter(activeRequest => activeRequest.id == id);
-            this.setSelectedRequest(selectedReqeust[0]);
+          this.requestService.getAllActiveRequests().subscribe({
+            next: response => {
+              this.activeRequests = response.content;
+              let selectedReqeust = this.activeRequests.filter(activeRequest => activeRequest.id == id);
+              this.setSelectedRequest(selectedReqeust[0]);
+              this.showSpinnerActiveRequests = false;
+            },
+            error: error => {
+              this.showSpinnerActiveRequests = false;
+            }
           });
         } else {
           this.findAllActiveRequests();
@@ -54,8 +61,14 @@ export class RequestComponent implements OnInit, OnDestroy {
   }
 
   findAllActiveRequests() {
-    this.requestService.getAllActiveRequests().subscribe(data => {
-      this.activeRequests = data.content;
+    this.requestService.getAllActiveRequests().subscribe({
+      next: response => {
+        this.activeRequests = response.content;
+        this.showSpinnerActiveRequests = false;
+      },
+      error: error => {
+        this.showSpinnerActiveRequests = false;
+      }
     });
   }
 
