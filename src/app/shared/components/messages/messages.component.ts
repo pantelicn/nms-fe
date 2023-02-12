@@ -97,6 +97,7 @@ export class MessagesComponent implements AfterViewInit, OnDestroy {
     this.chatService.getAvailableChatsPage(10, 0).subscribe(availableChats => {
       this.availableChats = availableChats.filter(availableChat => 
         !existingUsernames.includes(this.currentRole === 'COMPANY' ? availableChat.talentUsername : availableChat.companyUsername));
+        this.showSpinnerMessages = false;
     });
   }
 
