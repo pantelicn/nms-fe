@@ -44,7 +44,7 @@
           </div>
           <hr>
         </div>
-        <div *ngIf="!showAddNewTalentTermForm" class="d-flex justify-content-center text-end mt-3">
+        <div *ngIf="!showAddNewTalentTermForm && !showSaveButton" class="d-flex justify-content-center text-end mt-3">
           <div class="btn btn-outline-primary btn-block rounded-pill shadow-none w-50" (click)="showAddNewTalentTermForm = true">Add term</div>
         </div>
       </div>
