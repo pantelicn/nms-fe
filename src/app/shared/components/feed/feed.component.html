@@ -8,9 +8,12 @@
     [isLogged]="isLogged"
     [isFollowing]="followCompanies.includes(post.company.id)"
     [isLiked]="likedPosts.includes(post.id)"
+    [isAwardGiven]="awardsGiven.includes(post.id)"
     (followChange)="followCompany($event)"
     (unfollowChange)="unfollowCompany($event)"
     (likeChange)="addLikedPost($event)"
     (unlikeChange)="removeLikedPost($event)"
+    (giveAwardChange)="addAwardToPost($event)"
+    (removeAwardChange)="removeAwardFromPost($event)"
     [loggedCompanyId]="loggedCompanyId"></nms-post>
 </div>

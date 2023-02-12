@@ -17,18 +17,5 @@
       Please enter your last name.
     </div>
   </div>
-  <div class="form-group">
-    <label class="text-secondary" for="date-of-birth"><small>Date of birth</small></label>
-    <div class="input-group" id="date-of-birth" [class]="(dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched || submitted)) ? 'is-invalid' : ''">
-      <input class="form-control form-control-sm" [class]="(dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched || submitted)) ? 'is-invalid' : ''" placeholder="yyyy-mm-dd"
-             name="dp" formControlName="dateOfBirth" ngbDatepicker [minDate]="minDate" #d="ngbDatepicker">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" (click)="d.toggle(); dateOfBirth?.markAsTouched();" type="button"><bi name="calendar3" class="icon"></bi></button>
-      </div>
-    </div>
-    <div class="invalid-feedback">
-      Please enter your date of birth.
-    </div>
-  </div>
   <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Finish setup</button>
 </form>

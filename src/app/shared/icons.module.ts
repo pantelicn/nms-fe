@@ -42,7 +42,8 @@ import {
   Trash,
   List,
   InfoCircle,
-  EnvelopeCheck
+  EnvelopeCheck,
+  Award
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -88,7 +89,8 @@ const icons = {
   Trash,
   List,
   InfoCircle,
-  EnvelopeCheck
+  EnvelopeCheck,
+  Award
 };
 
 @NgModule({

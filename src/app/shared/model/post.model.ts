@@ -9,5 +9,6 @@ export interface Post {
   likes: number;
   company: Company;
   createdOn: Date;
+  awards: number;
 
 }

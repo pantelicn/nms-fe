@@ -40,6 +40,7 @@
         [isLastPage]="isLastPage" 
         (scrollChange)="getNextPosts()"
         [likedPosts]="company.likedPosts" 
+        [awardsGiven]="company.awardsGiven"
         [loggedCompanyId]="company.id"></nms-company-feed>
       <spinner *ngIf="showSpinnerPosts"></spinner>
     </div>

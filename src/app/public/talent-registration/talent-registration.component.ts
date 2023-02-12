@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Country } from 'src/app/shared/model';
 import { CountryService } from 'src/app/shared/services/country.service';
 
@@ -17,8 +17,7 @@ export class TalentRegistrationComponent {
 
   talentDetailsForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    dateOfBirth: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required)
   });
 
   constructor(private countryService: CountryService) { }
@@ -30,17 +29,8 @@ export class TalentRegistrationComponent {
     }
 
     const talentDetails = {...this.talentDetailsForm.value};
-    talentDetails['dateOfBirth'] = this.parseDate(talentDetails['dateOfBirth']);
 
     this.registered.emit(talentDetails);
-  }
-
-  private parseDate(ngbDate: NgbDate): string {
-    return new Date(ngbDate.year, ngbDate.month, ngbDate.day).toISOString()
-  }
-
-  get minDate(): NgbDateStruct {
-    return { year: 1901, month: 1, day: 1 }
   }
 
   get countries(): Country[] {
@@ -53,10 +43,6 @@ export class TalentRegistrationComponent {
 
   get lastName() {
     return this.talentDetailsForm.get('lastName');
-  }
-
-  get dateOfBirth() {
-    return this.talentDetailsForm.get('dateOfBirth');
   }
 
 }

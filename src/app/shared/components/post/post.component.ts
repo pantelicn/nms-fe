@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { Post } from '../../model/post.model';
 import { FollowerService } from '../../services/follower.service';
-import { ReactionService } from '../../services/reaction.service';
+import { PostReactionType, ReactionService } from '../../services/reaction.service';
 import { ToastService } from '../../toast/toast.service';
 import { LinkPreviewService } from '../link-preview/link-preview.service';
 
@@ -22,6 +22,8 @@ export class PostComponent implements OnInit {
   isFollowing: boolean = false;
   @Input()
   isLiked: boolean = false;
+  @Input()
+  isAwardGiven: boolean = false;
   @Output()
   followChange = new EventEmitter<number>();
   @Output()
@@ -30,6 +32,10 @@ export class PostComponent implements OnInit {
   likeChange = new EventEmitter<number>();
   @Output()
   unlikeChange = new EventEmitter<number>();
+  @Output()
+  giveAwardChange = new EventEmitter<number>();
+  @Output()
+  removeAwardChange = new EventEmitter<number>();
   @Input()
   loggedCompanyId?: number;
   @Input()
@@ -64,17 +70,50 @@ export class PostComponent implements OnInit {
     return this.post.likes;
   }
 
+  get awards(): number {
+    return this.post.awards;
+  }
+
   onLike(): void {
     if (!this.authService.currentUser) {
       this.router.navigate(['/register']);
       return;
     }
-    this.reactionService.like(this.post.id).subscribe(() => {
+    this.reactionService.react(this.post.id, PostReactionType.LIKE).subscribe(() => {
       this.post.likes++;
       this.likeChange.emit(this.post.id);
     }, (err: HttpErrorResponse) => {
-      this.toastService.error('Error', err.error.message);
+      this.toastService.error('Error', 'Try again later!');
     });
+  }
+
+  onGiveAward(): void {
+    if (!this.authService.currentUser) {
+      this.router.navigate(['/register']);
+      return;
+    }
+    this.reactionService.react(this.post.id, PostReactionType.AWARD).subscribe(() => {
+      this.post.awards++;
+      this.giveAwardChange.emit(this.post.id);
+    }, (err: HttpErrorResponse) => {
+      this.toastService.error('Error', 'Try again later!');
+    });
+  }
+
+  onUndoReward(): void {
+    if (!this.authService.currentUser) {
+      this.router.navigate(['/register']);
+      return;
+    }
+    this.reactionService.undoReact(this.post.id, PostReactionType.AWARD).subscribe({
+      next: response => {
+        this.post.awards--;
+        this.removeAwardChange.emit(this.post.id);
+      },
+      error: error => {
+        this.toastService.error('Error', 'Try again later!');
+      }
+    })
   }
 
   onUnlike(): void {
@@ -82,13 +121,13 @@ export class PostComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
-    this.reactionService.unlike(this.post.id).subscribe({
+    this.reactionService.undoReact(this.post.id, PostReactionType.LIKE).subscribe({
       next: response => {
         this.post.likes--;
         this.unlikeChange.emit(this.post.id);
       },
       error: error => {
-        this.toastService.error('Error', error.error.message);
+        this.toastService.error('Error', 'Try again later!');
       }
     })
   }

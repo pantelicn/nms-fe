@@ -20,6 +20,8 @@ export class FeedComponent implements OnInit {
   @Input()
   isLastPage: boolean = false;
   @Input()
+  awardsGiven: number[] = [];
+  @Input()
   loggedCompanyId?: number;
   @Output()
   scrollChange = new EventEmitter<void>();
@@ -56,6 +58,14 @@ export class FeedComponent implements OnInit {
 
   removeLikedPost(unlikedPostId: number) {
     this.likedPosts = this.likedPosts.filter(postId => postId !== unlikedPostId);
+  }
+
+  addAwardToPost(postId: number) {
+    this.awardsGiven.push(postId);
+  }
+
+  removeAwardFromPost(postId: number) {
+    this.awardsGiven = this.awardsGiven.filter(postId => postId !== postId);
   }
 
   onScroll() {

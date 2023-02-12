@@ -13,5 +13,6 @@ export interface Talent {
   experienceYears: number;
   available: boolean;
   projects: ProjectView[];
+  awardsGiven: number[];
 
 }

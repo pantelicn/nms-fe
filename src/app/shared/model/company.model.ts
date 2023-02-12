@@ -9,5 +9,6 @@ export interface Company {
   location: Location;
   profileImage: string;
   likedPosts: number[];
+  awardsGiven: number[];
   
 }

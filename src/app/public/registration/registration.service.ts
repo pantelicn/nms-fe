@@ -29,8 +29,6 @@ interface TalentRegistration {
   passwordConfirmed: string,
   firstName: string,
   lastName: string,
-  dateOfBirth: string,
-  location: Location
 
 }
 

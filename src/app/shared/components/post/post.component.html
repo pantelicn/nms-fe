@@ -39,16 +39,29 @@
       <span class="ml-1 small">&middot; You and {{likes}} people like this.</span>
     </div>
     <ng-template #notLiked>
-      <div class="d-flex align-items-center">
-        <button *ngIf="!isLiked && isLogged" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onLike()">
-          <bi name="hand-thumbs-up" class="like-icon"></bi>
-          <span class="ml-1 small">Like</span>
-        </button>
-        <button *ngIf="isLiked && isLogged" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onUnlike()">
-          <bi name="hand-thumbs-down" class="like-icon"></bi>
-          <span class="ml-1 small">Unlike</span>
-        </button>
-        <span class="ml-1 small">{{likes}} people like this.</span>
+      <div class="d-flex justify-content-between">
+        <div class="d-flex align-items-center">
+          <button *ngIf="!isLiked && isLogged" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onLike()">
+            <bi name="hand-thumbs-up" class="like-icon"></bi>
+            <span class="ml-1 small">Like</span>
+          </button>
+          <button *ngIf="isLiked && isLogged" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onUnlike()">
+            <bi name="hand-thumbs-down" class="like-icon"></bi>
+            <span class="ml-1 small">Unlike</span>
+          </button>
+          <span class="ml-1 small">{{likes}} people like this</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <button *ngIf="!isAwardGiven && isLogged"  class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onGiveAward()">
+            <bi name="award" class="like-icon"></bi>
+            <span class="ml-1 small">Give award</span>
+          </button>
+          <button *ngIf="isAwardGiven && isLogged"  class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center" (click)="onUndoReward()">
+            <bi name="award" class="like-icon"></bi>
+            <span class="ml-1 small">Remove award</span>
+          </button>
+          <span class="ml-1 small"> {{awards}} awards</span>
+        </div>
       </div>
     </ng-template>
   </div>
