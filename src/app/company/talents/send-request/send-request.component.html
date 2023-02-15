@@ -72,7 +72,7 @@
             <input class="custom-control-input" formControlName="status" type="radio" (change)="removeCounterOffer(i)" [id]="'radioReject' + i" value="REJECTED">
             <label class="custom-control-label" [for]="'radioReject' + i">Reject</label>
           </div>
-          <div class="custom-control custom-radio custom-control-inline">
+          <div *ngIf="negotiableTerms[i].term.type != 'BOOLEAN'" class="custom-control custom-radio custom-control-inline">
             <input class="custom-control-input" formControlName="status" type="radio" (change)="addCounterOffer(i)" [id]="'radioCounterOffer' + i" value="COUNTER_OFFER_COMPANY">
             <label class="custom-control-label" [for]="'radioCounterOffer' + i">Send counter-offer</label>
           </div>
