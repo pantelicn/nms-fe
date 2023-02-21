@@ -16,6 +16,7 @@ export class HomeProfileComponent implements OnInit {
   company?: Company;
   @Input() remainingPosts: number = 0;
   @Output() remainingPostsChange = new EventEmitter<number>();
+  @Output() remainingPostsLoadingChange = new EventEmitter<boolean>();
 
   constructor(private authService: AuthService,
               private productUsageService: ProductUsageService) { }
@@ -23,10 +24,19 @@ export class HomeProfileComponent implements OnInit {
   ngOnInit(): void {
     this.productUsageService.getRemainingPosts().subscribe(
       remainingPosts => {
-        this.remainingPosts = remainingPosts;
-        this.remainingPostsChange.emit(remainingPosts);
+        
       }
     )
+    this.productUsageService.getRemainingPosts().subscribe({
+      next: remainingPosts => {
+        this.remainingPosts = remainingPosts;
+        this.remainingPostsChange.emit(remainingPosts);
+        this.remainingPostsLoadingChange.emit(false);
+      },
+      error: error => {
+        this.remainingPostsLoadingChange.emit(false);
+      }
+    })
   }
 
   get username(): string | undefined {

@@ -21,6 +21,7 @@ export class AddPostComponent {
   });
   @Input() company!: Company;
   @Input() remainingPosts!: number;
+  @Input() remainingPostsLoading: boolean = true;
   @Output() postAddedChange = new EventEmitter<Post>();
 
   constructor(private modalService: NgbModal, 

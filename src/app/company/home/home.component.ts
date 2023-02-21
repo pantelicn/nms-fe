@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   currentPage: number = 0;
   selectedCountry?: number;
   showSpinnerPosts: boolean = true;
+  remainingPostsLoading: boolean = true;
 
   constructor(private postService: PostService,
               private locationService: LocationService,

@@ -7,7 +7,7 @@
             (click)="open(addPost)">Start a post</button>
   </div>
   
-  <div class="text-center text-danger">
+  <div *ngIf="remainingPosts == 0 && !remainingPostsLoading" class="text-center text-danger">
     You have have reached your post limit! To continue posting, please contact us on info@nullhire.com.
   </div>
 </div>
