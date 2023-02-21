@@ -20,6 +20,7 @@ export class AddPostComponent {
     content: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
   });
   @Input() company!: Company;
+  @Input() remainingPosts!: number;
   @Output() postAddedChange = new EventEmitter<Post>();
 
   constructor(private modalService: NgbModal, 

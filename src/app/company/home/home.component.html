@@ -34,7 +34,7 @@
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
       <hr>
-      <nms-add-post [company]="company" (postAddedChange)="decreaseRemainingPosts();postAdded($event)"></nms-add-post>
+      <nms-add-post [company]="company" [remainingPosts]="remainingPosts" (postAddedChange)="decreaseRemainingPosts();postAdded($event)"></nms-add-post>
       <nms-company-feed 
         [posts]="posts" 
         [isLastPage]="isLastPage" 

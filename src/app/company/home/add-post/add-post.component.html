@@ -1,7 +1,15 @@
-<div class="bg-white border rounded p-3 d-flex align-items-center">
-  <img *ngIf="company.profileImage" class="bg-light rounded-circle text-white p-1 avatar" [src]="getImageUrl(company.profileImage)">
-  <bi *ngIf="!company.profileImage" class="bg-light rounded-circle text-secondary p-1 avatar" name="person-circle"></bi>
-  <button class="btn btn-lg btn-outline-primary btn-block text-left rounded-pill shadow-none ml-2" (click)="open(addPost)">Start a post</button>
+<div class="bg-white border rounded p-3">
+  <div class="d-flex align-items-center">
+    <img *ngIf="company.profileImage" class="bg-light rounded-circle text-white p-1 avatar" [src]="getImageUrl(company.profileImage)">
+    <bi *ngIf="!company.profileImage" class="bg-light rounded-circle text-secondary p-1 avatar" name="person-circle"></bi>
+    <button class="btn btn-lg btn-outline-primary btn-block text-left rounded-pill shadow-none ml-2" 
+            [disabled]="remainingPosts == 0"
+            (click)="open(addPost)">Start a post</button>
+  </div>
+  
+  <div class="text-center text-danger">
+    You have have reached your post limit! To continue posting, please contact us on info@nullhire.com.
+  </div>
 </div>
 
 <ng-template #addPost let-modal>
