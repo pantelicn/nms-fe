@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   talentPositions: Position[] = [];
   talentSkills: Skill[] = [];
   selectedProject!: ProjectView;
+  loadingTalent: boolean = true;
 
   private readonly modalOptions: NgbModalOptions = {
     backdrop: true,
@@ -31,7 +32,15 @@ export class ProfileComponent implements OnInit {
               private projectService: ProjectService) {}
 
   ngOnInit(): void {
-    this.talentService.getTalent().subscribe(talent => this.talent = talent);
+    this.talentService.getTalent().subscribe({ 
+      next: talent => {
+        this.talent = talent;
+        this.loadingTalent = false;
+      },
+      error: error => {
+        this.loadingTalent = false;
+      }
+    });
     this.talentService.getTalentTerms().subscribe(talentTerms => this.talentTerms = talentTerms);
     this.talentService.getTalentPositions().subscribe(talentPositions => this.talentPositions = talentPositions);
     this.talentService.getTalentSkills().subscribe(talentSkills => this.talentSkills = talentSkills);
