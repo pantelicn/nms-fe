@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Company, Country, Post } from 'src/app/shared/model';
 import { PostsType } from 'src/app/shared/model/posts-type.enum';
@@ -25,13 +26,36 @@ export class HomeComponent implements OnInit {
   selectedCountry?: number;
   showSpinnerPosts: boolean = true;
   remainingPostsLoading: boolean = true;
+  selectedPost!: Post;
+
 
   constructor(private postService: PostService,
               private locationService: LocationService,
               private authService: AuthService,
-              private companyService: CompanyService) { }
+              private companyService: CompanyService,
+              private route: ActivatedRoute,
+              private router: Router) { 
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          if (this.selectedPost) {
+            window.location.reload();
+          }  
+        }
+    });
+  }
   
   ngOnInit(): void {
+    const postId = Number(this.route.snapshot.queryParamMap.get('postId'));
+    if (postId) {
+      this.postService.findById(postId).subscribe({
+        next: response => {
+          this.selectedPost = response;
+        },
+        error: error => {
+
+        }
+      })
+    }
     this.postService.findGlobal(0).subscribe({
       next: response => {
         this.posts = response.content;

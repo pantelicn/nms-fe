@@ -7,7 +7,15 @@
         (remainingPostsChange)="setRemainingPosts($event)"
         (remainingPostsLoadingChange)="remainingPostsLoading = $event"></nms-home-profile>
     </div>
-    <div class="col-lg-8 col-md-7">
+    <div *ngIf="selectedPost" class="col-lg-8 col-md-7">
+      <nms-company-feed 
+      [posts]="[selectedPost]" 
+      [isLastPage]="true"
+      [likedPosts]="company.likedPosts" 
+      [awardsGiven]="company.awardsGiven"
+      [loggedCompanyId]="company.id"></nms-company-feed>
+    </div>
+    <div *ngIf="!selectedPost" class="col-lg-8 col-md-7">
       <div class="row">
         <div class="col-6 col-md-3 post-type">
           <a class="btn btn-outline-primary mr-2 posts-selector" 

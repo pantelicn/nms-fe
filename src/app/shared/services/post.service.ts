@@ -52,4 +52,8 @@ export class PostService {
     return this.http.get<PostsPage>(this.postsApi, {params: params});
   }
 
+  findById(id: number): Observable<Post>{
+    return this.http.get<Post>(this.postsApi + '/' + id);
+  }
+
 }
