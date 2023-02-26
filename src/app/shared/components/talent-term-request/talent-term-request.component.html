@@ -21,6 +21,7 @@
     <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_COMPANY' && user?.role === 'TALENT'" (click)="openEditCounterOfferDialog(sendCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Send counter offer</a>
     <a *ngIf="talentTermRequest?.status === 'COUNTER_OFFER_TALENT' && user?.role === 'TALENT'" (click)="openEditCounterOfferDialog(editCounterOfferDialog, talentTermRequest)" class="btn btn-primary">Edit sent counter offer</a>
     <a *ngIf="talentTermRequest && talentTermRequest.status === 'COUNTER_OFFER_COMPANY' && user?.role === 'TALENT'" (click)="acceptCompanyCounterTerm(talentTermRequest.id)" class="btn btn-primary">Accept</a>
+    <a *ngIf="talentTermRequest && talentTermRequest.status === 'COUNTER_OFFER_TALENT' && user?.role === 'COMPANY'" (click)="acceptTalentCounterTerm(talentTermRequest.id)" class="btn btn-primary">Accept</a>
   </div>
 </div>
 

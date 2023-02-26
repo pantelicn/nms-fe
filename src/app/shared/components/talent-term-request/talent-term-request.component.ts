@@ -161,6 +161,23 @@ export class TalentTermRequestComponent implements OnInit {
     })
   }
 
+  acceptTalentCounterTerm(talentTermRequestId: number) {
+    const editCounterOfferRequest = {
+      requestId: this.requestId,
+      modifiedOn: this.requestModifiedOn,
+      newTermRequest: {
+        id: talentTermRequestId,
+        status: 'ACCEPTED'
+      }
+    }
+
+    this.talentTermRequestService.editByCompany(editCounterOfferRequest).subscribe(response => {
+      this.selectedRequestCompanyChange.emit(response);
+      this.toastService.show('', 'Counter offer has been accepted.');
+      this.modalRef?.close();
+    })
+  }
+
   get newValue() {
     return this.counterOfferForm.get('newValue');
   }
