@@ -229,7 +229,7 @@ export class TemplatesComponent implements OnInit {
           ...this.addTemplateForm.value,
           availableLocations: this.availableLocations
         };
-        data.facets = [...data.facets, ...selectedSkills];
+        data.facets = [...data.facets, ...selectedSkills, ...selectedPositions];
         this.templateService.editTemplate(data).subscribe(modifiedTemplate => {
           this.onTemplateEditSuccess(modifiedTemplate);
         }); 

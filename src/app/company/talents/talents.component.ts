@@ -157,7 +157,7 @@ export class TalentsComponent implements OnInit {
           const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
           (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
         }
-      } else if (facet.type === 'TERM') {
+      } else if (facet.type === 'SKILL') {
         talentSkillsMap.set(template.facets[i].code, template.facets[i].code);
       } else {
         talentPositionsMap.set(template.facets[i].code, template.facets[i].code);
