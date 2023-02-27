@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { CompanyService } from "src/app/company/company.service";
 import { PublicCompanyService, PublicCompanyView } from "src/app/shared/services/public-company.service";
+import { environment } from "src/environments/environment";
 import { Post } from "../../model/post.model";
 import { PostService } from "../../services/post.service";
 
@@ -85,6 +86,10 @@ export class CompanyViewComponent implements OnInit {
 
       }
     })
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }

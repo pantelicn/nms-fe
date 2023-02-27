@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-lg-4 col-md-5">
       <div class="py-3 px-3 sticky-top top-gap bg-white border rounded">
-        <img class="bg-light rounded-circle p-1 w-100" src="https://pbs.twimg.com/profile_images/1374273767124439041/TxI-hVAa_400x400.png">
+        <img *ngIf="company.profileImage" class="bg-light rounded-circle p-1 w-100" [src]="getImageUrl(company.profileImage)">
+        <bi *ngIf="!company.profileImage" class="bg-light text-secondary rounded-circle p-1 w-100" name="person-circle"></bi>
         <div class="h2">{{company.name}}</div>
         <div class="mt-4 text-secondary">{{company.description}}</div>
         <div class="mt-3 mb-3 d-flex">

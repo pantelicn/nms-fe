@@ -8,13 +8,16 @@ import {
   LoginComponent
 } from './';
 import { ActivationComponent } from './activation/activation.component';
+import { AuthGuardService } from './auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { PrivacyNoticeComponent } from './legal/privacy-notice/privacy-notice.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { 
     path: '',
     component: PublicComponent,
+    canActivateChild: [AuthGuardService],
     children: [
       { path: '', component: LandingComponent },
       { path: 'register', component: RegistrationComponent },
@@ -22,8 +25,11 @@ const routes: Routes = [
       { path: 'activation', component: ActivationComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
-      { path: 'companies/:id', component: CompanyViewComponent }
+      { path: 'companies/:id', component: CompanyViewComponent },
     ] 
+  },
+  {
+    path: 'legal/privacy-notice', component: PrivacyNoticeComponent
   }
 ];
 
