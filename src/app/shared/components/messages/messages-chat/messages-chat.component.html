@@ -9,5 +9,5 @@
   <div class="h-100 chat-view" #chatViewContainer [scrollTop]="chatViewContainer.scrollHeight" infinite-scroll (scrolledUp)="onScrollUp()" [scrollWindow]="false">
     <nms-messages-chat-view></nms-messages-chat-view>
   </div>
-  <nms-messages-chat-input *ngIf="to" class="justify-self-end" [to]="to"></nms-messages-chat-input>
+  <nms-messages-chat-input *ngIf="to" class="justify-self-end"></nms-messages-chat-input>
 </div>
