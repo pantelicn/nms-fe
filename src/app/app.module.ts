@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
 import { TokenInterceptor } from './auth/token-interceptor';
-import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 @NgModule({
   declarations: [
@@ -17,8 +16,7 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    SharedModule,
-    NgxLinkifyjsModule.forRoot()
+    SharedModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }

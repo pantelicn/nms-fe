@@ -6,7 +6,6 @@ import { IconsModule } from './icons.module';
 import { TalentComponent } from './components/talent/talent.component';
 import { BootstrapModule } from './bootstrap.module';
 import { ToastComponent } from './toast/toast.component';
-import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { LinkPreviewComponent } from './components/link-preview/link-preview.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { MessagesUserComponent } from './components/messages/messages-user/messages-user.component';
@@ -49,7 +48,6 @@ import { CompanyViewComponent } from './components/company-view/company-view.com
     RouterModule,
     IconsModule,
     BootstrapModule,
-    NgxLinkifyjsModule,
     FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
