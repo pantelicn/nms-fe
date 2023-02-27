@@ -22,6 +22,7 @@ import { ConfirmationDialog } from './dialogs/confirmation/confirmation.componen
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { CompanyViewComponent } from './components/company-view/company-view.component';
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 
 @NgModule({
@@ -48,10 +49,10 @@ import { CompanyViewComponent } from './components/company-view/company-view.com
     RouterModule,
     IconsModule,
     BootstrapModule,
-    FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
-    FormsModule
+    FormsModule,
+    NgxLinkifyjsModule
   ],
   exports: [
     PostComponent,

@@ -25,7 +25,7 @@
     </div>
     <div class="mt-1 text-break">
       <small>
-        <span [innerHTML]="post.content"></span>
+        <span [innerHTML]="post.content | linkify: { className: 'text-primary' }"></span>
       </small>
     </div>
   </div>
