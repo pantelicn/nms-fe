@@ -36,6 +36,7 @@ export class EditDetailsComponent implements AfterContentInit {
     this.talentService.updateBasicInfo(data).subscribe(talent => {
       this.talent.firstName = talent.firstName;
       this.talent.lastName = talent.lastName;
+      this.talent.experienceYears = talent.experienceYears;
       this.nameForm.markAsPristine();
       this.toastService.show('', 'Updated basic info.');
     });
