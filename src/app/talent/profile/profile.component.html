@@ -110,6 +110,9 @@
           </div>
           <div class="text-secondary mb-2">{{project.description}}</div>
           <div class="text-secondary mb-2">{{project.technologiesUsed}}</div>
+          <div class="text-secondary mb-2">
+            {{project.startDate | date}} - {{project.endDate ? (project.endDate | date) : 'present'}}
+          </div>
           <hr/>
         </div>
       </div>

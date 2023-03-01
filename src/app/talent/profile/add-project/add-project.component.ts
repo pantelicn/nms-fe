@@ -15,6 +15,7 @@ export class AddProjectComponent implements OnInit {
   addProjectForm: FormGroup;
   @Input()
   talent!: Talent;
+  currentDate?: any;
 
   constructor(private projectService: ProjectService,
               private modalService: NgbModal,
@@ -23,17 +24,29 @@ export class AddProjectComponent implements OnInit {
       description: new FormControl('', [Validators.required]),
       technologiesUsed: new FormControl('', [Validators.required]),
       myRole: new FormControl('', [Validators.required]),
-      startDate: new FormControl(),
+      startDate: new FormControl([Validators.required]),
       endDate: new FormControl()
     });
   }
   
   ngOnInit(): void {
-    
+    const currentDate = new Date();
+    this.currentDate = {
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth() + 1,
+      day: currentDate.getDate()
+    }
   }
 
   add() {
-    this.projectService.create(this.addProjectForm.value).subscribe({
+    const createProjectBody = {
+      description: this.addProjectForm.value.description,
+      myRole: this.addProjectForm.value.myRole,
+      technologiesUsed: this.addProjectForm.value.technologiesUsed,
+      startDate: new Date(this.addProjectForm.value.startDate.year, this.addProjectForm.value.startDate.month - 1, this.addProjectForm.value.startDate.day),
+      endDate: this.addProjectForm.value.endDate ? new Date(this.addProjectForm.value.endDate.year, this.addProjectForm.value.endDate.month - 1, this.addProjectForm.value.endDate.day) : null
+    }
+    this.projectService.create(createProjectBody).subscribe({
       next: response => {
         if (!this.talent.projects) {
           this.talent.projects = [];
@@ -62,6 +75,10 @@ export class AddProjectComponent implements OnInit {
 
   get myRole() {
     return this.addProjectForm.get('myRole');
+  }
+
+  get startDate() {
+    return this.addProjectForm.get('startDate');
   }
 
 }

@@ -49,6 +49,49 @@
             </div>
           </div>
         </div>
+        <div class="row mb-2">
+          <div class="col-auto">
+            <small for="startDate" class="text-secondary">Start date</small>
+            <div class="input-group">
+              <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  name="sd"
+                  formControlName="startDate"
+                  [maxDate]="{year: currentDate.year, month: currentDate.month, day: currentDate.day}"
+                  ngbDatepicker
+                  #sd="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary bi" (click)="sd.toggle()" type="button">
+                    <bi name="calendar3" class="nms-icon"></bi>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="startDate && startDate.valid" class="row mb-2">
+          <div class="col-auto">
+            <small for="startDate" class="text-secondary">End date {{startDate.value}}<em>*If project is still active, you don't need to set ending date.</em></small>
+            <div class="input-group">
+              <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  name="ed"
+                  formControlName="endDate"
+                  ngbDatepicker
+                  [minDate]="{year: startDate.value.year, month: startDate.value.month, day: startDate.value.day}"
+                  [maxDate]="{year: currentDate.year, month: currentDate.month, day: currentDate.day}"
+                  #ed="ngbDatepicker"
+                />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary bi" (click)="ed.toggle()" type="button">
+                  <bi name="calendar3" class="nms-icon"></bi>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
       <button class="btn btn-primary rounded-pill w-50 mt-3" [disabled]="addProjectForm.invalid" type="submit">Save</button>

@@ -8,6 +8,8 @@ export interface ProjectCreate {
   description: string;
   technologiesUsed: string;
   myRole: string;
+  startDate: Date;
+  endDate: Date | null;
 }
 
 export interface ProjectView {
@@ -15,6 +17,8 @@ export interface ProjectView {
   description: string;
   technologiesUsed: string;
   myRole: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface EditProject {
@@ -22,6 +26,8 @@ export interface EditProject {
   description: string;
   technologiesUsed: string;
   myRole: string;
+  startDate: Date;
+  endDate: Date | null;
 }
 
 @Injectable({

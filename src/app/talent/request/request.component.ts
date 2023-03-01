@@ -39,7 +39,9 @@ export class RequestComponent implements OnInit, OnDestroy {
             next: response => {
               this.activeRequests = response.content;
               let selectedReqeust = this.activeRequests.filter(activeRequest => activeRequest.id == id);
-              this.setSelectedRequest(selectedReqeust[0]);
+              if (selectedReqeust) {
+                this.setSelectedRequest(selectedReqeust[0]);
+              }
               this.showSpinnerActiveRequests = false;
             },
             error: error => {

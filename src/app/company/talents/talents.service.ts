@@ -17,6 +17,14 @@ export interface SearchPageResponse {
   number: number
 }
 
+export interface RestrictedProjectViewDto {
+  id: number;
+  description: string;
+  technologiesUsed: string;
+  myRole: string;
+  duration: number;
+}
+
 export interface TalentViewSearchDto {
   talentId: string,
   terms: TalentTermViewDto[],
@@ -25,7 +33,7 @@ export interface TalentViewSearchDto {
   previousRequest: RequestView,
   requestSent: boolean,
   experienceYears: number,
-  projects: ProjectView[]
+  projects: RestrictedProjectViewDto[]
 }
 
 export interface PositionViewDto {
