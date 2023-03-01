@@ -12,9 +12,6 @@ export class MessagesChatInputComponent {
 
   chatInput = '';
 
-  @Input()
-  to!: string;
-
   get maxRows(): number {
     return this.chatInput.split('\n').length;
   }
@@ -35,6 +32,10 @@ export class MessagesChatInputComponent {
     }
     this.chatService.sendMessage(message);
     this.chatInput = '';
+  }
+
+  get to(): string {
+    return this.chatService.to;
   }
 
 }

@@ -79,7 +79,7 @@ export class RequestComponent implements OnInit, OnDestroy {
       console.log(data);
       this.selectedRequest = data;
       this.companyBenefits = [...this.selectedRequest.benefits];
-      this.companyName = data.company;
+      this.companyName = data.company.name;
       selectedRequest.seenByTalent = true;
     });
   }
@@ -110,7 +110,7 @@ export class RequestComponent implements OnInit, OnDestroy {
       return;
     }
     this.requestService.accept(this.selectedRequest?.id).subscribe(response => {
-      this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been accepted.');
+      this.toastService.show('', 'Request from ' + this.selectedRequest?.company.name + ' has been accepted.');
       this.findAllActiveRequests();
       this.selectedRequest = undefined;
     });
@@ -118,14 +118,14 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   reject () {
     const modalRef = this.modalService.open(ConfirmationDialog);
-    modalRef.componentInstance.message = 'Please confirm that you want to decline request from '.concat(this.selectedRequest ? this.selectedRequest?.company : '');
+    modalRef.componentInstance.message = 'Please confirm that you want to decline request from '.concat(this.selectedRequest ? this.selectedRequest?.company.name : '');
     modalRef.result.then(res => {
       if (!this.selectedRequest || !res) {
         return;
       }
       this.requestService.reject(this.selectedRequest?.id).subscribe({
         next: response => {
-          this.toastService.show('', 'Request from ' + this.selectedRequest?.company + ' has been rejected.');
+          this.toastService.show('', 'Request from ' + this.selectedRequest?.company.name + ' has been rejected.');
           this.findAllActiveRequests();
           this.selectedRequest = undefined;
         }, 

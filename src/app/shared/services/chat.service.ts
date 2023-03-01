@@ -183,13 +183,17 @@ export class ChatService {
       talentName: this.authService.currentUser?.role === 'COMPANY' ? this.toName : '',
       seen: false
     }
-    this.messages.unshift(receivedMessage);
+    if (this.to && (this.to === talentUsername || this.to === companyUsername)) {
+      this.messages.unshift(receivedMessage);
+    }
     const removeIndex = this.lastMessages.findIndex(lastMessage => 
-      lastMessage.message.companyUsername === this.to || lastMessage.message.talentUsername === this.to
+      lastMessage.message.companyUsername === receivedMessage.companyUsername || lastMessage.message.talentUsername === receivedMessage.talentUsername
     );
     if (removeIndex >= 0) {
       const companyName = this.lastMessages[removeIndex].companyName;
       const talentName = this.lastMessages[removeIndex].talentName;
+      receivedMessage.companyUsername = this.lastMessages[removeIndex]?.message.companyUsername;
+      receivedMessage.talentUsername = this.lastMessages[removeIndex]?.message.talentUsername;
       this.lastMessages.splice(removeIndex, 1);
       this.lastMessages.unshift({companyName, talentName, message: receivedMessage});
     }

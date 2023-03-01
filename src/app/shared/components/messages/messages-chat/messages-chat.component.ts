@@ -10,12 +10,6 @@ import { ChatService } from 'src/app/shared/services/chat.service';
 })
 export class MessagesChatComponent implements AfterViewChecked {
 
-  @Input()
-  to!: string;
-
-  @Input()
-  newChatOpened!: Subject<Message[]>;
-
   @Output()
   openChats = new EventEmitter<void>();
 
@@ -35,6 +29,10 @@ export class MessagesChatComponent implements AfterViewChecked {
 
   onOpenChats(): void {
     this.openChats.emit();
+  }
+
+  get to(): string {
+    return this.chatService.to;
   }
 
 }
