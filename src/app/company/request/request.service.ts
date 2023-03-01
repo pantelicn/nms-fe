@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
-import { TermType } from "src/app/shared/model";
+import { Company, TermType } from "src/app/shared/model";
 import { ProjectView } from "src/app/talent/profile/project.service";
 import { environment } from "src/environments/environment";
 import { PositionViewDto, SkillViewDto } from "../talents/talents.service";
@@ -47,6 +47,7 @@ export interface RequestDetailView {
   status: string,
   note: string,
   modifiedOn: Date,
+  company: Company;
   seenByCompany: boolean,
   seenByTalent: boolean,
   talentTermRequests: TalentTermRequestViewDto[],

@@ -7,7 +7,8 @@ import { TalentTermRequestViewDto, RequestDetailView } from "src/app/company/req
 import { TalentTermRequestService } from "src/app/shared/services/talent-term-request.service";
 import { ToastService } from "src/app/shared/toast/toast.service";
 import { TalentRequestDetailView } from "src/app/talent/request/request.service";
-import { TermType, User } from "../../model";
+import { environment } from "src/environments/environment";
+import { Company, TermType, User } from "../../model";
 
 @Component({
   selector: 'talent-term-request',
@@ -19,6 +20,7 @@ export class TalentTermRequestComponent implements OnInit {
   @Input() talentTermRequest?: TalentTermRequestViewDto;
   @Input() requestId: number = -1;
   @Input() requestModifiedOn: Date = new Date();
+  @Input() company!: Company;
   @Output() selectedRequestCompanyChange = new EventEmitter<RequestDetailView>();
   @Output() selectedRequestTalentChange = new EventEmitter<TalentRequestDetailView>();
   @Output() showRefreshBtnChange = new EventEmitter<void>();
@@ -194,6 +196,10 @@ export class TalentTermRequestComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  getImageUrl(profileImage: string): string {
+    return environment.api.images + profileImage;
   }
 
 }
