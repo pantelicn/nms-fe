@@ -251,17 +251,7 @@ export class TemplatesComponent implements OnInit {
       this.availableLocationMap.set(availableLocation.country, availableLocation);
     });
     this.getCountries();
-    for (let i = 0; i < selectedTemplate.facets.length ; i++) {
-      if (selectedTemplate.facets[i].type === 'TERM') {
-        let facet = selectedTemplate.facets[i];
-        let facetGroup = this.existingFacet(facet);
-        this.facets.push(facetGroup);
-        this.setCodes(i);
-        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
-      }
-      
-    }
+    
     const talentSkillsMap = new Map(this.templates[index].facets
       .filter(facet => facet.type === 'SKILL')
       .map((obj) => [obj.code, obj.code]));
@@ -297,6 +287,19 @@ export class TemplatesComponent implements OnInit {
           object: position
         }
     });
+
+    let termFacets = selectedTemplate.facets.filter(facet => facet.type === 'TERM');
+    for (let i = 0; i < termFacets.length ; i++) {
+      if (selectedTemplate.facets[i].type === 'TERM') {
+        let facet = selectedTemplate.facets[i];
+        let facetGroup = this.existingFacet(facet);
+        this.facets.push(facetGroup);
+        this.setCodes(i);
+        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+      }
+      
+    }
 
     this.setSelectedCountriesWithCities();
 
