@@ -288,16 +288,27 @@ export class TemplatesComponent implements OnInit {
         }
     });
 
+    //TERM, POSITION, TERM, SKILL
+
     let termFacets = selectedTemplate.facets.filter(facet => facet.type === 'TERM');
+    console.log("ALL SELECTED TERM FACETS:")
+    console.log(selectedTemplate.facets);
+    console.log("FILTERED TERM FACETS:");
+    console.log(termFacets);
+    //TERM, TERM
     for (let i = 0; i < termFacets.length ; i++) {
-      if (selectedTemplate.facets[i].type === 'TERM') {
-        let facet = selectedTemplate.facets[i];
-        let facetGroup = this.existingFacet(facet);
-        this.facets.push(facetGroup);
-        this.setCodes(i);
-        const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-        (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
-      }
+      let facet = selectedTemplate.facets[i];
+      let facetGroup = this.existingFacet(facet);
+      console.log("PUSHING FACET to ALL FACETS: ")
+      console.log(facetGroup);
+      this.facets.push(facetGroup);
+      this.setCodes(i);
+      const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
+      console.log("ALL FACETS:");
+      console.log(this.facets);
+      console.log("CURRENT FACET AT INDEX: " + i);
+      console.log(this.facets.at(i));
+      (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
       
     }
 
