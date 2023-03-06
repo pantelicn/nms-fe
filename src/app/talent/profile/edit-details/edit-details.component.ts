@@ -50,4 +50,8 @@ export class EditDetailsComponent implements AfterContentInit {
     return this.nameForm.get('lastName');
   }
 
+  get experienceYears() {
+    return this.nameForm.get('experienceYears');
+  }
+
 }

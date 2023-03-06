@@ -34,7 +34,13 @@
       <div class="row mb-2">
         <div class="col-auto">
           <small for="lastName" class="text-secondary">Years of experience</small>
-          <input id="experience-years" class="form-control" type="number" min="0" max="99" formControlName="experienceYears">
+          <input id="experience-years" 
+            class="form-control" 
+            type="number" 
+            min="0" 
+            max="99" 
+            [class]="(experienceYears?.invalid && (experienceYears?.dirty || experienceYears?.touched)) ? 'is-invalid' : ''"
+            formControlName="experienceYears">
         </div>
       </div>
   </div>

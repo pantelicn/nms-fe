@@ -87,13 +87,17 @@ export class EditTalentTermsComponent implements OnInit {
   }
 
   private pushToTalentTermsFormArray(talentTerm: TalentTerm): void {
-    this.talentTermsFormArray.push(
-      new FormGroup({
-        id: new FormControl(talentTerm.id),
-        value: new FormControl(talentTerm.value, [Validators.required]),
-        negotiable: new FormControl(talentTerm.negotiable, [Validators.required])
-      })
-    );
+    let formGroup = talentTerm.term.type === 'BOOLEAN' ? new FormGroup({
+      id: new FormControl(talentTerm.id),
+      value: new FormControl(talentTerm.value, [Validators.required]),
+      negotiable: new FormControl(talentTerm.negotiable, [Validators.required])
+    }) : 
+    new FormGroup({
+      id: new FormControl(talentTerm.id),
+      value: new FormControl(talentTerm.value, [Validators.required, Validators.min(0)]),
+      negotiable: new FormControl(talentTerm.negotiable, [Validators.required])
+    })
+    this.talentTermsFormArray.push(formGroup);
   }
 
   close() {
@@ -134,6 +138,8 @@ export class EditTalentTermsComponent implements OnInit {
     const termType = this.getTermType(code);
     if (termType === 'BOOLEAN') {
       this.newTalentTermForm.controls['value']?.setValue(true);
+    } else {
+      this.newTalentTermForm.controls['value']?.addValidators([Validators.min(0)]);
     }
   }
 
