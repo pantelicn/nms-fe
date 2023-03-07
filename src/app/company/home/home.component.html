@@ -16,37 +16,30 @@
       [loggedCompanyId]="company.id"></nms-company-feed>
     </div>
     <div *ngIf="!selectedPost" class="col-lg-8 col-md-7">
-      <div class="row">
-        <div class="col-6 col-md-3 post-type">
-          <a class="btn btn-outline-primary mr-2 posts-selector" 
+      <div class="d-flex row nms-row rounded-top">
+        <a class="btn btn-outline-primary posts-selector col-6 col-md-3 post-type text-center" 
           (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
-          [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global</a>
-        </div>
-        <div class="col-6 col-md-3 post-type">
-          <a class="btn mr-2 posts-selector" 
+          [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">
+          Global</a>
+        <a class="btn posts-selector col-6 col-md-3 post-type text-center" 
           (click)="setPostsType(postsType.COMPANY);getMyPosts(0);"
           [ngClass]="selectedPostsType === 'COMPANY' ? 'btn-outline-primary' : 'btn-outline-secondary'">My posts</a>
-        </div>
-        <div class="col-6 col-md-3 post-type">
-          <a class="btn mr-2 posts-selector" 
+        <a class="btn posts-selector col-6 col-md-3 post-type text-center" 
           (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
           [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following</a>
-        </div>
-        <div class="col-6 col-md-3 post-type">
-          <a class="btn btn-outline-primary mr-2 posts-selector" 
+        <a class="btn btn-outline-primary posts-selector col-6 col-md-3 post-type text-center" 
           (click)="setPostsType(postsType.COUNTRY)"
             [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country</a>
-        </div>
       </div>
       <select *ngIf="selectedPostsType === 'COUNTRY'" (change)="selectCountry($event)" class="form-control form-control-sm" id="company-country">
         <option [value]="undefined">Select country</option>
         <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
       </select>
-      <hr>
       <nms-add-post [company]="company" 
                     [remainingPosts]="remainingPosts" 
                     [remainingPostsLoading]="remainingPostsLoading"
                     (postAddedChange)="decreaseRemainingPosts();postAdded($event)"></nms-add-post>
+      <hr class="nms-hr" />
       <nms-company-feed 
         [posts]="posts" 
         [isLastPage]="isLastPage" 
