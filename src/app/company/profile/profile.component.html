@@ -23,15 +23,15 @@
     <div class="col-lg-8 col-md-7">
       <div class="mt-1 p-4 bg-white border rounded">
         <div class="d-flex justify-content-between">
-          <h3 class="text-secondary">Details</h3>
+          <h5 class="text-secondary">Details</h5>
           <a class="text-secondary text-decoration-none nms-cursor">
             <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
           </a>
         </div>
         <div class="mb-2"><h4>{{company?.name}}</h4></div>
         <div class="mb-2">{{username}}</div>
-        <div class="mb-2 text-secondary">{{company?.description}}</div>
-        <div *ngIf="company?.location" class="d-flex">
+        <div class="mb-2 text-secondary nms-description">{{company?.description}}</div>
+        <div *ngIf="company?.location" class="d-flex nms-description">
           <bi class="icon mr-1 text-primary nms-icon" name="geo-alt"></bi>
           {{company.location.address}}, 
           {{company.location.city.name}}, 
@@ -41,7 +41,7 @@
       </div>
       <div class="p-4 mt-1 bg-white border">
         <div class="d-flex justify-content-between">
-          <h3 class="text-secondary">Contacts</h3>
+          <h5 class="text-secondary">Contacts</h5>
           <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editContactsDialog)">
             <bi name="pencil-square" class="lead nms-pencil-square"></bi>
           </a>
@@ -59,14 +59,14 @@
         <div>
           <div>
             <div class="d-flex justify-content-between">
-              <h3 class="text-secondary">Benefits</h3>
+              <h5 class="text-secondary">Benefits</h5>
               <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
                 <bi name="pencil-square" class="lead nms-pencil-square"></bi>
               </a>
             </div>
             <div *ngFor="let benefit of benefits">
               <div class="d-flex mb-2 align-items-center">
-                <p><b>{{benefit.name}}</b> - <span class="text-secondary">{{benefit.description}}</span></p>
+                <p><b>{{benefit.name}}</b> - <span class="text-secondary nms-description">{{benefit.description}}</span></p>
               </div>
             </div>
           </div>
@@ -75,10 +75,10 @@
       <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
         <div class="d-flex justify-content-between align-items-start">
           <div class="col-md-12">
-            <h3 class="text-secondary">Subcription</h3>
+            <h5 class="text-secondary">Subcription</h5>
             <div class="mb-2">
               <div class="mb-2">
-                <b>{{subscription?.plan?.name}}</b> <span class="text-secondary"> - {{subscription?.plan?.description}}</span>
+                <b>{{subscription?.plan?.name}}</b> <span class="text-secondary nms-description"> - {{subscription?.plan?.description}}</span>
               </div>
               <div class="d-flex justify-content-between">
                 <small class="text-secondary">{{subscription?.startDate | date: 'longDate'}}</small>
@@ -93,7 +93,7 @@
             <div *ngFor="let productUsage of productUsages" class="mb-2">
               <div *ngIf="productUsage.product.name === 'Post'">
                 <div class="mb-2">
-                  <b>{{productUsage.product.name}}</b> <span class="text-secondary"> - {{productUsage.product.description}}</span>
+                  <b>{{productUsage.product.name}}</b> <span class="text-secondary nms-description"> - {{productUsage.product.description}}</span>
                 </div>
                 <div class="d-flex justify-content-between">
                   <small class="text-secondary">0</small>

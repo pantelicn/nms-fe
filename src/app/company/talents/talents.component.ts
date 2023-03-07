@@ -147,20 +147,20 @@ export class TalentsComponent implements OnInit {
     let talentSkillsMap = new Map();
     let talentPositionsMap = new Map();
       
-    for (let i = 0; i < template.facets.length ; i++) {
+
+    for (let i = 0, j = 0; i < template.facets.length ; i++) {
       let facet = template.facets[i];
       if (facet.type === 'TERM') {
         let facetGroup = this.existingFacet(facet);
         this.facets.push(facetGroup);
-        this.setCodes(i);
-        if (facetGroup.get('type')?.value === 'TERM') {
-          const codeDetail = this.codes.get(i)?.find(({code}) => code === facetGroup.get('code')?.value);
-          (this.facets.at(i) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
-        }
+        this.setCodes(j);
+        const codeDetail = this.codes.get(j)?.find(({code}) => code === facetGroup.get('code')?.value);
+        (this.facets.at(j) as FormGroup).addControl('codeType', new FormControl(codeDetail?.type, []));
+        j++;
       } else if (facet.type === 'SKILL') {
-        talentSkillsMap.set(template.facets[i].code, template.facets[i].code);
+        talentSkillsMap.set(facet.code, facet.code);
       } else {
-        talentPositionsMap.set(template.facets[i].code, template.facets[i].code);
+        talentPositionsMap.set(facet.code, facet.code);
       }
     }
     
@@ -205,10 +205,6 @@ export class TalentsComponent implements OnInit {
       operatorType: new FormControl(facet.operatorType, [Validators.required]),
       value: new FormControl(facet.value, [Validators.required])
     });
-    if (facet.type === 'TERM') {
-      formGroup.addControl('operatorType', new FormControl(facet.operatorType, [Validators.required]));
-      formGroup.addControl('value', new FormControl(facet.operatorType, [Validators.required]));
-    }
     return formGroup; 
   }
 
