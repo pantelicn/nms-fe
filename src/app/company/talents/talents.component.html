@@ -3,7 +3,7 @@
     <div class="col-lg-3 col-md-5 d-md-block mb-2">
       <div class="card">
         <div class="card-header">
-          Existing templates
+          <b class="text-secondary">Existing templates</b>
         </div>
         <div class="card-body card-body-templates">
           <ul class="list-group templates-list">
@@ -190,12 +190,21 @@
               </span>
             </div>
             <div class="mt-2">
-              Terms
+              Negotiable terms
             </div>
-            <div *ngFor="let talentTerm of talent.terms" class="font-weight-light text-secondary m-0 text-date d-flex justify-content-between">
-              <span>{{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}}</span>
-              <span>{{talentTerm.negotiable ? 'NEGOTIABLE' : 'NON-NEGOTIABLE'}}</span>
+            <ul>
+              <li *ngFor="let talentTerm of findNegotiableTerms(talent.terms)" class="font-weight-light text-secondary m-0 text-date">
+                <span>{{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}}</span>
+              </li>
+            </ul>
+            <div class="mt-2">
+              Non-negotiable terms
             </div>
+            <ul>
+              <li *ngFor="let talentTerm of findNonNegotiableTerms(talent.terms)" class="font-weight-light text-secondary m-0 text-date">
+                <span>{{talentTerm.term.name}} {{talentTerm.term.type != 'BOOLEAN' ? talentTerm.value : ''}}</span>
+              </li>
+            </ul>
             <div *ngIf="talent.projects.length > 0" class="mt-2">
               Work experience
             </div>

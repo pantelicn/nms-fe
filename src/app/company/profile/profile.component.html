@@ -23,7 +23,7 @@
     <div class="col-lg-8 col-md-7">
       <div class="mt-1 p-4 bg-white border rounded">
         <div class="d-flex justify-content-between">
-          <h5 class="text-secondary">Details</h5>
+          <h5>Details</h5>
           <a class="text-secondary text-decoration-none nms-cursor">
             <bi name="pencil-square" class="lead nms-pencil-square nms-cursor" (click)="openDialog(editDetailsDialog)"></bi>
           </a>
@@ -41,7 +41,7 @@
       </div>
       <div class="p-4 mt-1 bg-white border">
         <div class="d-flex justify-content-between">
-          <h5 class="text-secondary">Contacts</h5>
+          <h5>Contacts</h5>
           <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editContactsDialog)">
             <bi name="pencil-square" class="lead nms-pencil-square"></bi>
           </a>
@@ -59,7 +59,7 @@
         <div>
           <div>
             <div class="d-flex justify-content-between">
-              <h5 class="text-secondary">Benefits</h5>
+              <h5>Benefits</h5>
               <a class="text-secondary text-decoration-none nms-cursor" (click)="openDialog(editBenefitsDialog)">
                 <bi name="pencil-square" class="lead nms-pencil-square"></bi>
               </a>
@@ -75,7 +75,7 @@
       <div class="pl-2 pb-4 pt-4 mt-1 bg-white border rounded">
         <div class="d-flex justify-content-between align-items-start">
           <div class="col-md-12">
-            <h5 class="text-secondary">Subcription</h5>
+            <h5>Subcription</h5>
             <div class="mb-2">
               <div class="mb-2">
                 <b>{{subscription?.plan?.name}}</b> <span class="text-secondary nms-description"> - {{subscription?.plan?.description}}</span>
@@ -87,7 +87,7 @@
               <ngb-progressbar type="primary" [value]="spentDaysPercentage">
               </ngb-progressbar>
               <div class="d-flex justify-content-end">
-                <span>Days left {{daysLeft}}</span>
+                <small><b>Days left {{daysLeft}}</b></small>
               </div>
             </div>
             <div *ngFor="let productUsage of productUsages" class="mb-2">
@@ -102,7 +102,7 @@
                 <ngb-progressbar type="primary" [max]="productUsage.total" [value]="productUsage.total - productUsage.remaining">
                 </ngb-progressbar>
                 <div class="d-flex justify-content-end">
-                  <span>Posts left {{productUsage.remaining}}</span>
+                  <small><b>Posts left {{productUsage.remaining}}</b></small>
                 </div>
               </div>
               <div *ngIf="productUsage.product.name !== 'Post'">

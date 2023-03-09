@@ -506,4 +506,12 @@ export class TalentsComponent implements OnInit {
     })
   }
 
+  findNegotiableTerms(talentTerms: TalentTermViewDto[]) {
+    return talentTerms.filter(talentTerm => talentTerm.negotiable);
+  }
+
+  findNonNegotiableTerms(talentTerms: TalentTermViewDto[]) {
+    return talentTerms.filter(talentTerm => !talentTerm.negotiable);
+  }
+
 }
