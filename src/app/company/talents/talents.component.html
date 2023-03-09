@@ -206,13 +206,16 @@
               </li>
             </ul>
             <div *ngIf="talent.projects.length > 0" class="mt-2">
-              Work experience
+              <a class="text-primary" data-toggle="collapse" aria-expanded="false" [href]="'#collapseExample' + i">
+                Show work experience
+              </a>
             </div>
-            <div class="font-weight-light text-secondary m-0 text-date" *ngFor="let project of talent?.projects">
-              <div class="text-secondary mb-2">{{project.myRole}}</div>
-              <div class="text-secondary mb-2">{{project.description}}</div>
-              <div class="text-secondary mb-2">{{project.technologiesUsed}}</div>
-              <div class="text-secondary mb-2">Time spent on project {{project.duration}} months</div>
+            <hr *ngIf="talent.projects.length > 0"/>
+            <div [id]="'collapseExample' + i" class="collapse font-weight-light text-secondary m-0 text-date" *ngFor="let project of talent?.projects">
+              <div class="text-secondary mb-3"><b>{{project.myRole}}</b></div>
+              <div class="text-secondary mb-3">{{project.description}}</div>
+              <div class="text-secondary mb-3">{{project.technologiesUsed}}</div>
+              <div class="text-secondary mb-2">Time spent on project <b>{{project.duration}}</b> months</div>
               <hr/>
             </div>
           </div>
