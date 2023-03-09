@@ -5,7 +5,7 @@
         <input class="form-control form-control-sm" id="search" type="text" [formControl]="search" placeholder="Search users">
       </div>
       <div *ngIf="!searchingUser" class="mb-2">
-        <button class="btn btn-outline-secondary w-100" type="button" (click)="startSearch()">
+        <button class="btn btn-light w-100" type="button" (click)="startSearch()">
           <span class="d-flex">
             <bi name="search" class="search-icon mr-2"></bi> Search users
           </span>
@@ -18,7 +18,7 @@
       </div>
       <div *ngIf="availableChats.length || searchingUser">
         <div *ngIf="searchingUser" class="d-flex justify-content-between my-3">
-          <span class="font-weight-light">Search results for: {{searchString}}</span>
+          <span class="font-weight-light text-light">Search results for: {{searchString}}</span>
           <bi name="x" class="icon" (click)="onStopSearch()"></bi>
         </div>
         <div class="mb-1 message-item" *ngFor="let availableChat of availableChats">
@@ -27,9 +27,9 @@
       </div>
       <spinner *ngIf="showSpinnerMessages"></spinner>
       <div *ngIf="!availableChats.length && !lastMessages.length && !showSpinnerMessages" class="text-center">
-        <span>No chats available.</span>
+        <span class="text-light">No chats available.</span>
         <br>
-        <span>
+        <span class="text-light">
           You will be able to chat with someone after you accept a request.
         </span>
       </div>
