@@ -1,6 +1,6 @@
 <div>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Search skills</h4>
+    <h4 class="modal-title" id="modal-basic-title">Edit skills</h4>
     <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-between align-items-center my-1">
-      <typeahead [data]="searchableSkills" placeholder="Add skill" (selectItem)="add($event)"></typeahead>
+      <typeahead [data]="searchableSkills" placeholder="Search skills" (selectItem)="add($event)"></typeahead>
     </div>
   </div>
 </div>
