@@ -50,7 +50,7 @@ export class TypeaheadComponent {
         if (!this.data) {
           this.data = [];
         }
-				return (term === '' ? this.data.map(item => item.searchTerm) : this.data.map(item => item.searchTerm).filter((item) => item.toLowerCase().indexOf(term.toLowerCase()) > -1));
+				return (term === '' ? this.data.map(item => item.searchTerm) : this.data.map(item => item.searchTerm).filter((item) => item.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10);
 			})
 		);
 	};
