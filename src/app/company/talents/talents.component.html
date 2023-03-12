@@ -160,18 +160,30 @@
           [infiniteScrollThrottle]="1000"
           (scrolled)="getNextTalents()" 
           *ngFor="let talent of foundFilteredTalents; let i = index" 
-          class="bg-white p-3 my-2 border rounded d-flex justify-content-between align-items-start"
+          class="bg-white p-3 my-2 border rounded"
           [ngClass]="{'request-sent' : talent.requestSent}">
-          <bi name="person-circle" class="col-md-1 nms-anonymous-avatar avatar text-secondary text-white p-1 avatar"></bi>
-          <div class="col-md-8">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center">
+              <bi name="person-circle" class="nms-anonymous-avatar avatar text-secondary text-white avatar"></bi>
+              <div class="ml-3">
+                <div>
+                  Talent {{talent.talentId.slice(0, 10)}}
+                </div>
+                <div>
+                  Years of experience: {{talent.experienceYears}}
+                </div>
+              </div>
+            </div>
+            <div>
+              <div *ngIf="talent.requestSent">
+                Request to talent has been sent.
+              </div>
+              <a *ngIf="!talent.requestSent" class="btn btn-primary rounded-pill" (click)="openSendRequestDialog(talent, sendRequestDialog, i)" >Send request</a>
+            </div>
+          </div>
+          <div>
             <div *ngIf="talent.previousRequest && talent.previousRequest.status === 'REJECTED'" class="alert alert-warning">
               Request to this talent has been sent on {{talent.previousRequest.modifiedOn | date: 'dd/MM/YYYY'}} and it was rejected !
-            </div>
-            <div class="m-0">
-              Talent {{talent.talentId.slice(0, 10)}}
-            </div>
-            <div class="mt-2">
-              Years of experience {{talent.experienceYears}}
             </div>
             <div class="mt-2">
               Positions
@@ -219,10 +231,6 @@
               <hr/>
             </div>
           </div>
-          <div *ngIf="talent.requestSent">
-            Request to talent has been sent.
-          </div>
-          <a *ngIf="!talent.requestSent" class="btn btn-primary rounded-pill col-md-3" (click)="openSendRequestDialog(talent, sendRequestDialog, i)" >Send request</a>
       </div>
       <spinner *ngIf="showSpinnerPosts"></spinner>
     </div>
