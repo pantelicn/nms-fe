@@ -5,13 +5,15 @@ import { environment } from 'src/environments/environment';
 import { User } from '../shared/model/user.model';
 import { ToastService } from '../shared/toast/toast.service';
 
+declare const google: any;
+
 export interface LoginSuccessResponse {
   username: string,
   token: string,
   roles: string[]
 }
 
-interface JwtPayload {
+export interface JwtPayload {
   sub: string,
   roles: string,
   exp: number
@@ -36,9 +38,18 @@ export class AuthService {
               private toastService: ToastService,
               private httpClient: HttpClient) {
                 const jwt = localStorage.getItem("jwt");
+    this.initGoogleAccounts();
     if (jwt) {
       this.initAuthenticatedUserDetails(jwt);
     }
+  }
+
+  initGoogleAccounts() {
+    google.accounts.id.initialize({
+      client_id: '533125345294-queakbtfu0dbros8hlhirk1o1ct427m4.apps.googleusercontent.com',
+      login_uri: 'http://localhost:8080/api/v1/google-talents',
+      ux_mode: 'redirect'
+    });
   }
 
   get currentUser(): User | null | undefined {
@@ -66,7 +77,7 @@ export class AuthService {
     localStorage.removeItem('jwt');
   }
 
-  private setCurrentUser(token: string, username: string, groups: string[]): void {
+  setCurrentUser(token: string, username: string, groups: string[]): void {
     this.authenticated = true;
     if (groups?.includes('ROLE_TALENT')) {
       this.user = { username, role: 'TALENT', idToken: token };

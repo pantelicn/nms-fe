@@ -10,6 +10,7 @@ import {
 import { ActivationComponent } from './activation/activation.component';
 import { AuthGuardService } from './auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { GoogleTalentsComponent } from './google-talents/google-talents.component';
 import { PrivacyNoticeComponent } from './legal/privacy-notice/privacy-notice.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'companies/:id', component: CompanyViewComponent },
+      { path: 'google-talents', component: GoogleTalentsComponent }
     ] 
   },
   {
