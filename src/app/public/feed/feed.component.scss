@@ -1,7 +1,33 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
 .nullhire-logo {
   height: 1em;
 }
 
 .nullhire-carosel {
   padding-bottom: 5px;
+}
+
+.nms-rounded {
+  border-radius: 50px;
+  background-color: transparent !important;
+  color: white;
+}
+
+.nh-white {
+  border-color: white;
+}
+
+.nh-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.nh-btn-white:hover {
+  color: $cyan;
 }

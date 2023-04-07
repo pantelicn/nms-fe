@@ -4,6 +4,7 @@
 @import "~bootstrap/scss/variables";
 
 $theme-colors: (
+  //'primary': #568bcf,
   'primary': $cyan,
   'secondary': $gray-600
 );
@@ -101,4 +102,8 @@ body {
   background: rgb(96,125,207);
   background: linear-gradient(225deg, #607DCF 0%, #25CDCD 100%);
   background-attachment: fixed;
+}
+
+.border-primary {
+  border-color: $cyan;
 }
