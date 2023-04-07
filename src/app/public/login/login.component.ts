@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
-
+declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   submitted = false;
 
@@ -18,6 +18,13 @@ export class LoginComponent {
   });
 
   constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    google.accounts.id.renderButton(
+            document.getElementById("google_btn"),
+            { shape: "pill", size: "large", text: "continue_with", width: "350" } 
+          );
+  }
 
   onSubmit(): void {
     this.submitted = true;
