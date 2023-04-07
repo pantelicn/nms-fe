@@ -16,6 +16,7 @@ import { ActivationComponent } from './activation/activation.component';
 import { PublicFeedComponent } from './feed/feed.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { GoogleTalentsComponent } from './google-talents/google-talents.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     LoginComponent,
     ActivationComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    GoogleTalentsComponent
   ],
   imports: [
     CommonModule,

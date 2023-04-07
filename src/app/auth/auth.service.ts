@@ -13,7 +13,7 @@ export interface LoginSuccessResponse {
   roles: string[]
 }
 
-interface JwtPayload {
+export interface JwtPayload {
   sub: string,
   roles: string,
   exp: number
@@ -77,7 +77,7 @@ export class AuthService {
     localStorage.removeItem('jwt');
   }
 
-  private setCurrentUser(token: string, username: string, groups: string[]): void {
+  setCurrentUser(token: string, username: string, groups: string[]): void {
     this.authenticated = true;
     if (groups?.includes('ROLE_TALENT')) {
       this.user = { username, role: 'TALENT', idToken: token };
