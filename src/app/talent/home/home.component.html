@@ -13,13 +13,13 @@
       <div class="d-flex row nms-row rounded">
         <a class="btn btn-outline-primary posts-selector col-4 col-md-4 post-type text-center" 
           (click)="setPostsType(postsType.GLOBAL);getGlobalPosts(0);"
-          [ngClass]="selectedPostsType === 'GLOBAL' ? 'btn-outline-primary' : 'btn-outline-secondary'">Global</a>
-        <a class="btn posts-selector col-4 col-md-4 post-type text-center" 
+          [ngClass]="selectedPostsType === 'GLOBAL' ? 'border-bottom-thick border-bottom border-primary' : 'btn-outline-secondary'">Global</a>
+        <a class="btn btn-outline-primary posts-selector col-4 col-md-4 post-type text-center" 
           (click)="getFollowingCompaniesPosts(0);setPostsType(postsType.FOLLOWING)"
-          [ngClass]="selectedPostsType === 'FOLLOWING' ? 'btn-outline-primary' : 'btn-outline-secondary'">Following</a>
+          [ngClass]="selectedPostsType === 'FOLLOWING' ? 'border-bottom-thick border-bottom border-primary' : 'btn-outline-secondary'">Following</a>
         <a class="btn btn-outline-primary posts-selector col-4 col-md-4 post-type text-center" 
         (click)="setPostsType(postsType.COUNTRY)"
-          [ngClass]="selectedPostsType === 'COUNTRY' ? 'btn-outline-primary' : 'btn-outline-secondary'">Specific country</a>
+          [ngClass]="selectedPostsType === 'COUNTRY' ? 'border-bottom-thick border-bottom border-primary' : 'btn-outline-secondary'">Specific country</a>
         <select *ngIf="selectedPostsType === 'COUNTRY'" (change)="selectCountry($event)" class="form-control form-control-sm" id="company-country">
           <option [value]="undefined">Select country</option>
           <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
