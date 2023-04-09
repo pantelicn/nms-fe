@@ -1,6 +1,22 @@
 <div class="d-flex flex-column align-items-center mt-5">
-  <div class="bg-white border p-4 rounded form-width">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="bg-white border rounded form-width">
+    <ul class="nav nav-tabs nav-justified">
+      <li class="nav-item">
+        <a class="nav-link" 
+          [ngClass]="{'active' : activeTab === 'TALENT', 'inactive' : activeTab !== 'TALENT'}"
+          (click)="setActiveTab('TALENT')">
+          <h5>Talent</h5>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" 
+          [ngClass]="{'active' : activeTab === 'COMPANY', 'inactive' : activeTab !== 'COMPANY'}" 
+          (click)="setActiveTab('COMPANY')">
+          <h5>Company</h5>
+        </a>
+      </li>
+    </ul>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-4" novalidate>
       <div class="form-group">
         <label class="text-secondary" for="username"><small>Email address</small></label>
         <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
@@ -19,12 +35,13 @@
         <a class="text-primary" routerLink='/forgot-password'>Forgot your password?</a>
       </div>
       <button class="btn btn-primary rounded-pill mt-3 w-100" type="submit">Sign in</button>
-      <div class="my-2 text-secondary text-center">or</div>
-      <div class="w-100" id="google_btn"></div>
+      <div *ngIf="activeTab === 'TALENT'" class="my-2 text-secondary text-center">or</div>
+      <div class="w-100" [ngClass]="{'d-none' : activeTab !== 'TALENT'}" id="google_btn"></div>
       <hr>
       <div class="d-flex flex-column align-items-center">
         <span class="mt-2 mr-2 text-secondary">Still not registered?</span>
-        <button class="btn btn-outline-primary rounded-pill w-100 my-2" type="button" routerLink="/register">Join now</button>
+        <button *ngIf="activeTab === 'TALENT'" class="btn btn-outline-primary rounded-pill w-100 my-2" type="button" routerLink="/registration-talent">Join now</button>
+        <button *ngIf="activeTab === 'COMPANY'" class="btn btn-outline-primary rounded-pill w-100 my-2" type="button" routerLink="/registration-company">Join now</button>
       </div>
     </form>
   </div>

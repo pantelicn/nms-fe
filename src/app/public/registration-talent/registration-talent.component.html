@@ -1,15 +1,18 @@
 <div class="d-flex flex-column align-items-center">
   <div *ngIf="registrationFinished && !userAlreadyExists">
-    <bi name="envelope-check" class="nms-envelope-check text-primary"></bi>
+    <bi name="envelope-check" class="nms-envelope-check text-white"></bi>
     <h3 class="text-light text-center">Confirm your email address</h3>
     <div class="text-light text-center">Confirmation email has been sent to <b>{{username?.value}}</b></div>
   </div>
   <div *ngIf="!registrationFinished && !showSpinner" class="bg-white border p-4 rounded form-width">
-    <form [ngClass]="step !== 'FIRST' ? 'd-none' : ''" [formGroup]="registrationForm" novalidate>
+    <div class="text-center mb-4">
+      <h3 class="text-primary text-centerx">Create talent account</h3>
+    </div>
+    <form [formGroup]="registrationForm" (ngSubmit)="signUp()" novalidate>
       <div class="form-group">
         <label class="text-secondary" for="username"><small>Email address</small></label>
         <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
-          [class]="(username?.invalid && (username?.dirty || username?.touched || nextStepClicked)) || userAlreadyExists ? 'is-invalid' : ''">
+          [class]="(username?.invalid && (username?.dirty || username?.touched)) || userAlreadyExists ? 'is-invalid' : ''">
         <div *ngIf="username?.errors?.['required']" class="invalid-feedback">
           Please enter an email.
         </div>
@@ -23,7 +26,7 @@
       <div class="form-group">
         <label class="text-secondary" for="password"><small>Password</small></label>
         <input class="form-control form-control-sm" id="password" type="password" formControlName="password" 
-          [class]="(password?.invalid && (password?.dirty || password?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+          [class]="(password?.invalid && (password?.dirty || password?.touched)) ? 'is-invalid' : ''">
         <div *ngIf="password?.errors?.['required']" class="invalid-feedback">
           Please choose a password.
         </div>
@@ -41,23 +44,31 @@
       <div class="form-group">
         <label class="text-secondary" for="passwordConfirmed"><small>Password Confirmation</small></label>
         <input class="form-control form-control-sm" id="passwordConfirmed" type="password" formControlName="passwordConfirmed"
-          [class]="(registrationForm.errors?.['passwordNotMatching'] && (passwordConfirmed?.dirty || passwordConfirmed?.touched || nextStepClicked)) ? 'is-invalid' : ''">
+          [class]="(registrationForm.errors?.['passwordNotMatching'] && (passwordConfirmed?.dirty || passwordConfirmed?.touched)) ? 'is-invalid' : ''">
         <div class="invalid-feedback">
           Passwords do not match.
         </div>
       </div>
-      <button class="btn btn-primary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('TALENT')">Join as Talent</button>
-      <button class="btn btn-outline-secondary rounded-pill w-100 mt-3" type="button" (click)="onNextStep('COMPANY')">Join as Company</button>
-      <hr>
-      <div class="d-flex flex-column align-items-center">
-        <span class="mt-2 mr-2 text-secondary">Already registered?</span>
-        <button class="btn btn-outline-primary rounded-pill my-2 w-100" type="button" routerLink="/login">Sign in</button>
+      <div class="form-group">
+        <label class="text-secondary" for="name"><small>First name</small></label>
+        <input class="form-control form-control-sm" id="first-name" type="text" formControlName="firstName"
+          [class]="(firstName?.invalid && (firstName?.dirty || firstName?.touched)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please enter your first name.
+        </div>
       </div>
+      <div class="form-group">
+        <label class="text-secondary" for="last-name"><small>Last name</small></label>
+        <input class="form-control form-control-sm" id="last-name" type="text" formControlName="lastName"
+          [class]="(lastName?.invalid && (lastName?.dirty || lastName?.touched)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please enter your last name.
+        </div>
+      </div>
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Create account</button>
     </form>
-    <nms-company-registration [class]="step === 'COMPANY' ? 'd-block' : 'd-none'"
-      (registered)="onCompanyRegistered($event)"></nms-company-registration>
-    <nms-talent-registration [class]="step === 'TALENT' ? 'd-block' : 'd-none'"
-      (registered)="onTalentRegistered($event)"></nms-talent-registration>
+    <div class="my-2 text-secondary text-center">or</div>
+    <div class="w-100" id="google_btn"></div>
   </div>
-  <spinner *ngIf="showSpinner"></spinner>
+  <spinner *ngIf="showSpinner" [color]="'WHITE'" class="mt-5"></spinner>
 </div>

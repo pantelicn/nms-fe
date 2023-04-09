@@ -1,0 +1,104 @@
+<div class="d-flex flex-column align-items-center">
+  <div *ngIf="registrationFinished && !userAlreadyExists">
+    <bi name="envelope-check" class="nms-envelope-check text-white"></bi>
+    <h3 class="text-light text-center">Confirm your email address</h3>
+    <div class="text-light text-center">Confirmation email has been sent to <b>{{username?.value}}</b></div>
+  </div>
+  <div *ngIf="!registrationFinished && !showSpinner" class="bg-white border p-4 rounded form-width">
+    <div class="text-center mb-4">
+      <h3 class="text-primary text-centerx">Create company account</h3>
+    </div>
+    <form [formGroup]="registrationForm" (ngSubmit)="signUp()" novalidate>
+      <div class="form-group">
+        <label class="text-secondary" for="username"><small>Email address</small></label>
+        <input class="form-control form-control-sm" id="username" type="text" formControlName="username" 
+          [class]="(username?.invalid && (username?.dirty || username?.touched)) || userAlreadyExists ? 'is-invalid' : ''">
+        <div *ngIf="username?.errors?.['required']" class="invalid-feedback">
+          Please enter an email.
+        </div>
+        <div *ngIf="username?.errors?.['email']" class="invalid-feedback">
+          Please enter a valid email.
+        </div>
+        <div *ngIf="userAlreadyExists" class="invalid-feedback">
+          Someone already has that username. Please try another !
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="password"><small>Password</small></label>
+        <input class="form-control form-control-sm" id="password" type="password" formControlName="password" 
+          [class]="(password?.invalid && (password?.dirty || password?.touched)) ? 'is-invalid' : ''">
+        <div *ngIf="password?.errors?.['required']" class="invalid-feedback">
+          Please choose a password.
+        </div>
+        <div *ngIf="password?.errors?.['pattern']" class="invalid-feedback">
+          Password must meet the requirements:
+          <ul>
+            <li>At least 8 characters long.</li>
+            <li>Contains at least one number.</li>
+            <li>Contains at least one special character.</li>
+            <li>Contains at least one uppercase letter.</li>
+            <li>Contains at least one lowercase letter.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="passwordConfirmed"><small>Password Confirmation</small></label>
+        <input class="form-control form-control-sm" id="passwordConfirmed" type="password" formControlName="passwordConfirmed"
+          [class]="(registrationForm.errors?.['passwordNotMatching'] && (passwordConfirmed?.dirty || passwordConfirmed?.touched)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Passwords do not match.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="name"><small>Company name</small></label>
+        <input class="form-control form-control-sm" id="name" type="text" formControlName="name"
+          [class]="(name?.invalid && (name?.dirty || name?.touched || submitted)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please enter your company name.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-secondary" for="description"><small>Description</small></label>
+        <input class="form-control form-control-sm" id="description" type="text" formControlName="description"
+          [class]="(description?.invalid && (description?.dirty || description?.touched || submitted)) ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please add a description.
+        </div>
+      </div>
+      <div formGroupName="location">
+        <div class="form-group">
+          <label class="text-secondary" for="country"><small>Country</small></label>
+          <select class="form-control form-control-sm" (change)="citiesForCountryId()" id="company-country" type="text" formControlName="countryId"
+            [class]="(countryId?.invalid && (countryId?.dirty || countryId?.touched || submitted)) ? 'is-invalid' : ''">
+            <option [value]="undefined">Select country</option>
+            <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a country.
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="text-secondary" for="city"><small>City</small></label>
+          <select class="form-control form-control-sm" id="company-city" type="text" formControlName="cityId"
+            [class]="(cityId?.invalid && (cityId?.dirty || cityId?.touched || submitted)) ? 'is-invalid' : ''">
+            <option [value]="undefined">Select city</option>
+            <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+          </select>
+          <div class="invalid-feedback">
+            Please enter a city.
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="text-secondary" for="address"><small>Address</small></label>
+          <input class="form-control form-control-sm" id="company-address" type="text" formControlName="address"
+            [class]="(address?.invalid && (address?.dirty || address?.touched || submitted)) ? 'is-invalid' : ''">
+          <div class="invalid-feedback">
+            Please enter an address.
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary rounded-pill w-100 mt-3" type="submit">Create account</button>
+    </form>
+  </div>
+  <spinner *ngIf="showSpinner" [color]="'WHITE'" class="mt-5"></spinner>
+</div>

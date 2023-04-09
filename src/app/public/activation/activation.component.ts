@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'activation',
@@ -12,12 +12,14 @@ export class ActivationComponent implements OnInit, OnDestroy {
   counter: number = 5;
   private readonly TIME_INTERVAL_IN_SECONDS: number = 1000;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, 
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.intervalId = setInterval(()=> { 
       if (this.counter === 1) {
-        this.router.navigate(['login']);
+        const userType = this.activatedRoute.snapshot.queryParamMap.get('userType');
+        this.router.navigate(['login'], {queryParams: {userType: userType}});
       }
       this.counter--;
     }, this.TIME_INTERVAL_IN_SECONDS);

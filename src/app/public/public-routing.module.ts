@@ -4,7 +4,6 @@ import { CompanyViewComponent } from '../shared/components/company-view/company-
 import { 
   PublicComponent,
   LandingComponent,
-  RegistrationComponent,
   LoginComponent
 } from './';
 import { ActivationComponent } from './activation/activation.component';
@@ -12,6 +11,8 @@ import { AuthGuardService } from './auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { GoogleTalentsComponent } from './google-talents/google-talents.component';
 import { PrivacyNoticeComponent } from './legal/privacy-notice/privacy-notice.component';
+import { RegistrationCompanyComponent } from './registration-company/registration-company.component';
+import { RegistrationTalentComponent } from './registration-talent/registration-talent.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuardService],
     children: [
       { path: '', component: LandingComponent },
-      { path: 'register', component: RegistrationComponent },
+      { path: 'registration-talent', component: RegistrationTalentComponent },
+      { path: 'registration-company', component: RegistrationCompanyComponent },
       { path: 'login', component: LoginComponent },
       { path: 'activation', component: ActivationComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
