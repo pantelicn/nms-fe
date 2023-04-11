@@ -8,14 +8,16 @@
   </a>
   <div class="mr-2 col-lg-4 col-md-5 col-7 search-input">
     <div class="input-group">
+      <span class="input-group-append">
+        <div class="input-group-text bg-white border-right-0 border-primary rounded-left"><bi name="search" class="search-icon"></bi></div>
+      </span>
       <input id="typeahead-template"
             type="text"
-            class="form-control col"
+            class="form-control py-2 border-left-0 border border-primary"
             [(ngModel)]="companyStartsWith"
             [ngbTypeahead]="search"
             [resultTemplate]="rt"
-            [inputFormatter]="formatter" 
-            type="text" class="form-control" 
+            [inputFormatter]="formatter"
             placeholder="Search companies">
     </div>
   </div>
