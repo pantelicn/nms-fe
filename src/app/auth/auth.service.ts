@@ -47,7 +47,7 @@ export class AuthService {
   initGoogleAccounts() {
     google.accounts.id.initialize({
       client_id: '533125345294-queakbtfu0dbros8hlhirk1o1ct427m4.apps.googleusercontent.com',
-      login_uri: 'http://localhost:8080/api/v1/google-talents',
+      login_uri: environment.api.backend + 'google-talents',
       ux_mode: 'redirect'
     });
   }
