@@ -43,7 +43,10 @@ import {
   List,
   InfoCircle,
   EnvelopeCheck,
-  Award
+  Award,
+  ChevronDown,
+  CodeSlash,
+  PersonWorkspace
 } from 'ng-bootstrap-icons/icons';
 
 
@@ -90,7 +93,10 @@ const icons = {
   List,
   InfoCircle,
   EnvelopeCheck,
-  Award
+  Award,
+  ChevronDown,
+  CodeSlash,
+  PersonWorkspace
 };
 
 @NgModule({

@@ -1,48 +1,52 @@
 <div (mouseleave)="isCollapsed = true">
-  <div class="bg-white border rounded p-2 d-flex align-items-center justify-content-between clickable" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
+  <div [ngClass]="{'rounded-bottom' : isCollapsed}" class="border bg-white rounded-top p-2 d-flex align-items-center justify-content-between clickable" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
     <div class="d-flex align-items-center">
-      <bi name="person-circle" class="avatar text-secondary"></bi>
+      <bi name="person-circle" class="text-secondary avatar"></bi>
       <div class="ml-3">
-        <div *ngIf="locations" class="text-locations">Available in: {{locations}}</div>
+        <div *ngIf="locations" class="text-locations text-secondary">Available in: {{locations}}</div>
         <div>
           <span class="badge badge-secondary">{{skills[0]}}</span>
-          <span>{{skills.length > 1 ? " and more..." : ""}}</span>
+          <span class="text-secondary">{{skills.length > 1 ? " and more..." : ""}}</span>
         </div>
       </div>
     </div>
-    <bi name="chevron-compact-down" class="arrow-down text-primary"></bi>
+    <bi name="chevron-down" class="arrow-down text-primary"></bi>
   </div>
-  <div class="bg-white border rounded p-2" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+  <div class="border-left bg-white border-right border-bottom rounded-bottom p-2 text-secondary" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
     <div *ngIf="skills.length">
-      Skills
+      <div class="d-flex">
+        <bi name="code-slash" class="text-secondary nms-icon-small mr-2"></bi> Skills
+      </div>
       <div class="mb-3">
-        <div *ngFor="let skill of skills">
+        <div *ngFor="let skill of skills" class="ml-4">
           <small>&middot; {{skill}}</small>
         </div>
       </div>
-      <hr>
+      <hr class="nms-hr">
     </div>
     <div *ngIf="positions.length">
-      Positions
+      <div class="d-flex">
+        <bi name="person-workspace" class="text-secondary nms-icon-small mr-2"></bi> Positions
+      </div>
       <div class="mb-3">
-        <div *ngFor="let position of positions">
+        <div *ngFor="let position of positions" class="ml-4">
           <small>&middot; {{position}}</small>
         </div>
       </div>
-      <hr>
+      <hr class="nms-hr">
     </div>
     <div *ngIf="talent.availableLocations?.length">
-      Avaliable locations
-      <div>
-        <div *ngFor="let location of talent.availableLocations">
-          <small>&middot; {{location.country}}</small>
-        </div>
+      <div class="d-flex">
+        <bi name="geo-alt-fill" class="text-secondary nms-icon-small mr-2"></bi> Avaliable locations 
       </div>
-      <hr>
+      <div *ngFor="let location of talent.availableLocations" class="ml-4">
+        <small>&middot; {{location.country}}</small>
+      </div>
+      <hr class="nms-hr">
     </div>
     <div class="d-flex align-items-center">
-      <button class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center small" routerLink="/registration-company">
-        <span class="small">Join now</span>
+      <button class="btn btn-sm btn-primary rounded-pill d-flex align-items-center small" routerLink="/registration-company">
+        <span class="small font-weight-bold">Join now</span>
       </button>
       <small class="ml-1">to see more details.</small>
     </div>
