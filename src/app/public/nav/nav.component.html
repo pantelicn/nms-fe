@@ -27,7 +27,6 @@
     </div>
 </nav>
 <div class="d-md-none fixed-bottom bg-light d-flex justify-content-around">
-    <button class="btn btn-outline-primary rounded-pill mr-2 my-2" type="button" routerLink="/register">Join now</button>
     <button class="btn btn-primary rounded-pill my-2 mr-2" type="button" routerLink="/login">Sign in</button>
     <button *ngIf="isAuthenticated" class="btn btn-secondary rounded-pill my-2" type="button" (click)="onLogout()">Log out</button>
 </div>
