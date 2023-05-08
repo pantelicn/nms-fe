@@ -68,7 +68,7 @@ export interface TermViewDto {
 export interface FacetSpecifierDto {
   type: string,
   code: string,
-  value: string,
+  value: any,
   operatorType: string,
   codeType?: string
 }
@@ -105,7 +105,7 @@ export class TalentService {
     params = params.append('page', page);
     facetSpecifiers.forEach(facetSpecifier => {
       if (facetSpecifier.type !== 'TERM' || facetSpecifier.codeType === 'BOOLEAN') {
-        facetSpecifier.value = facetSpecifier.code;
+        facetSpecifier.value = true;
         facetSpecifier.operatorType = 'EQ'
       }
     });
